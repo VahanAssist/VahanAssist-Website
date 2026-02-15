@@ -1,0 +1,6 @@
+.bg-half-170{
+  padding: 80px 0 !important;
+}
+.bg-gradient-overlay-2 {
+background: linear-gradient(to bottom, rgb(22 28 45 / 9%) 0%, rgb(22 28 45 / 0%) 25%, rgb(22 28 45 / 30%) 50%, rgb(22 28 45 / 49%) 100%);
+}

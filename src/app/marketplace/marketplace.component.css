@@ -1,0 +1,71 @@
+.col-3, .col-2, .col-lg-4, .col-md-6, .col-12{
+    float: left;
+}
+.form-filter{
+
+}
+.form-filter .form-group{
+    padding: 0 5px;
+}
+.p-10{
+    padding: 10px;
+}
+.label_popup{
+    width: 100%;
+    font-weight: 600;
+    border-bottom: 1px dotted #ccc;
+    margin-bottom: 10px;
+}
+.input-wrap{
+    margin-right: 10px;
+}
+
+.marketplace-hero .section-title {
+    text-align: justify;
+    width: 80%;
+    background: rgb(0 0 0 / 60%);
+    border-radius: 10px;
+    padding: 30px;
+    color: #fff;
+}
+/* .bg-gray{
+    background: #eee;
+}
+.sidebar-marketplace{
+    background: #fff;
+display: inline-block;
+padding: 10px;
+border-radius: 5px;
+box-shadow: 0px 4px 10px 0px rgb(0 0 0 / 50%);
+}
+.main-marketplace{
+    background: #fff;
+display: inline-block;
+padding: 10px;
+border-radius: 5px;
+box-shadow: 0px 4px 10px 0px rgb(0 0 0 / 50%);
+} */
+
+.scroll-custom {
+  
+}
+.scroll-custom ul{
+    list-style: none;
+    padding: 0 10px;
+    max-height: 245px;
+    overflow-y: scroll;
+    width: 100%;
+}
+.scroll-custom ul li{}
+.scroll-custom ul li label{}
+.scroll-custom ul li label input{}
+
+.dropdownwsearch{
+    font-size: 14px;
+}
+.no-data h5{
+    font-size: 14px;
+}
+.listingtype{
+font-size: 12px;
+}

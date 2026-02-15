@@ -1,0 +1,78 @@
+# Compiled output
+/dist/
+/tmp/
+/out-tsc/
+/bazel-out/
+
+# Dependency directories
+/node_modules/
+/admin/vendor/
+
+# Angular
+/.angular/
+/coverage/
+/typings/
+npm-debug.log
+yarn-error.log
+testem.log
+
+# IDEs and editors
+.idea/
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/*
+
+# CodeIgniter
+/admin/application/logs/*
+!/admin/application/logs/index.html
+/admin/application/cache/*
+!/admin/application/cache/index.html
+/admin/user_guide/
+/admin/application/sessions/*
+!/admin/application/sessions/index.html
+
+# Uploaded Media (Ignore local test uploads)
+/admin/images/vehicle_image/*
+/admin/images/profile/*
+!/admin/images/vehicle_image/index.html
+!/admin/images/profile/index.html
+
+# Sensitive configuration files (MUST NOT BE TRACKED)
+.env
+.env.*
+!.env.example
+admin/application/config/database.php
+admin/application/config/config.php
+admin/application/libraries/vahan-81416-55634a9d101c.json
+src/environments/environment.local.ts
+src/environments/environment.prod.local.ts
+src/environments/environment.prod.ts
+
+# Database dumps
+*.sql
+
+# Documentation - Ignore local debug/setup notes, keep repo essentials
+*.md
+!README.md
+!API-REFERENCE.md
+
+# System files
+*.log
+.DS_Store
+Thumbs.db
+
+# Local scripts & batch files
+*.bat
+!START-APP.bat
+*.ps1
+*.bak
+*.tmp

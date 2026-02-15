@@ -1,0 +1,62 @@
+<header id="topnav" class="defaultscroll sticky">
+  <div class="container">
+      <a class="logo" href="">
+          <img src="assets/images/logo.png" class="logo-light-mode" alt="" style="width: 220px;">
+      </a>
+
+      <div class="menu-extras">
+          <div class="menu-item">
+              <a class="navbar-toggle" id="isToggle" onclick="toggleMenu()">
+                  <div class="lines">
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                  </div>
+              </a>
+          </div>
+      </div>
+
+       <ul class="buy-button list-inline mb-0 d-none d-sm-block">
+
+          <li  *ngIf="!loginId" class="list-inline-item ps-1 mb-0">
+              <!-- <a href="tel:8600-14-66-14" class="">8600146614</a> -->
+              <a [routerLink]="'/dealer-signup'" class="btn btn-primary">Register as Dealer</a>
+          </li>
+      </ul>
+
+      <div id="navigation">
+          <ul class="navigation-menu nav-left">
+
+              <li><a href="" class="sub-menu-item">Home</a></li>
+              <li><a href="about" class="sub-menu-item">About Us</a></li>
+              <li class="has-submenu parent-parent-menu-item">
+                  <a href="javascript:void(0)">Services</a><span class="menu-arrow"></span>
+                  <ul class="submenu">
+                      <li><a href="driver-booking" routerLinkActive="activebutton" class="sub-menu-item">Driver Booking</a></li>
+                      <li><a href="trailor-booking" class="sub-menu-item">Trailer Booking</a></li>
+                      <li><a href="inspection" class="sub-menu-item">Inspection</a></li>
+
+                  </ul>
+              </li>
+
+
+              <li><a href="marketplace" class="sub-menu-item">Buy/Sell VAHAN</a></li>
+              <li class="d-block d-sm-none"><a href="dealer-signup" class="sub-menu-item">Register As a Dealer</a></li>
+             
+
+              <li *ngIf="!loginId"><a href="login" class="sub-menu-item">Login</a></li>
+              
+              <li *ngIf="loginId">
+                <a href="user-profile"  class="sub-menu-item btn-outline">Dashboard</a>
+
+                
+              </li>
+              <li *ngIf="loginId">
+                
+
+                <a (click)="logout()" class="sub-menu-item">Logout</a>
+              </li>
+          </ul>
+      </div>
+  </div>
+</header>

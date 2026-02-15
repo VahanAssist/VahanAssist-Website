@@ -1,0 +1,65 @@
+<section class="section pb-0">
+    <div class="container mt-50 mt-60">
+          <div class="row justify-content-center">
+              <div class="col">
+                  <div class="section-title text-center pb-2">
+                      <h4 class="title mb-3">Vehicle Enquiry </h4>
+
+                      <!-- if dealer -->
+
+                  </div>
+              </div><!--end col-->
+          </div><!--end row-->
+
+            </div>
+            </section>
+
+            <section class="section pb-0">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12">
+                            <div class="card text-center">
+                                <div class="card-body table-responsive">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr><th>Car Make Model</th><th>Model</th><th>Cover Image</th></tr>
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>S.no</th>
+                                                <th>Customer Name</th>
+                                                <th>Email</th>
+                                                <th>Phone No</th>
+                                                <th>Date of Enquiry</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr  *ngFor="let enq of enquiryList | paginate: { itemsPerPage: 10, currentPage: p,totalItems: total };let i=index;">
+                                                <td>{{i+1}}</td>
+                                                <td>{{enq.cust_name}}</td>
+                                                <td>{{enq.cust_email}}</td>
+                                                <td>{{enq.cust_phone}}</td>
+                                             
+                                                <td>{{enq.date}}</td>
+                                               
+                                            </tr>
+
+                                        </tbody>
+                                        <pagination-controls (pageChange)="onTableDataChange($event)"></pagination-controls>
+                                    </table>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- col-lg-12 -->
+                  </div>
+                </div>
+            </section>

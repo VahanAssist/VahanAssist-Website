@@ -1,0 +1,60 @@
+.col-md-6, .col-6{
+    float: left;
+        padding: 10px;
+}
+.why-section img{
+    width: 25%;
+}
+.features{
+    background: white;
+    /* box-shadow: 1px 4px 15px 0px #ccc; */
+    border-radius: 10px;
+    padding: 30px;
+    /* height: 350px; */
+    border: 1px dotted #eee;
+}
+.features h5{
+text-align: center;
+}
+.features p{
+    text-align: justify;
+    padding: 10px;
+}
+.main-dealer{
+    padding: 10px;
+    background: #1425c2;
+    border-radius: 25px;
+    color: #fff;
+}
+.get-started{
+    padding: 22px;
+    text-align: justify;
+}
+.register-menu{
+list-style: none;
+padding: 0;
+}
+.register-menu li{
+    margin-bottom: 10px;
+}
+
+.register-menu li a{
+    display: block;
+    color: #fff;
+    font-size: 20px;
+    border-bottom: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 15px;
+    transition: all 0.15s ease-in;
+}
+.register-menu li:hover a{
+    box-shadow: 1px 4px 10px 0px #ccc;
+    
+}
+
+.register-menu li a img{
+    width: 30px;
+    background: #fff;
+    border-radius: 30%;
+    margin-right: 10px;
+}

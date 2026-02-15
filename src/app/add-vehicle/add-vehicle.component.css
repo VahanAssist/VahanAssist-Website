@@ -1,0 +1,9 @@
+.form-floating{
+    padding: 0 20px;
+}
+.form-floating>label{
+    left: 22px !important;
+}
+.preview-image {
+    float: left;
+}

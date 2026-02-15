@@ -1,0 +1,570 @@
+
+<section class="section pb-0 bg-gray ">
+  <div class="container mt-50 mt-60">
+        <div class="row justify-content-center">
+            <div class="col">
+                <div class="section-title mb-4 pb-2">
+                    <h4 class="title mb-3">Add a Vahan</h4>
+                    <h5 class=" para-desc mb-0"> Quicky Sell your Vahan with 0% Commission Marketplace</h5>
+
+
+                </div>
+            </div><!--end col-->
+        </div><!--end row-->
+        </div>
+        </section>
+
+
+<section class="section pt-0 bg-gray why-section">
+  <div class="container mt-50 mt-60">
+      <div class="row g-4 mt-0">
+      <div class="col-12">
+        <div class="p-4 bg-white rounded-3 shadow-md mx-auto w-100"  style="max-width: 800px;">
+
+          <form
+            class="d-flex form"
+            name="addVehicle"
+            #vgForm="ngForm"
+            method="POST"
+            (ngSubmit)="vgForm.valid && onVehicleAdd(this.formData)"
+          >
+            <div class="col-12">
+              <div class="form-floating mb-2 col-12 col-md-6" *ngIf="type == 'DEALER'">
+                <select
+                  class="form-control"
+                  [(ngModel)]="formData.listingtype"
+                  name="listingtype"
+                  #listingType="ngModel"
+                  [class.is-invalid]="listingType.invalid && vgForm.submitted"
+                  required="required"
+                >
+                  <option value="">Select</option>
+                  <option value="stc">Sell to Customer</option>
+                  <option value="std">Sell to Dealer</option>
+
+                </select>
+                <label for="listingtype">Listing Type</label>
+
+                <div class="invalid-feedback">
+                  Listing Type is required
+              </div>
+              </div>
+
+              <div class="form-floating mb-2 col-12 col-md-6">
+                <select
+                  class="form-control"
+                  [(ngModel)]="formData.category_id"
+                  name="category_id"
+                  (change)="getAllBrandByCategoryId($event)"
+                  #category_id="ngModel"
+                  [class.is-invalid]="category_id.invalid && vgForm.submitted"
+                  required="required"
+                >
+                  <option value="">Select</option>
+                  <option *ngFor="let cat of categoryList" value="{{ cat.id }}">
+                    {{ cat.name }}
+                  </option>
+                </select>
+                <label for="category_id">Category</label>
+                <div class="invalid-feedback">
+                  Category is required
+              </div>
+              </div>
+
+
+
+              <div class="form-floating mb-2 col-12 col-md-6">
+                <select
+                  class="form-control"
+                  name="brand_id"
+                  [(ngModel)]="formData.brand_id"
+                  (change)="getAllModel($event)"
+                  #brand_id="ngModel"
+                  [class.is-invalid]="brand_id.invalid && vgForm.submitted"
+                  required="required"
+                >
+                  <option value="">Select</option>
+                  <option
+                    *ngFor="let brand of brandList"
+                    value="{{ brand.id }}"
+                  >
+                    {{ brand.name }}
+                  </option>
+                </select>
+                <label for="brands">Select Brands</label>
+                <div class="invalid-feedback">
+                Brand is required
+              </div>
+              </div>
+              <div class="form-floating mb-2 col-12 col-md-6">
+                <select
+                  class="form-control"
+                  name="model_id"
+                  [(ngModel)]="formData.model_id"
+                  #model_id="ngModel"
+                  [class.is-invalid]="model_id.invalid && vgForm.submitted"
+                  required="required"
+                  (change)="getModelDetails($event)"
+                >
+                  <option value="">Select</option>
+                  <option
+                    *ngFor="let model of modelList"
+                    value="{{ model.id }}"
+                  >
+                    {{ model.name }}
+                  </option>
+                </select>
+                <label for="model">Model</label>
+                <div class="invalid-feedback">
+                  Model is required
+                </div>
+              </div>
+              <div class="form-floating mb-2 col-12 col-md-6">
+                <input
+                  type="text"
+                  class="form-control"
+                  name="regno"
+                  [(ngModel)]="formData.regno"
+                  id="regno"
+                  #regno="ngModel"
+                  [class.is-invalid]="regno.invalid && vgForm.submitted"
+                  required="required"
+                />
+                <label for="regno">Registration No</label>
+                <div class="invalid-feedback">
+                  Registration No is required
+                </div>
+              </div>
+              <div class="form-floating mb-2 col-12 col-md-6">
+                <input
+                  type="text"
+                  class="form-control"
+                  #variant="ngModel"
+                  name="variant"
+                  [(ngModel)]="formData.variant"
+                  [class.is-invalid]="variant.invalid && vgForm.submitted"
+                  required="required"
+                  id="variant"
+                />
+                <label for="variant">Variant</label>
+                <div class="invalid-feedback">
+                  Variant is required
+                </div>
+              </div>
+
+              <div class="form-floating mb-2 col-12 col-md-6">
+
+                <select
+                  class="form-control"
+                  id="insurance"
+                  name="insurance"
+                  [(ngModel)]="formData.insurance"
+                  #insurance="ngModel"
+                  [class.is-invalid]="insurance.invalid && vgForm.submitted"
+                  required="required"
+
+                >
+                  <option value="">Select</option>
+                  <option value="Yes">Yes</option>
+                  <option value="No">No</option>
+                </select>
+                <label for="insurance">Valid Insurance</label>
+                <div class="invalid-feedback">
+                  Insurance is required
+                </div>
+              </div>
+
+              <div class="form-floating mb-2 col-12 col-md-6">
+                <input
+                  type="date"
+                  class="form-control"
+                  #insurancedate="ngModel"
+                  name="insurancedate"
+                  [(ngModel)]="formData.insurancedate"
+                  [class.is-invalid]="insurancedate.invalid && vgForm.submitted"
+                  required="required"
+                  id="insurancedate"
+                />
+                <label for="insurancedate">Insurance Valid Till Date</label>
+                <div class="invalid-feedback">
+                  Insurance Date is required
+                </div>
+              </div>
+              <div class="form-floating mb-2 col-12 col-md-6">
+
+                <select
+                  class="form-control"
+                  id="transmission"
+                  name="transmission"
+                  [(ngModel)]="formData.transmission"
+                  #transmission="ngModel"
+                  [class.is-invalid]="transmission.invalid && vgForm.submitted"
+                  required="required"
+
+                >
+                  <option value="">Select</option>
+                  <option value="Manual">Manual</option>
+                  <option value="Automatic">Automatic</option>
+                </select>
+                <label for="transmission">Transmission</label>
+                <div class="invalid-feedback">
+                  Transmission is required
+                </div>
+              </div>
+              <div class="form-floating mb-2 col-12 col-md-6">
+
+                <select
+                  class="form-control"
+                  name="fuel_type"
+                  [(ngModel)]="formData.fuel_type"
+                  #fuel_type="ngModel"
+                  [class.is-invalid]="fuel_type.invalid && vgForm.submitted"
+                  required="required"
+                >
+                  <option value="">Select</option>
+                  <option value="Petrol">Petrol</option>
+                  <option value="Diesel">Diesel</option>
+                  <option value="Electric">Electric</option>
+                  <option value="Petrol + CNG">Petrol + CNG</option>
+                  <option value="Petrol + LPG">Petrol + LPG</option>
+
+                </select>
+                <label for="fuel_type">Fuel Type</label>
+                <div class="invalid-feedback">
+                  Fuel type is required
+                </div>
+              </div>
+              <div class="form-floating mb-2 col-12 col-md-6">
+                <input
+                  type="number"
+                  class="form-control"
+                  name="year"
+                  [(ngModel)]="formData.year"
+                  id="year"
+                  #year="ngModel"
+                  [class.is-invalid]="year.invalid && vgForm.submitted"
+                  required="required"
+                  minlength="4"
+                  maxlength="4"
+                />
+                <label for="year">Year</label>
+                <div class="invalid-feedback">
+                  Year is required
+                </div>
+              </div>
+
+              <div class="form-floating mb-2 col-12 col-md-6">
+                <select
+                  class="form-control"
+                  id="ownership"
+                  name="ownership"
+                  [(ngModel)]="formData.ownership"
+                  #ownership="ngModel"
+                  [class.is-invalid]="ownership.invalid && vgForm.submitted"
+                  required="required"
+                >
+                  <option value="">Select</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                </select>
+                <label for="ownership">Ownership</label>
+                <div class="invalid-feedback">
+                  Ownership is required
+                </div>
+              </div>
+
+              <div class="form-floating mb-2 col-12 col-md-6">
+                <input
+                  type="number"
+                  minlength="2"
+                  class="form-control"
+                  name="kms"
+                  [(ngModel)]="formData.kms"
+                  id="km"
+                  #kms="ngModel"
+                  [class.is-invalid]="kms.invalid && vgForm.submitted"
+                  required="required"
+                />
+                <label for="km">KMs (on odometer)</label>
+                <div class="invalid-feedback">
+                  KMs is required
+                </div>
+              </div>
+              <div class="form-floating mb-2 col-12 col-md-6">
+                <input
+                  type="text"
+                  class="form-control"
+                  name="rto"
+                  [(ngModel)]="formData.rto"
+                  #rto="ngModel"
+                  [class.is-invalid]="rto.invalid && vgForm.submitted"
+                  required="required"
+                  id="rto"
+                />
+                <label for="rto">RTO</label>
+                <div class="invalid-feedback">
+                  RTO is required
+                </div>
+              </div>
+              <!-- <div class="form-floating mb-2 col-12 col-md-6">
+
+                <select
+                  class="form-control"
+                  name="vcondition"
+                  [(ngModel)]="formData.vcondition"
+                  #vcondition="ngModel"
+                  [class.is-invalid]="vcondition.invalid && vgForm.submitted"
+                  required="required"
+                >
+                  <option value="New">New</option>
+                  <option value="Used">Used</option>
+                </select>
+                <label for="vcondition">Condition</label>
+                <div class="invalid-feedback">
+                  Condition is required
+                </div>
+              </div> -->
+
+
+              <div class="form-floating mb-2 col-12 col-md-6">
+
+                <select
+                  class="form-control"
+                  id="vcondition"
+                  name="vcondition"
+                  [(ngModel)]="formData.vcondition"
+                  #vconditions="ngModel"
+                  [class.is-invalid]="vconditions.invalid && vgForm.submitted"
+                  required="required"
+                >
+                  <option value="">Select</option>
+                  <option value="New">New</option>
+                  <option value="Used">Used</option>
+                </select>
+                <label for="vcondition">Condition</label>
+                <div class="invalid-feedback">
+                  Condition is required
+                </div>
+              </div>
+
+
+              <div class="form-floating mb-2 col-12 col-md-6">
+
+                <textarea
+                  class="form-control"
+                  id="mpDescription"
+                  rows="4"
+                  name="description"
+                  [(ngModel)]="formData.description"
+                  #description="ngModel"
+                  [class.is-invalid]="description.invalid && vgForm.submitted"
+                  required="required"
+                  id="description"
+                ></textarea>
+                <label for="mpDescription">Description</label>
+                <div class="invalid-feedback">
+                  Description is required
+                </div>
+              </div>
+
+              <div class="form-floating mb-2 col-12 col-md-6">
+                <input minlength="5" maxlength="8"
+                  (change)="getNumber($event)"
+                  type="number"
+                  class="form-control"
+                  name="price"
+                  [(ngModel)]="formData.price"
+                  id="price"
+                  #price="ngModel"
+                  [class.is-invalid]="price.invalid && vgForm.submitted"
+                  required="required"
+                />
+                <label for="price">Price (Rs)</label>
+                <div style="display: none;">
+                  {{numbertoWord}}
+                </div>
+                <div class="invalid-feedback">
+                Price is required
+                </div>
+              </div>
+              
+             
+
+              <div class="form-floating mb-2 col-12 col-md-6">
+                <input
+                (change)="onPercentPrice($event)"
+                  type="number"
+                  class="form-control"
+                  name="discount_percent"
+                  [(ngModel)]="formData.discount_percent"
+                  id="discount_percent"
+                />
+                <label for="price">Discount Percentage (%)</label>
+              </div>
+
+              <div class="form-floating mb-2 col-12 col-md-6" *ngIf="discountPrice">
+                <span class="form-control">
+                  {{discountPrice}}
+                </span>
+              
+              <label for="price">Selling Price (Rs)</label>
+              </div>
+
+              <div class="form-floating mb-2 col-12 col-md-6">
+                <select
+                class="form-control"
+                name="state"
+                [(ngModel)]="formData.state"
+                #state="ngModel"
+                [class.is-invalid]="state.invalid && vgForm.submitted"
+                required="required"
+                id="state"
+                (change)="getAllCityByState($event)"
+              >
+                <option *ngFor="let state of stateList" value="{{state.id}}">{{state.state}}</option>
+              </select>
+                <label for="state">Vehicle State</label>
+                <div class="invalid-feedback">
+                  State is required
+                </div>
+              </div>
+
+              <div class="form-floating mb-2 col-12 col-md-6">
+                <select
+                class="form-control"
+                name="city"
+                [(ngModel)]="formData.city"
+                #city="ngModel"
+                [class.is-invalid]="city.invalid && vgForm.submitted"
+                required="required"
+              >
+              <option value="">Select</option>
+                <option *ngFor="let city of cityList" value="{{city.id}}">{{city.city}}</option>
+              </select>
+                <label for="city">Vehicle City</label>
+                <div class="invalid-feedback">
+                  City is required
+                </div>
+              </div>
+              <div class="form-floating mb-2 col-12 col-md-6">
+
+                <!-- <textarea
+                  class="form-control"
+                  id="mpFeatures"
+                  rows="4"
+                  name="features"
+                  [(ngModel)]="formData.features"
+                  #features="ngModel"
+                  [class.is-invalid]="features.invalid && vgForm.submitted"
+                  required="required"
+                  id="features"
+                ></textarea> -->
+                <input
+                type="text"
+                class="form-control"
+                name="features"
+                  [(ngModel)]="formData.features"
+                  #features="ngModel"
+                  [class.is-invalid]="features.invalid && vgForm.submitted"
+                  required="required"
+                id="features"
+                placeholder="Area/Locality"
+              />
+                <label for="features">Area/Locality</label>
+                <div class="invalid-feedback">
+                  Address is required
+                </div>
+              </div>
+
+
+              <div class="form-floating mb-2 col-12 col-md-6">
+
+                <input
+                  type="file"
+                  class="form-control"
+                  (change)="getVehicleImageSingle($event)"
+                />
+                <label for="pics">Vahan Cover Picture (single)</label>
+                <div
+                  class="preview-image"
+                  *ngIf="imagePreview"
+                >
+                  <img
+                    [src]="imagePreview"
+                    class="rounded mb-3"
+                    width="70"
+                    height="70"
+                  />
+                  <button type="button"  (click)="removePreviewSingle($event)" class="btn-danger">
+                    Delete
+                  </button>
+                </div>
+                <div
+                  class="preview-edit-image"
+                  *ngIf="formData.image && !uploadSingle"
+                >
+                  <img
+                    src="{{imageUrl}}{{formData.image}}"
+                    class="rounded mb-3"
+                    width="100"
+                    height="100"
+                  />
+                  <!-- <button (click)="removeSingleImage(formData.id)" class="btn-danger">
+                    Delete
+                  </button> -->
+                </div>
+              </div>
+              <div class="form-floating mb-2 col-12 col-md-6">
+
+                <input
+                  type="file"
+                  class="form-control"
+                  multiple
+                  (change)="getVehicleImages($event)"
+                />
+                <label for="pics">Vahan Pictures (multiple)</label>
+                <div
+                  class="preview-image"
+                  *ngFor="let url of imgPreviewArray; let i = index"
+                >
+                  <img
+                    [src]="url"
+                    class="rounded mb-3"
+                    width="70"
+                    height="70"
+                  />
+                  <button type="button"  (click)="removePreview(i)" class="btn-danger">
+                    Delete
+                  </button>
+                </div>
+                <div
+                  class="preview-edit-image"
+                  *ngFor="let url of imgDbArray; let i = index"
+                >
+                  <img
+                    src="{{imageUrl}}{{url.image}}"
+                    class="rounded mb-3"
+                    width="100"
+                    height="100"
+                  />
+                  <button type="button" (click)="removeMultipleImage(url.id)" class="btn-danger">Delete</button>
+                </div>
+              </div>
+
+              <button class="btn btn-primary w-100" type="submit">
+                Add Vehicle
+              </button>
+            </div>
+            <!-- col-6 -->
+          </form>
+        </div>
+      </div>
+      <!--end col-->
+    </div>
+    <!--end row-->
+  </div>
+  <!--end container-->
+</section>
+<!--end section-->

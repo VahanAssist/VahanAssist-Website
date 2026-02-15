@@ -1,0 +1,657 @@
+<section class="position-relative mt-5 pt-4">
+  <div class="container-fluid px-md-4 px-2 mt-2">
+      <div class="bg-home-one d-table w-100 shadow rounded-3 overflow-hidden" id="home">
+          <!-- <div class="bg-overlay image-wrap" id="hero-images"></div> -->
+          <!-- <div class="bg-overlay bg-black opacity-50"></div> -->
+
+          <div class="container">
+              <div class="row justify-content-center">
+                  <div class="col-6">
+                      <div class="title-heading2">
+                        <h2 class="heading fw-bold text-dark title-dark mb-3">Hire professional drivers, and Trailor Booking Services at your fingertips.</h2>
+                        <!-- <h4 class="heading fw-bold text-dark title-dark mb-3">We will help you for <br> your <span class="typewrite text-primary" data-period="1000" data-type='[ "Driver Booking", "Trailer Booking" ]'></span> </h4> -->
+                          <!-- <p class="para-desc text-dark title-dark mb-0">A great platform to buy & sell cars at 0% commission.</p> -->
+                        <br>
+                          <a href="tel:8600146614" class="btn btn-primary phoneno">Call Us +91-8600146614</a>
+                      </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="title-heading">
+                     <img src="assets/images/hero.jpg" class="img-fluid">
+                    </div>
+                </div>
+              </div><!--end row-->
+          </div><!--end container-->
+      </div>
+  </div><!--end container-->
+</section><!--end section-->
+
+<section class="section pt-5">
+  <div class="container" style="display: none;">
+      <div class="row justify-content-center">
+          <div class="col-12 mt-sm-0 pt-sm-0">
+              <div class="features-absolute">
+                  <ul class="nav nav-pills bg-white shadow border-bottom p-0 flex-row d-md-inline-flex nav-justified mb-0 rounded-top-3 position-relative overflow-hidden" id="pills-tab" role="tablist">
+                      <li class="nav-item m-1">
+                          <a class="nav-link py-2 px-4 fw-medium" id="enquiree" data-bs-toggle="pill" href="#enquire" role="tab" aria-controls="enquire" aria-selected="false">
+                              Enquire Now
+                          </a><!--end nav link-->
+                      </li><!--end nav item-->
+
+
+                  </ul>
+
+                  <div class="tab-content bg-white rounded-bottom-3 rounded-end-3 sm-rounded-0 shadow" id="pills-tabContent">
+                      <div class="card border-0 tab-pane fade show active" id="enquire" role="tabpanel" aria-labelledby="enquiree">
+                          <form class="card-body text-start" #enquiryForm="ngForm">
+                              <div class="registration-form text-dark text-start">
+                                  <div class="row g-lg-0">
+                                      <div class="col-lg-3 col-md-6 col-12">
+                                          <div class="mb-3">
+                                              <label class="form-label fs-6">Name</label>
+                                              <div class="filter-search-form position-relative filter-border">
+                                                   <i data-feather="user" class="fea icon-ex-md icons"></i>
+                                                  <input name="name" [(ngModel)]="enquiryData.name" type="text" class="form-control filter-input-box bg-light border-0" placeholder="Enter Your Name">
+                                              </div>
+                                          </div>
+                                      </div><!--end col-->
+
+                                      <div class="col-lg-2 col-md-6 col-12">
+                                          <div class="mb-3">
+                                              <label class="form-label fs-6">Phone No</label>
+                                               <div class="filter-search-form position-relative filter-border">
+                                                   <i data-feather="phoneNumber" class="fea icon-ex-md icons"></i>
+                                                  <input name="phoneNumber" [(ngModel)]="enquiryData.phoneNumber" type="text" class="form-control filter-input-box bg-light border-0" placeholder="Enter Phone">
+                                              </div>
+                                          </div>
+                                      </div><!--end col-->
+
+                                      <div class="col-lg-2 col-md-6 col-12">
+                                          <div class="mb-3">
+                                              <label class="form-label fs-6">Email ID</label>
+                                              <div class="filter-search-form position-relative filter-border">
+                                                   <i data-feather="at-sign" class="fea icon-ex-md icons"></i>
+                                                  <input name="email" type="email" [(ngModel)]="enquiryData.email" class="form-control filter-input-box bg-light border-0" placeholder="Enter Email">
+                                              </div>
+                                          </div>
+                                      </div><!--end col-->
+
+                                      <div class="col-lg-5 col-md-6 col-12">
+                                          <div class="mb-3">
+                                              <label class="form-label fs-6">Message</label>
+                                              <div class="filter-search-form position-relative filter-border">
+                                                   <i data-feather="mail" class="fea icon-ex-md icons"></i>
+                                                  <input name="message" [(ngModel)]="enquiryData.message" type="text" class="form-control filter-input-box bg-light border-0" placeholder="Enter Your Message">
+                                              </div>
+                                          </div>
+                                      </div><!--end col-->
+
+                                      <div class="col-lg-3 col-md-6 col-12">
+                                          <input type="submit" id="submit" name="submit" (click)="insertEnquiry(enquiryData)" style="height: 48px;" class="btn btn-primary searchbtn w-100" value="Submit">
+                                      </div><!--end col-->
+                                  </div><!--end row-->
+                              </div>
+                          </form><!--end form-->
+                      </div><!--end teb pane-->
+
+
+
+                  </div><!--end tab content-->
+              </div>
+          </div><!--end col-->
+      </div><!--end row-->
+  </div><!--end container-->
+   <div class="container mt-60">
+      <div class="row justify-content-center">
+          <div class="col">
+              <div class="section-title text-center mb-4 pb-2">
+                  <h4 class="title fw-bold mb-3">Our Services</h4>
+                  <!-- <p class="text-dark para-desc mb-0">On Time. Quick Services.</p> -->
+              </div>
+          </div><!--end col-->
+      </div><!--end row-->
+
+      <div class="row row-cols-lg-3 row-cols-md-3 row-cols-sm-2 row-cols-3 g-4 mt-0">
+          <div class="col">
+            <a class="service-box" href="" [routerLink]="'/driver-booking'">
+              <div class="categories position-relative overflow-hidden rounded-3 shadow">
+                  <img src="assets/images/driver1.png" class="img-fluid" alt="">
+
+                  <div class="p-3">
+                      <a href="#" class="title text-dark fs-30 fw-bold">Driver Booking</a>
+                      <!-- <p class="text-dark small mb-0">46 Bookings</p> -->
+                  </div>
+              </div>
+            </a>
+          </div><!--end col-->
+
+          <div class="col">
+            <a class="service-box" href="" [routerLink]="'/trailor-booking'">
+              <div class="categories position-relative overflow-hidden rounded-3 shadow">
+                  <img src="assets/images/trailer2.png" class="img-fluid" alt="">
+
+                  <div class="p-3">
+                      <a href="#" class="title text-dark fs-30 fw-bold">Trailer Booking</a>
+                      <!-- <p class="text-dark small mb-0">124 Bookings</p> -->
+                  </div>
+              </div>
+              </a>
+          </div><!--end col-->
+
+          <div class="col">
+            <a class="service-box" href="" >
+              <div class="categories position-relative overflow-hidden rounded-3 shadow">
+                  <img src="assets/images/inspection.png" class="img-fluid" alt="">
+
+                  <div class="p-3">
+                      <a href="#" class="title text-dark fs-30 fw-bold">Vehicle Inspection</a>
+                      <!-- <p class="text-dark small mb-0">265 Bookings</p> -->
+                  </div>
+              </div>
+            </a>
+          </div><!--end col-->
+
+      </div><!--end row-->
+  </div><!--end container-->
+
+  <div class="container mt-100 mt-60">
+      <div class="row align-items-center">
+          <div class="col-lg-6 col-md-6">
+              <div class="row g-3 align-items-center">
+                  <div class="col-lg-7 col-6">
+                      <img src="assets/images/bg/01.jpg" class="img-fluid rounded-3" alt="work-image">
+                  </div><!--end col-->
+
+                  <div class="col-lg-5 col-6">
+                      <div class="row g-3">
+                          <div class="col-lg-12 col-md-12">
+                              <img src="assets/images/bg/02.jpg" class="img-fluid rounded-3" alt="work-image">
+                          </div><!--end col-->
+
+                          <div class="col-lg-12 col-md-12">
+                              <img src="assets/images/bg/03.jpg" class="img-fluid" alt="work-image">
+                          </div><!--end col-->
+                      </div><!--end row-->
+                  </div><!--end col-->
+              </div><!--end row-->
+          </div><!--end col-->
+
+          <div class="col-lg-6 col-md-6 mt-4 mt-sm-0 pt-2 pt-sm-0">
+              <div class="section-title ms-lg-5">
+                  <h6 class="text-primary fw-medium mb-2">About Vahan Assist</h6>
+                  <h4 class="title mb-3">Efficiency. <br> Transparency. Control.</h4>
+                  <p class="text-dark para-desc mb-0">Hire Trusted & Reliable Car Transportation Service In India.
+We assure you scratch-free, time-saving, and quick car moving services. <br><br>Our trained and experienced staff and our fleet of car carriers enable us to deliver safe and timely delivery of your car anywhere in India..</p>
+
+                  <div class="mt-4">
+                      <a href="" class="btn btn-pills btn-primary">Read More <i class="mdi mdi-arrow-right align-middle"></i></a>
+                  </div>
+              </div>
+          </div><!--end col-->
+      </div><!--end row-->
+  </div><!--end container-->
+
+
+
+  <div class="container mt-100 mt-60 why-section" >
+      <div class="row justify-content-center">
+          <div class="col">
+              <div class="section-title text-center mb-4 pb-2">
+                  <h4 class="title fw-bold mb-3">Why VahanAssist ?</h4>
+                  <p class="text-dark para-desc mb-0 mx-auto">Welcome to VahanAssist - Your Ultimate Vehicle Assistance Platform!</p>
+                  <p  class="text-dark mt-3 mb-0">At <strong>VahanAssist</strong>, we revolutionize the way you buy, sell, and manage vehicles, offering unparalleled convenience and reliability. Here's why VahanAssist should be your go-to destination for all your vehicle needs</p>
+              </div>
+          </div><!--end col-->
+      </div><!--end row-->
+
+      <div class="row g-4 mt-0">
+          <div class="col-md-4">
+              <div class="position-relative features px-md-1">
+                  <div class="feature-icon position-relative overflow-hidden d-flex justify-content-center">
+                      <img src="assets/images/0-percent.png">
+                  </div>
+
+                  <div class="mt-4">
+                      <h5 class="fw-medium title text-dark fs-5">Zero Commission Transactions</h5>
+                      <p class="text-dark text-justify mt-3 mb-0">Say goodbye to hefty commission fees! With VahanAssist, enjoy seamless, end-to-end transactions between dealers and customers, completely commission-free. Whether you're buying or selling, keep more of your money where it belongs - in your pocket.</p>
+                     
+                  </div>
+              </div>
+          </div><!--end col-->
+
+          <div class="col-md-4">
+              <div class="position-relative features px-md-1">
+                  <div class="feature-icon position-relative overflow-hidden d-flex justify-content-center">
+                      <img src="assets/images/network.png">
+                  </div>
+                  <div class="mt-4">
+                      <h5 class="fw-medium title text-dark fs-5">Vast Dealer Network</h5>
+                      <p class="text-dark text-justify mt-3 mb-0">Access an extensive network of verified dealers with just a few clicks. Our platform connects you with a wide range of dealers, ensuring you find the perfect vehicle to suit your needs and budget.</p>
+                  </div>
+              </div>
+          </div><!--end col-->
+
+          <div class="col-md-4">
+              <div class="position-relative features px-md-1">
+                  <div class="feature-icon position-relative overflow-hidden d-flex justify-content-center">
+                     <img src="assets/images/vehicles.png">
+                  </div>
+
+                  <div class="mt-4">
+                      <h5 class="fw-medium title text-dark fs-5">Universal Vehicle Buying</h5>
+                      <p class="text-dark text-justify mt-3 mb-0">Gone are the days of limited options. At VahanAssist, anyone can buy any vehicle hassle-free. Whether you're in the market for a car, truck, bike, or any other vehicle, we've got you covered.</p>
+                  </div>
+              </div>
+          </div><!--end col-->
+
+          
+          <div class="col-md-4">
+            <div class="position-relative features px-md-1">
+                <div class="feature-icon position-relative overflow-hidden d-flex justify-content-center">
+                    <img src="assets/images/idsadas.png">
+                </div>
+
+                <div class="mt-4">
+                    <h5 class="fw-medium title text-dark fs-5">Pan India Dealer Verification</h5>
+                    <p class="text-dark text-justify mt-3 mb-0">Rest easy knowing that all dealers on VahanAssist are thoroughly verified, ensuring trust and reliability no matter where you are in India. Your peace of mind is our priority.</p>
+                </div>
+            </div>
+        </div><!--end col-->
+        
+          
+        <div class="col-md-4">
+            <div class="position-relative features px-md-1">
+                <div class="feature-icon position-relative overflow-hidden d-flex justify-content-center">
+                    <img src="assets/images/thumbs-up.png">
+                </div>
+
+                <div class="mt-4">
+                    <h5 class="fw-medium title text-dark fs-5">Convenient Services</h5>
+                    <p class="text-dark text-justify mt-3 mb-0">Need a driver, trailer, or tow van in a pinch? Look no further than VahanAssist. With just a single click, hire nearby drivers and vehicles for all your transportation needs, saving you time and hassle.</p>
+                </div>
+            </div>
+        </div><!--end col-->
+        
+          
+        <div class="col-md-4">
+            <div class="position-relative features px-md-1">
+                <div class="feature-icon position-relative overflow-hidden d-flex justify-content-center">
+                    <img src="assets/images/social-care.png">
+                </div>
+
+                <div class="mt-4">
+                    <h5 class="fw-medium title text-dark fs-5">RTO Assistance</h5>
+                    <p class="text-dark text-justify mt-3 mb-0">Skip the long queues and tedious paperwork. VahanAssist offers convenient RTO vehicle-related services and inspections anytime, anywhere, at minimum prices. Get your vehicle paperwork sorted with ease, leaving you free to focus on what matters most.</p>
+                </div>
+            </div>
+        </div><!--end col-->
+
+      </div><!--end row-->
+      <div class="row g-4 mt-3">
+        <p class="">
+            With VahanAssist, your vehicle journey just got a whole lot smoother. Join us today and experience the future of vehicle assistance!
+        </p>
+      </div>
+  </div><!--end container-->
+
+  <div class="container mt-100 mt-60">
+      <div class="row justify-content-center">
+          <div class="col">
+              <div class="section-title text-center mb-4 pb-2">
+                  <h4 class="title mb-3">MARKETPLACE</h4>
+                  <p class="text-dark para-desc mb-0 mx-auto">A great platform to buy & sell Vahan at 0% commission.</p>
+              </div>
+          </div><!--end col-->
+      </div><!--end row-->
+
+      <div class="row g-4 mt-0">
+          <div class="col-lg-4 col-md-6 col-12">
+              <div class="card property border-0 shadow position-relative overflow-hidden rounded-3">
+                  <div class="property-image position-relative overflow-hidden shadow">
+                      <img src="assets/images/car.jpg" class="img-fluid" alt="">
+                      <ul class="list-unstyled property-icon">
+                        
+                          <li class="mt-1"><a href="javascript:void(0)" class="btn btn-sm btn-icon btn-pills btn-primary"><i data-feather="heart" class="icons"></i>heart</a></li>
+                      </ul>
+                  </div>
+                  <div class="card-body content p-4">
+                      <a href="" class="title fs-5 text-dark fw-medium">2017 Maruti Swift LXI (O)</a>
+
+                      <ul class="list-unstyled mt-3 py-3 border-top border-bottom d-flex align-items-center justify-content-between">
+                          <li class="d-flex align-items-center me-3">
+                              <i class="mdi mdi-arrow-expand-all fs-5 me-2 text-primary"></i>
+                              <span class="text-dark">94,744 KM - PETROL - MANUAL</span>
+                          </li>
+
+                          <!-- <li class="d-flex align-items-center me-3">
+                              <i class="mdi mdi-bed fs-5 me-2 text-primary"></i>
+                              <span class="text-dark">4 Beds</span>
+                          </li>
+
+                          <li class="d-flex align-items-center">
+                              <i class="mdi mdi-shower fs-5 me-2 text-primary"></i>
+                              <span class="text-dark">4 Baths</span>
+                          </li> -->
+                      </ul>
+                      <ul class="list-unstyled d-flex justify-content-between mt-2 mb-0">
+                          <li class="list-inline-item mb-0">
+                              <span class="text-dark">Price</span>
+                              <p class="fw-medium mb-0">Rs 3.64 Lakh</p>
+                          </li>
+                          <li class="list-inline-item mb-0 text-dark">
+                              <span class="text-dark">Rating</span>
+                              <ul class="fw-medium text-warning list-unstyled mb-0">
+                                  <li class="list-inline-item mb-0"><i class="mdi mdi-star"></i></li>
+                                  <li class="list-inline-item mb-0"><i class="mdi mdi-star"></i></li>
+                                  <li class="list-inline-item mb-0"><i class="mdi mdi-star"></i></li>
+                                  <li class="list-inline-item mb-0"><i class="mdi mdi-star"></i></li>
+                                  <li class="list-inline-item mb-0"><i class="mdi mdi-star"></i></li>
+                                  <li class="list-inline-item mb-0 text-dark">5.0(30)</li>
+                              </ul>
+                          </li>
+                      </ul>
+                  </div>
+              </div><!--end items-->
+          </div><!--one listing-->
+          <div class="col-lg-4 col-md-6 col-12">
+              <div class="card property border-0 shadow position-relative overflow-hidden rounded-3">
+                  <div class="property-image position-relative overflow-hidden shadow">
+                      <img src="assets/images/car2.jpg" class="img-fluid" alt="">
+                      <ul class="list-unstyled property-icon">
+                        
+                          <li class="mt-1"><a href="javascript:void(0)" class="btn btn-sm btn-icon btn-pills btn-primary"><i data-feather="heart" class="icons"></i>heart</a></li>
+                      </ul>
+                  </div>
+                  <div class="card-body content p-4">
+                      <a href="" class="title fs-5 text-dark fw-medium">2015 Maruti Ciaz</a>
+
+                      <ul class="list-unstyled mt-3 py-3 border-top border-bottom d-flex align-items-center justify-content-between">
+                          <li class="d-flex align-items-center me-3">
+                              <i class="mdi mdi-arrow-expand-all fs-5 me-2 text-primary"></i>
+                              <span class="text-dark">VXI+ - PETROL - MANUAL</span>
+                          </li>
+
+                          <!-- <li class="d-flex align-items-center me-3">
+                              <i class="mdi mdi-bed fs-5 me-2 text-primary"></i>
+                              <span class="text-dark">4 Beds</span>
+                          </li>
+
+                          <li class="d-flex align-items-center">
+                              <i class="mdi mdi-shower fs-5 me-2 text-primary"></i>
+                              <span class="text-dark">4 Baths</span>
+                          </li> -->
+                      </ul>
+                      <ul class="list-unstyled d-flex justify-content-between mt-2 mb-0">
+                          <li class="list-inline-item mb-0">
+                              <span class="text-dark">Price</span>
+                              <p class="fw-medium mb-0">Rs 5.8 Lakh</p>
+                          </li>
+                          <li class="list-inline-item mb-0 text-dark">
+                              <span class="text-dark">Rating</span>
+                              <ul class="fw-medium text-warning list-unstyled mb-0">
+                                  <li class="list-inline-item mb-0"><i class="mdi mdi-star"></i></li>
+                                  <li class="list-inline-item mb-0"><i class="mdi mdi-star"></i></li>
+                                  <li class="list-inline-item mb-0"><i class="mdi mdi-star"></i></li>
+                                  <li class="list-inline-item mb-0"><i class="mdi mdi-star"></i></li>
+                                  <li class="list-inline-item mb-0"><i class="mdi mdi-star"></i></li>
+                                  <li class="list-inline-item mb-0 text-dark">5.0(30)</li>
+                              </ul>
+                          </li>
+                      </ul>
+                  </div>
+              </div><!--end items-->
+          </div><!--one listing-->
+          <div class="col-lg-4 col-md-6 col-12">
+              <div class="card property border-0 shadow position-relative overflow-hidden rounded-3">
+                  <div class="property-image position-relative overflow-hidden shadow">
+                      <img src="assets/images/car3.jpg" class="img-fluid" alt="">
+                      <ul class="list-unstyled property-icon">
+                        
+                          <li class="mt-1"><a href="javascript:void(0)" class="btn btn-sm btn-icon btn-pills btn-primary"><i data-feather="heart" class="icons"></i>heart</a></li>
+                      </ul>
+                  </div>
+                  <div class="card-body content p-4">
+                      <a href="" class="title fs-5 text-dark fw-medium">2020 Maruti Baleno</a>
+
+                      <ul class="list-unstyled mt-3 py-3 border-top border-bottom d-flex align-items-center justify-content-between">
+                          <li class="d-flex align-items-center me-3">
+                              <i class="mdi mdi-arrow-expand-all fs-5 me-2 text-primary"></i>
+                              <span class="text-dark">ZETA PETROL 1.2 - MANUAL</span>
+                          </li>
+
+                          <!-- <li class="d-flex align-items-center me-3">
+                              <i class="mdi mdi-bed fs-5 me-2 text-primary"></i>
+                              <span class="text-dark">4 Beds</span>
+                          </li>
+
+                          <li class="d-flex align-items-center">
+                              <i class="mdi mdi-shower fs-5 me-2 text-primary"></i>
+                              <span class="text-dark">4 Baths</span>
+                          </li> -->
+                      </ul>
+                      <ul class="list-unstyled d-flex justify-content-between mt-2 mb-0">
+                          <li class="list-inline-item mb-0">
+                              <span class="text-dark">Price</span>
+                              <p class="fw-medium mb-0">Rs 4.26 Lakh</p>
+                          </li>
+                          <li class="list-inline-item mb-0 text-dark">
+                              <span class="text-dark">Rating</span>
+                              <ul class="fw-medium text-warning list-unstyled mb-0">
+                                  <li class="list-inline-item mb-0"><i class="mdi mdi-star"></i></li>
+                                  <li class="list-inline-item mb-0"><i class="mdi mdi-star"></i></li>
+                                  <li class="list-inline-item mb-0"><i class="mdi mdi-star"></i></li>
+                                  <li class="list-inline-item mb-0"><i class="mdi mdi-star"></i></li>
+                                  <li class="list-inline-item mb-0"><i class="mdi mdi-star"></i></li>
+                                  <li class="list-inline-item mb-0 text-dark">5.0(30)</li>
+                              </ul>
+                          </li>
+                      </ul>
+                  </div>
+              </div><!--end items-->
+          </div><!--one listing-->
+
+
+
+          <div class="col-12 mt-4 pt-2">
+              <div class="text-center">
+                  <!-- <a href="" class="mt-3 fs-6 text-primary">View More <i class="mdi mdi-arrow-right align-middle"></i></a> -->
+              </div>
+          </div>
+      </div><!--end row-->
+  </div><!--end container-->
+<!-- 
+  <div class="container mt-100 mt-60" style="display: none;">
+      <div class="row justify-content-center">
+          <div class="col">
+              <div class="section-title text-center mb-4 pb-2">
+                  <h4 class="title mb-3">What Our Client Say ?</h4>
+
+              </div>
+          </div>
+      </div>
+
+      <div class="row">
+          <div class="col-12 mt-4">
+              <div class="tiny-three-item">
+                  <div class="tiny-slider client-testi">
+                      <div class="card border-0 bg-white">
+                          <div class="card-body p-4 rounded-3 shadow m-2">
+                              <i class="mdi mdi-format-quote-open display-1 text-primary opacity-25 position-absolute end-0 top-0"></i>
+
+                              <div class="d-flex">
+                                  <img src="assets/images/client/01.jpg" class="avatar avatar-md-sm rounded-circle shadow-md" alt="">
+                                  <div class="flex-1 ms-3">
+                                      <h6 class="mb-0">Young Bonetti</h6>
+                                      <small class="text-dark">Product Manager</small>
+                                  </div>
+                              </div>
+
+                              <p class="text-dark fst-italic mb-0 mt-4">" It seems that only fragments of the original text remain in the Lorem Ipsum texts used today. One may speculate that over the course of time certain letters were added or deleted at various positions within the text. "</p>
+
+                              <ul class="list-unstyled mb-0 mt-3 text-warning h5">
+                                  <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
+                                  <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
+                                  <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
+                                  <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
+                                  <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
+                              </ul>
+
+                          </div>
+                      </div>
+                  </div>
+                  <div class="tiny-slider client-testi">
+                      <div class="card border-0 bg-white">
+                          <div class="card-body p-4 rounded-3 shadow m-2">
+                              <i class="mdi mdi-format-quote-open display-1 text-primary opacity-25 position-absolute end-0 top-0"></i>
+
+                              <div class="d-flex">
+                                  <img src="assets/images/client/01.jpg" class="avatar avatar-md-sm rounded-circle shadow-md" alt="">
+                                  <div class="flex-1 ms-3">
+                                      <h6 class="mb-0">Young Bonetti</h6>
+                                      <small class="text-dark">Product Manager</small>
+                                  </div>
+                              </div>
+
+                              <p class="text-dark fst-italic mb-0 mt-4">" It seems that only fragments of the original text remain in the Lorem Ipsum texts used today. One may speculate that over the course of time certain letters were added or deleted at various positions within the text. "</p>
+
+                              <ul class="list-unstyled mb-0 mt-3 text-warning h5">
+                                  <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
+                                  <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
+                                  <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
+                                  <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
+                                  <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
+                              </ul>
+
+                          </div>
+                      </div>
+                  </div>
+                  <div class="tiny-slider client-testi">
+                      <div class="card border-0 bg-white">
+                          <div class="card-body p-4 rounded-3 shadow m-2">
+                              <i class="mdi mdi-format-quote-open display-1 text-primary opacity-25 position-absolute end-0 top-0"></i>
+
+                              <div class="d-flex">
+                                  <img src="assets/images/client/01.jpg" class="avatar avatar-md-sm rounded-circle shadow-md" alt="">
+                                  <div class="flex-1 ms-3">
+                                      <h6 class="mb-0">Young Bonetti</h6>
+                                      <small class="text-dark">Product Manager</small>
+                                  </div>
+                              </div>
+
+                              <p class="text-dark fst-italic mb-0 mt-4">" It seems that only fragments of the original text remain in the Lorem Ipsum texts used today. One may speculate that over the course of time certain letters were added or deleted at various positions within the text. "</p>
+
+                              <ul class="list-unstyled mb-0 mt-3 text-warning h5">
+                                  <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
+                                  <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
+                                  <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
+                                  <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
+                                  <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
+                              </ul>
+
+                          </div>
+                      </div>
+                  </div>
+                  
+                  <div class="tiny-slider client-testi">
+                      <div class="card border-0 bg-white">
+                          <div class="card-body p-4 rounded-3 shadow m-2">
+                              <i class="mdi mdi-format-quote-open display-1 text-primary opacity-25 position-absolute end-0 top-0"></i>
+
+                              <div class="d-flex">
+                                  <img src="assets/images/client/01.jpg" class="avatar avatar-md-sm rounded-circle shadow-md" alt="">
+                                  <div class="flex-1 ms-3">
+                                      <h6 class="mb-0">Young Bonetti</h6>
+                                      <small class="text-dark">Product Manager</small>
+                                  </div>
+                              </div>
+
+                              <p class="text-dark fst-italic mb-0 mt-4">" It seems that only fragments of the original text remain in the Lorem Ipsum texts used today. One may speculate that over the course of time certain letters were added or deleted at various positions within the text. "</p>
+
+                              <ul class="list-unstyled mb-0 mt-3 text-warning h5">
+                                  <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
+                                  <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
+                                  <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
+                                  <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
+                                  <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
+                              </ul>
+
+                          </div>
+                      </div>
+                  </div>
+                  
+                  <div class="tiny-slider client-testi">
+                      <div class="card border-0 bg-white">
+                          <div class="card-body p-4 rounded-3 shadow m-2">
+                              <i class="mdi mdi-format-quote-open display-1 text-primary opacity-25 position-absolute end-0 top-0"></i>
+
+                              <div class="d-flex">
+                                  <img src="assets/images/client/01.jpg" class="avatar avatar-md-sm rounded-circle shadow-md" alt="">
+                                  <div class="flex-1 ms-3">
+                                      <h6 class="mb-0">Young Bonetti</h6>
+                                      <small class="text-dark">Product Manager</small>
+                                  </div>
+                              </div>
+
+                              <p class="text-dark fst-italic mb-0 mt-4">" It seems that only fragments of the original text remain in the Lorem Ipsum texts used today. One may speculate that over the course of time certain letters were added or deleted at various positions within the text. "</p>
+
+                              <ul class="list-unstyled mb-0 mt-3 text-warning h5">
+                                  <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
+                                  <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
+                                  <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
+                                  <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
+                                  <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
+                              </ul>
+
+                          </div>
+                      </div>
+                  </div>
+                  
+                  <div class="tiny-slider client-testi">
+                      <div class="card border-0 bg-white">
+                          <div class="card-body p-4 rounded-3 shadow m-2">
+                              <i class="mdi mdi-format-quote-open display-1 text-primary opacity-25 position-absolute end-0 top-0"></i>
+
+                              <div class="d-flex">
+                                  <img src="assets/images/client/01.jpg" class="avatar avatar-md-sm rounded-circle shadow-md" alt="">
+                                  <div class="flex-1 ms-3">
+                                      <h6 class="mb-0">Young Bonetti</h6>
+                                      <small class="text-dark">Product Manager</small>
+                                  </div>
+                              </div>
+
+                              <p class="text-dark fst-italic mb-0 mt-4">" It seems that only fragments of the original text remain in the Lorem Ipsum texts used today. One may speculate that over the course of time certain letters were added or deleted at various positions within the text. "</p>
+
+                              <ul class="list-unstyled mb-0 mt-3 text-warning h5">
+                                  <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
+                                  <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
+                                  <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
+                                  <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
+                                  <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
+                              </ul>
+
+                          </div>
+                      </div>
+                  </div>
+                  
+
+
+              </div>
+          </div>
+      </div>
+  </div> -->
+
+
+  <div class="container mt-60">
+      <div class="row justify-content-center">
+          <div class="col-12">
+              <div class="section-title sell-vahan text-center" style="">
+                  <h4 class="title mb-3">Want to <strong>Sell your VAHAN</strong></h4>
+                  <p class="text-dark para-desc mb-0 mx-auto">We are here to help.</p>
+                  <div class="mt-4 pt-2">
+                      <a href="" [routerLink]="'/signup'"  class="btn btn-pills btn-primary"><span class="h5 mb-0 me-1"><i data-feather="mail" class="fea icon-sm"></i></span> SELL MY VAHAN</a>
+                  </div>
+              </div>
+          </div><!--end col-->
+      </div><!--end row-->
+  </div><!--end container-->
+</section><!--end section-->

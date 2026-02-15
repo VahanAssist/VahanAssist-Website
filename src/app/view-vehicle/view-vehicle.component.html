@@ -1,0 +1,182 @@
+<style>
+    .img-view{
+
+    }
+</style>
+<section class="section pb-0">
+    <div class="container mt-50 mt-60">
+          <div class="row justify-content-center">
+              <div class="col">
+                  <div class="section-title text-center pb-2">
+                      <h4 class="title mb-3">Manage Vehicles</h4>
+
+
+                      <!-- if dealer -->
+
+                  </div>
+              </div><!--end col-->
+          </div><!--end row-->
+
+            </div>
+            </section>
+<div class="position-relative">
+    <div class="shape overflow-hidden text-white">
+        <svg viewBox="0 0 2880 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 48H1437.5H2880V0H2160C1442.5 52 720 0 720 0H0V48Z" fill="currentColor"></path>
+        </svg>
+    </div>
+</div>
+<!-- Hero End -->
+
+<!-- Start -->
+<section class="section pt-0">
+    <div class="container mt-10">
+        <div class="row align-items-center text-center mt-5">
+            <div class="col-lg-3 col-6">
+                <div class="count">
+                <h3>Total Cars</h3>
+                <h1>{{total ? total : 0}}</h1>
+                </div>
+            </div>
+            <!-- col-3 -->
+
+            <div class="col-lg-3 col-6">
+                <div class="count">
+                <h3>Sold Cars</h3>
+                <h1>{{sold ? sold : 0}}</h1>
+                </div>
+            </div>
+            <!-- col-3 -->
+
+            <div class="col-lg-3 col-6">
+                <div class="count">
+                <h3>Live Cars</h3>
+                <h1>{{live ? live : 0}}</h1>
+                </div>
+            </div>
+            <!-- col-3 -->
+
+            <div class="col-lg-3 col-6">
+                <div class="count">
+                <h3>Offline Cars</h3>
+                <h1>{{offline ? offline : 0 }}</h1>
+                </div>
+            </div>
+            <!-- col-3 -->
+        </div>
+        <div class="row align-items-center mt-5">
+            <div class="col-lg-12 mt-4 mt-sm-0 pt-2 pt-sm-0">
+                <a [routerLink]="'/add-vehicle'" class="btn btn-secondary ">Add Vahan</a>
+            </div>
+            <div class="col-lg-12 mt-4 mt-sm-0 pt-2 pt-sm-0 table-responsive">
+                <table class="table table-stripped">
+                    <thead>
+                        <tr>
+                            <!-- <th>Type</th> -->
+                            <th>Vahan Details</th>
+                            <!-- <th>Description</th> -->
+                            <th>Location</th>
+                            <!-- <th>City</th> -->
+                            <th>Type</th>
+                            <!-- <th>Condition</th> -->
+                            <th>Images</th>
+                            <th>Status</th>
+                            <th>Active/inactive</th>
+                            <th>Enquiry/Price/Appointment</th>
+                            <th>Action</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let veh of vehicleList | paginate: { itemsPerPage: 10, currentPage: p,totalItems: total }">
+                            <!-- <td>
+                                {{veh.listingtype}}
+                            </td> -->
+                            <td>
+                                {{veh.vcondition}}- {{veh.brand_name}} - {{veh.model_name}} - {{veh.year}}
+                                <!-- <br>{{veh.vcondition}} - {{veh.features}}<br>Rs. {{veh.price}} -->
+                            </td>
+                            <!-- <td>
+                                {{veh.description}}
+                            </td> -->
+                            <td>
+                                {{veh.city_name}}, {{veh.state_name}}
+                            </td>
+                            
+                            <td>
+                              {{veh.listingtype == 'stc' ? 'Sell to Customer' : 'Sell to Dealer'}}
+                            </td>
+                          
+                            <td>
+     <a *ngIf="veh?.images.length > 0" href="javascript:void(0)" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModalv2">View Images</a>
+     <a *ngIf="veh?.images.length < 1" href="javascript:void(0)" class="btn btn-danger btn-sm">No Images</a>
+
+                                <div class="modal fade" id="exampleModalv2" tabindex="-1" aria-labelledby="exampleModalv2Label" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                      <div class="modal-content">
+                                        <div class="modal-header">
+                                          <h5 class="modal-title" id="filterLabel">Vehicle Images</h5>
+                                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                              <div class="col-3" *ngFor="let img of veh.images">
+                                                <img src="{{imageUrl}}{{img.image}}" class="img-view img-fluid" />
+                                            </div>
+                                              </div>
+                                </div>
+                                </div>
+                                </div>
+                                </div>
+
+                            </td>
+
+                            <td>
+                                <!-- <form class="d-flex form"> -->
+                                    <div class="form-floating mb-2">
+                                        <select class="form-control" nanme="status" [(ngModel)]="veh.status" (change)="updateMPVehicleStatus($event,veh.id)">
+                                            <option  value="">Select</option>
+                                            <option value="Sold">Sold</option>
+                                            <option value="Pending">Pending</option>
+                                        </select>
+                                        <!-- <label for="category">Select Status</label> -->
+                                    </div>
+                                <!-- </form> -->
+                            </td>
+
+                            <td>
+                                <!-- <form class="d-flex form"> -->
+                                    <div class="form-floating mb-2">
+                                        <select class="form-control" name="is_active" [(ngModel)]="veh.is_active" (change)="updateMPVehicleActive($event,veh.id)">
+                                            <option value="">Select</option>
+                                            <option value="1">Live on marketplace</option>
+                                            <option value="0">Hide from marketplace</option>
+                                        </select>
+                                        <!-- <label for="category">Select Status</label> -->
+                                    </div>
+                                <!-- </form> -->
+                            </td>
+
+                            <td>
+                                <a class="btn btn-info btn-sm mr-2" href="view-enquiry-vehicle/{{veh.id}}" role="button"> <i class="fa fa-eye"></i>  Enquiry </a>
+                                <a class="btn btn-warning btn-sm mr-2" href="view-appointments-vehicle/{{veh.id}}" role="button"> <i class="fa fa-calender"></i>  Appointments </a>
+                                
+                                <a class="btn btn-primary btn-sm " href="view-price-requests-vehicle/{{veh.id}}" role="button"> <i class="fa fa-price"></i> Price Request </a>
+                                
+                               
+                            </td>
+                            <td>
+                                <a class="btn btn-success btn-sm" href="add-vehicle/{{veh.id}}" role="button"> <i class="fa fa-edit"></i> Edit </a><br>
+                                <a class="btn btn-danger btn-sm mt-1" href="javascript:void(0)" (click)="hideMPVehicle(veh.id)" role="button"> <i class="fa fa-trash"></i> Delete </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <pagination-controls (pageChange)="onTableDataChange($event)"></pagination-controls>
+            </div><!--end col-->
+        </div><!--end row-->
+    </div><!--end container-->
+
+
+
+</section><!--end section-->
