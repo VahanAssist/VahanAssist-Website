@@ -1501,6 +1501,7 @@ class Manage_product extends CI_Model
 	function getAllDealersCarsByDealerId($id)
 	{
 		$this->db->where('added_by', $id);
+		$this->db->where('hide', 0);
 		$query = $this->db->get('tbl_mp_vehicle');
 		return $query->num_rows();
 	}
@@ -1509,6 +1510,7 @@ class Manage_product extends CI_Model
 	{
 
 		$this->db->where('added_by', $id);
+		$this->db->where('hide', 0);
 		$this->db->limit($limit, $start);
 		$this->db->order_by('id', 'DESC');
 		$query = $this->db->get('tbl_mp_vehicle');
@@ -1724,7 +1726,8 @@ class Manage_product extends CI_Model
 
 	function getAllVehicles()
 	{
-		return $this->db->count_all('tbl_mp_vehicle');
+		$this->db->where('hide', 0);
+		return $this->db->count_all_results('tbl_mp_vehicle');
 	}
 
 	function getAllVehiclesWithLimit($limit, $start)
@@ -1736,6 +1739,7 @@ class Manage_product extends CI_Model
 		$this->db->join('tbl_car_brand', 'tbl_car_brand.id = tbl_mp_vehicle.brand_id', 'left');
 		$this->db->join('tbl_car_model', 'tbl_car_model.id = tbl_mp_vehicle.model_id', 'left');
 		$this->db->join('tbl_signup', 'tbl_signup.id = tbl_mp_vehicle.added_by', 'left');
+		$this->db->where('tbl_mp_vehicle.hide', 0);
 
 		$this->db->limit($limit, $start);
 		$this->db->order_by('id', 'DESC');
@@ -2452,6 +2456,7 @@ class Manage_product extends CI_Model
 	function getAllMPVehiclesByVendor($id)
 	{
 		$this->db->where('added_by', $id);
+		$this->db->where('hide', 0);
 		$query = $this->db->get('tbl_mp_vehicle');
 		return $query->num_rows();
 	}
@@ -2459,6 +2464,7 @@ class Manage_product extends CI_Model
 	function getAllMPSoldVehiclesByVendor($id)
 	{
 		$this->db->where('added_by', $id);
+		$this->db->where('hide', 0);
 		$this->db->where('status', 'Sold');
 		$query = $this->db->get('tbl_mp_vehicle');
 		return $query->num_rows();
@@ -2467,6 +2473,7 @@ class Manage_product extends CI_Model
 	function getAllMPLiveVehiclesByVendor($id)
 	{
 		$this->db->where('added_by', $id);
+		$this->db->where('hide', 0);
 		$this->db->where('is_active', 1);
 		$this->db->where('status', "Pending");
 		$query = $this->db->get('tbl_mp_vehicle');
@@ -2476,6 +2483,7 @@ class Manage_product extends CI_Model
 	function getAllMPOfflineVehiclesByVendor($id)
 	{
 		$this->db->where('added_by', $id);
+		$this->db->where('hide', 0);
 		$this->db->where('is_active', 0);
 		$query = $this->db->get('tbl_mp_vehicle');
 		return $query->num_rows();
@@ -2486,6 +2494,7 @@ class Manage_product extends CI_Model
 		$start = ($page - 1) * $limit;
 		$this->db->select('tbl_mp_vehicle.*,tbl_vehicle_category.name as category_name,tbl_car_brand.name as brand_name,tbl_car_model.name as model_name,tbl_states.state as state_name,tbl_city.city as city_name');
 		$this->db->where('tbl_mp_vehicle.added_by', $id);
+		$this->db->where('tbl_mp_vehicle.hide', 0);
 		$this->db->join('tbl_vehicle_category', 'tbl_vehicle_category.id = tbl_mp_vehicle.category_id', 'left');
 		$this->db->join('tbl_car_brand', 'tbl_car_brand.id = tbl_mp_vehicle.brand_id', 'left');
 		$this->db->join('tbl_car_model', 'tbl_car_model.id = tbl_mp_vehicle.model_id', 'left');

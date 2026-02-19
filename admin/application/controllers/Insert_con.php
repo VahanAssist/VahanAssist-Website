@@ -1,15 +1,14 @@
 <?php
 	defined('BASEPATH') or exit('No direct script access allowed');
-	header("Access-Control-Allow-Origin: *");
-	header("Access-Control-Allow-Methods: PUT, GET, POST");
-	header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
-
 	class Insert_con extends CI_Controller
 	{
 
 		public function __construct()
 
 		{
+			header("Access-Control-Allow-Origin: *");
+			header("Access-Control-Allow-Methods: PUT, GET, POST");
+			header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
 
 			parent::__construct();
 
@@ -2048,7 +2047,6 @@
 		{
 
 			$data = $this->Manage_product->getAllMpCategory();
-
 			echo json_encode($data);
 		}
 
@@ -2110,6 +2108,10 @@
 		{
 			// print_r($_REQUEST);
 			// die();
+			file_put_contents('C:\xampp\htdocs\vahaan-admin\custom_debug_insert.txt', "insertMKVehicle called at " . date('Y-m-d H:i:s') . "\n", FILE_APPEND);
+			file_put_contents('C:\xampp\htdocs\vahaan-admin\custom_debug_insert.txt', "POST Data: " . print_r($_POST, true) . "\n", FILE_APPEND);
+			file_put_contents('C:\xampp\htdocs\vahaan-admin\custom_debug_insert.txt', "FILES Data: " . print_r($_FILES, true) . "\n", FILE_APPEND);
+
 			$id = empty($this->input->post('id')) ? '' : $this->input->post('id');
 
 			$reg = empty($this->input->post('regno')) ? '' : $this->input->post('regno');
@@ -2177,6 +2179,7 @@
 				}
 				else{
 					$res = $this->Manage_product->insertMPVehicle($data);
+					file_put_contents('C:\xampp\htdocs\vahaan-admin\custom_debug_insert.txt', "Insert Result: " . print_r($res, true) . "\n", FILE_APPEND);
 					if ($res['msg'] == '1') {
 						echo json_encode(array('status' => "success", 'vehicleId' => $res['last_id'], 'msg' => 'Vehicle Added Success!'));
 					} else {

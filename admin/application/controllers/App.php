@@ -6,9 +6,8 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: PUT, GET, POST");
 header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
 
-require 'vendor/autoload.php';
-
-use Google\Client;
+// require 'vendor/autoload.php';
+// use Google\Client;
 
 class App extends CI_Controller
 {
@@ -5039,12 +5038,13 @@ class App extends CI_Controller
 
 	function getAccessToken($serviceAccountPath)
 	{
-		$client = new Client();
-		$client->setAuthConfig($serviceAccountPath);
-		$client->addScope('https://www.googleapis.com/auth/firebase.messaging');
-		$client->useApplicationDefaultCredentials();
-		$token = $client->fetchAccessTokenWithAssertion();
-		return $token['access_token'];
+		// $client = new Client();
+		// $client->setAuthConfig($serviceAccountPath);
+		// $client->addScope('https://www.googleapis.com/auth/firebase.messaging');
+		// $client->useApplicationDefaultCredentials();
+		// $token = $client->fetchAccessTokenWithAssertion();
+		// return $token['access_token'];
+        return "";
 	}
 
 	function sendMessage($accessToken, $projectId, $message)
