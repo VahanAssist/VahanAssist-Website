@@ -1,0 +1,27 @@
+.badge {
+    letter-spacing: 0.5px;
+    padding: 4px 8px;
+    font-weight: 600 !important;
+    line-height: 14px;
+    background: #00809733;
+    /* border: 1px solid #ccc; */
+    padding: 10px;
+    font-size: 16px;
+    width: 100%;
+    color: #212121;
+}
+.col-lg-3, .col-3, .col-lg-4, .col-4{
+    float: left;
+    padding: 5px;
+}
+.slider img{
+    border-radius: 20px;
+}
+.contact{
+    text-align: center;
+    margin-top: 20px;
+    display: block;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 5px;
+}

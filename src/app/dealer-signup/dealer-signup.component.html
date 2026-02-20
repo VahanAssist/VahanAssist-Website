@@ -1,0 +1,172 @@
+
+
+
+<section class="section pb-0 bg-gray ">
+    <div class="container mt-50 mt-60">
+          <div class="row justify-content-center">
+              <div class="col">
+                  <div class="section-title mb-4 pb-2">
+                      <h4 class="title mb-3">Become a Dealer</h4>
+                      <h5 class=" para-desc mb-0"> Your Gateway to Effortless Vehicle Trading!</h5>
+                        <p>
+
+                            Are you a dealer looking to expand your reach and streamline your operations? Look no further! VahanAssist offers you a seamless platform to register, connect, and transact with both customers and fellow dealers, all without worrying about hefty commissions.
+
+                        </p>
+
+                  </div>
+              </div><!--end col-->
+          </div><!--end row-->
+          </div>
+          </section>
+
+<section class="section pt-0 bg-gray why-section">
+    <div class="container mt-50 mt-60">
+        <div class="row g-4 mt-0">
+            <div class="col-12 col-md-8  d-none d-sm-block">
+                <div class="sidebar-dealer">
+                    <div class="col-md-6">
+                        <div class="position-relative features px-md-1">
+                            <div class="feature-icon position-relative overflow-hidden d-flex justify-content-center">
+                                <img src="assets/images/0-percent.png">
+                            </div>
+
+                            <div class="mt-4">
+                                <h5 class="fw-medium title text-dark fs-5">Zero Commission</h5>
+                                <p class="text-dark text-justify mt-3 mb-0">Unlike traditional platforms, VahanAssist operates on a zero-commission model. Keep more of your profits where they belong – in your pocket!</p>
+
+                            </div>
+                        </div>
+                    </div><!--end col-->
+
+                    <div class="col-md-6">
+                        <div class="position-relative features px-md-1">
+                            <div class="feature-icon position-relative overflow-hidden d-flex justify-content-center">
+                                <img src="assets/images/contacts.png">
+                            </div>
+
+                            <div class="mt-4">
+                                <h5 class="fw-medium title text-dark fs-5">Unlimited Contacts</h5>
+                                <p class="text-dark text-justify mt-3 mb-0">Upon onboarding, enjoy 60 days of unlimited access to customers and fellow dealers across India. Forge connections, build relationships, and watch your business thrive.</p>
+
+                            </div>
+                        </div>
+                    </div><!--end col-->
+
+                    <div class="col-md-6">
+                        <div class="position-relative features px-md-1">
+                            <div class="feature-icon position-relative overflow-hidden d-flex justify-content-center">
+                                <img src="assets/images/reach.png">
+                            </div>
+
+                            <div class="mt-4">
+                                <h5 class="fw-medium title text-dark fs-5">Expand Your Reach</h5>
+                                <p class="text-dark text-justify mt-3 mb-0">Take your offline business online effortlessly. Showcase your inventory to a nationwide audience, and watch as your sales soar.</p>
+
+                            </div>
+                        </div>
+                    </div><!--end col-->
+
+                    <div class="col-md-6">
+                        <div class="position-relative features px-md-1">
+                            <div class="feature-icon position-relative overflow-hidden d-flex justify-content-center">
+                                <img src="assets/images/networkd.png">
+                            </div>
+
+                            <div class="mt-4">
+                                <h5 class="fw-medium title text-dark fs-5">Extensive Dealer Inventory</h5>
+                                <p class="text-dark text-justify mt-3 mb-0">VahanAssist brings together a vast range of dealer inventory, providing users with a comprehensive selection of vehicles to choose from.</p>
+
+                            </div>
+                        </div>
+                    </div><!--end col-->
+                    <div class="col-md-12 col-12">
+                        <p class="get-started">
+                        <strong>Get Started Today!</strong><br>
+                        Join VahanAssist today and revolutionize the way you do business. With our user-friendly platform and unparalleled support, the future of vehicle trading is here – and it's commission-free!<br>
+                        Ready to take your business to new heights? Sign up now and experience the VahanAssist advantage!<br>
+                       
+                        <a [routerLink]="'/subscription'" class="" *ngIf="type=='DEALER'">Explore our Packages</a>
+                        </p>
+
+
+                    </div>
+                </div>
+            </div>
+            <!-- col-8 -->
+            <div class="col-12 col-md-4" >
+                <div class="main-dealer" *ngIf="!userId">
+                    <form name="singupform" #sForm="ngForm" method="POST" (ngSubmit)="onSignupFormSubmit(this.formData)">
+                        <a href=""><img src="images/logo-icon-80.png" class="mb-4 d-block mx-auto" alt=""></a>
+                        <h5 class="mb-3">Register your Dealer account</h5>
+
+                        <div class="form-floating mb-2">
+                            <input type="text" class="form-control" id="floatingInput" placeholder="Enter Company Name" name="firstName" [(ngModel)]="formData.firstName">
+                            <label for="">Dealership/Company Name*</label>
+                        </div>
+
+                        <div class="form-floating mb-2">
+                            <input type="email" class="form-control" id="floatingEmail" placeholder="name@example.com" name="email" [(ngModel)]="formData.email" ngModel [email]="true">
+                            <label for="floatingEmail">Email Id*</label>
+                        </div>
+
+                        <div class="form-floating mb-2">
+                          <input type="number" class="form-control" id="floatingNumber"  name="phoneNumber" [(ngModel)]="formData.phoneNumber">
+                          <label for="floatingNumber">Phone Number*</label>
+                      </div>
+
+                      <div class="form-floating mb-2">
+
+
+                        <select id="state" name="state" [(ngModel)]="formData.state" class="form-control" (change)="getAllCityByState($event)">
+                        <option *ngFor="let state of stateList" value="{{state.id}}">{{state.state}}</option>
+                        </select>
+
+                        <label for="state">State*</label>
+                    </div>
+
+                      <div class="form-floating mb-2">
+
+                          <select name="city" id="city" [(ngModel)]="formData.city" class="form-control">
+                            <option *ngFor="let city of cityList" value="{{city.id}}">{{city.city}}</option>
+                            </select>
+                          <label for="city">City*</label>
+                      </div>
+
+                        <div class="form-floating mb-3">
+                            <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password" [(ngModel)]="formData.password">
+                            <label for="floatingPassword">Password*</label>
+                        </div>
+
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" value="d" name="checkBox" [(ngModel)]="formData.check" id="flexCheckDefault">
+                            <label class="form-check-label text-muted" for="flexCheckDefault">I Accept <a href="#" class="text-primary">Terms And Condition</a></label>
+                        </div>
+
+                        <button class="btn btn-warning w-100" type="submit">Register</button>
+
+                        <div class="col-12 text-center mt-3">
+                            <span><span class="text-muted me-2">Already have an account ? </span> <a  [routerLink]="'/login'" class="white fw-medium">Sign in</a></span>
+                        </div>
+
+                    </form>
+                </div>
+
+                <div class="main-dealer h-100 p-20"  *ngIf="type=='DEALER'">
+                    <h3 class="text-center">Hello! {{userName}}</h3>
+                    <ul class="register-menu">
+                        <li><a href=""  [routerLink]="'/user-profile'"><img src="assets/images/dashboard.png"> Dashboard</a></li>
+                        <li><a href=""  [routerLink]="'/add-vehicle'"><img src="assets/images/car.png"> Add Vehicle</a></li>
+                        <li><a href=""  [routerLink]="'/view-vehicle'"><img src="assets/images/vehicles.png"> View Vehicle</a></li>
+                        <li><a href=""  [routerLink]="'/view-enquiry'"><img src="assets/images/view.png"> View Enquiry</a></li>
+                        <li><a href=""  [routerLink]="'/view-custom-enquiry'"><img src="assets/images/questionnaire.png"> View Custom Enquiry</a></li>
+                        <li><a href=""  [routerLink]="'/user-account'"><img src="assets/images/enquiry.png"> My Account</a></li>
+                        <li><a href="" (click)="logout()"><img src="assets/images/logout.png"> Logout</a></li>
+
+                    </ul>
+                </div>
+            </div>
+            <!-- col-4 -->
+        </div>
+    </div>
+</section>

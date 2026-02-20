@@ -1,0 +1,18 @@
+/* width */
+ ::-webkit-scrollbar {
+     width: 5px;
+
+}
+/* Track by Sagar*/
+ ::-webkit-scrollbar-track {
+     background: #f1f1f1;
+}
+/* Handle */
+ ::-webkit-scrollbar-thumb {
+     background: #00abff;
+     border-radius:5px;
+}
+/* Handle on hover */
+ ::-webkit-scrollbar-thumb:hover {
+     background: #00537c;
+}

@@ -1,0 +1,25 @@
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+/*
+|--------------------------------------------------------------------------
+| Base Site URL (EXAMPLE)
+|--------------------------------------------------------------------------
+*/
+$config['base_url'] = getenv('BASE_URL') ?: 'http://localhost/vahaan-admin/';
+
+/*
+|--------------------------------------------------------------------------
+| Index File
+|--------------------------------------------------------------------------
+*/
+$config['index_page'] = '';
+
+/*
+|--------------------------------------------------------------------------
+| Encryption Key
+|--------------------------------------------------------------------------
+*/
+$config['encryption_key'] = getenv('CI_ENCRYPTION_KEY') ?: 'vahan_secret_key_change_me_32char';
+
+// ... other settings can remain default in the actual config.php

@@ -1,0 +1,10 @@
+export const environment = {
+    production: false,
+    apiUrl: 'http://localhost/vahaan-admin',
+    apiInsertUrl: 'http://localhost/vahaan-admin/Insert_con',
+    apiAppUrl: 'http://localhost/vahaan-admin/App',
+    apiPaymentUrl: 'http://localhost/vahaan-admin/Payment',
+    imageBaseUrl: 'http://localhost/vahaan-admin/images/vehicle_image/',
+    imageProfileUrl: 'http://localhost/vahaan-admin/images/profile/',
+    googleMapsApiKey: 'YOUR_GOOGLE_MAPS_API_KEY',
+};

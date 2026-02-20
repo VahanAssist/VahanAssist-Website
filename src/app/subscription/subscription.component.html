@@ -1,0 +1,68 @@
+<!-- style="background: url('assets/images/pattern-header-min.jpg');" -->
+
+<section class="section pb-0 text-center page-header-new " >
+    <div class="container  mt-60">
+          <div class="row justify-content-center">
+              <div class="col">
+                  <div class="section-title mb-4 pb-2">
+                      <h4 class="title mb-3">Best Marketplace Packages for You</h4>
+                      <h5 class=" text-center mb-0"> Quicky Sell your Vahan with 0% Commission Marketplace</h5>
+                      <h1 class="text-center f-30 fw-bold">Select a Package</h1>
+    
+                  </div>
+              </div><!--end col-->
+          </div><!--end row-->
+          </div>
+          </section>
+
+    <section class="section pb-0 pt-5">
+        <div class="container">
+            <div class="row justify-content-center">
+               
+
+
+                <!-- <div class="col-3" *ngFor="let pack of packagesList">
+                    <div class="package">
+                        <h3>{{pack.title}}</h3>
+                        <h2>Rs. {{pack.price}}</h2>
+                        <div [innerHTML]="pack.content">
+
+                        </div>
+                        <button class="btn btn-primary" (click)="rzaorPayPayment(pack.id,userId)">
+                            Buy Now
+                        </button>
+                    </div>
+                </div> -->
+                 <!-- col-3 -->
+                 <div class="col-lg-3 pull-left" *ngFor="let pack of packagesList">
+                    <div class="gray8 bs-light bs-hover slow xs-pb relative">
+                        <div class="xs-py bg-gradient-new white text-center">
+                            <h4 class="extrabold no-pm"> {{pack.title}}</h4>
+                            <!-- <h5 class="light no-pm">test</h5> -->
+                            <h3><i class="icon-inr fa fa-inr"></i> <span class="text-lg extrabold"> Rs. {{pack.price}} /-</span></h3>
+                        </div>
+                         <p class="px-3 py-2"><strong>Package Includes:</strong></p>
+                        <div class="basic-list list-lg xxs-my feature-list"  [innerHTML]="pack.content">
+                           
+                        </div>
+                        <p class="text-center">(All Inclusive)</p>
+                        <div class="text-center xs-pl xs-pr text-center"> 
+                            <button class="btn btn-primary slow" (click)="rzaorPayPayment(pack.id,userId)">Buy Now</button> 
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="row mt-5 mb-4">
+                <h4> What is B2B, B2C, C2B?</h4>
+                <ol style="list-style-type: decimal;">
+                    <li><strong>B2C (Dealer to Consumer):</strong> VahanAssist facilitates smooth business-to-consumer transactions, ensuring a hassle-free experience for both buyers and sellers.</li>
+                    <li><strong>C2B (Consumer To Dealer):</strong> Empower consumers to sell their vehicles directly to dealers through our platform, cutting out intermediaries and maximizing returns.</li>
+                    <li><strong>B2B (Dealer to Dealer):</strong> Enable businesses to buy and sell vehicles efficiently, fostering a dynamic marketplace for commercial transactions.</li>
+                </ol>
+                <p><br></p>
+            </div>
+        </div>
+<br>
+<br>

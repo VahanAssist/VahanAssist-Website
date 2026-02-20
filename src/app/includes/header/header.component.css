@@ -1,0 +1,8 @@
+
+
+@media (min-width: 992px)
+{
+    #topnav .navigation-menu.nav-left {
+    justify-content: flex-end !important;
+}
+}

@@ -1,0 +1,19 @@
+.bg-footer{
+    /* margin-top: 40px; */
+}
+.fea.icon-sm {
+    height: 30px;
+    width: 30px;
+}
+.social-icon.foot-social-icon li a {
+    color: #adb5bd;
+    border-color: #202942;
+    margin: 10px;
+    border-radius: 25px !important;
+    text-align: center;
+}
+.contact-icon {
+    margin-right: 10px;
+    width: 30px;
+    height: 30px;
+}

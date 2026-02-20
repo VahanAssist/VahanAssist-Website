@@ -1,0 +1,243 @@
+<!-- Hero Start -->
+
+<section class="section">
+  <div class="container mt-50 mt-60">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-6">
+        <div class="col-12 vehicleimages">
+          <div class="slider" *ngIf="vehicleDetail?.images.length < 1">
+            <img src="assets/images/car.jpg" class="img-fluid" />
+          </div>
+
+          <div class="slider" *ngIf="vehicleDetail?.images.length > 0">
+            <owl-carousel-o [options]="customOptions">
+              <ng-container *ngFor="let img of vehicleDetail.images">
+                <ng-template carouselSlide [id]="img.id">
+                  <!-- <img
+                    src="{{ imageUrl }}{{ img.image }}"
+                    [alt]="'Vehicle Images'"
+                  /> -->
+                  <ng-magnizoom
+                  [imageStyle]="{ 'max-width': '100%', 'max-height': '100%' }"
+                  zoomMode="LENS"
+                  imageSrc="{{ imageUrl }}{{ img.image }}">
+                </ng-magnizoom>
+                </ng-template>
+              </ng-container>
+            </owl-carousel-o>
+
+            <!-- <img  src=""  class="img-fluid"> -->
+          </div>
+        </div>
+        <p class="text-muted">Scroll to zoom-in or zoom-out the images</p>
+      </div>
+      <!-- left -->
+      <div class="col-12 col-md-6">
+        <!-- {{vehicleDetail.name}} -->
+         <div class="row details-wrap">
+        <div class="section-title text-left pb-2">
+          <h4 class="title mb-1">
+            {{ vehicleDetail?.brand_name }}-{{
+              vehicleDetail?.model_name
+            }}-{{ vehicleDetail?.year }}-{{vehicleDetail?.variant}}
+          </h4>
+
+          <p class="listtype">{{vehicleDetail?.listingtype == 'stc' ? 'For Customers' : 'For Dealers'}}</p>
+          <p class="listtype">
+            <a href="javascript:void(0)" (click)="dealerDetails(vehicleDetail?.added_by)">{{vehicleDetail?.dealer_firstName}} {{vehicleDetail?.dealer_lastName}}</a>
+          </p>
+
+        </div>
+
+        <!-- alert do you want to contact owner ? -->
+        <div class="col-lg-12 col-12">
+          <div class="col-lg-3 col-6">
+            <label class="badge badge-primary">Rs {{ vehicleDetail?.price }}</label>
+          </div>
+          <div class="col-lg-3 col-6">
+            <label class="badge badge-primary"
+              >{{ vehicleDetail?.kms }} km</label
+            >
+          </div>
+          <div class="col-lg-3 col-6">
+            <label class="badge badge-primary"
+              >{{ vehicleDetail?.ownership }} Owner</label
+            >
+          </div>
+
+          <div class="col-lg-3 col-6">
+            <label class="badge badge-primary">{{
+              vehicleDetail?.fuel_type
+            }}</label>
+          </div>
+
+            <!-- <div class="col-lg-3 col-6">
+              <label class="badge badge-primary">{{ vehicleDetail?.transmission }}</label>
+            </div>
+            <div class="col-lg-3 col-6">
+              <label class="badge badge-primary">{{ vehicleDetail?.vcondition }}</label>
+            </div> -->
+
+            <!-- <div class="col-lg-3 col-6">
+              <label class="badge badge-primary">{{ vehicleDetail?.city }}, {{ vehicleDetail?.state }}</label>
+            </div> -->
+            <!-- <div class="col-lg-3 col-6">
+              <label class="badge badge-primary">{{ vehicleDetail?.features }}</label>
+            </div> -->
+
+        </div>
+        <div class="col-12 text-center">
+          <a
+            href="javascript:void(0)"
+            (click)="contactOwner(vehicleDetail?.id, vehicleDetail?.added_by)"
+            class="contact-onr-btn btn btn-primary "
+            >Contact Owner</a>
+          <br />
+          <span class="contact" *ngIf="contactFlag">{{
+            vehicleDetail?.owner_contact
+          }}</span>
+        </div>
+
+        <!-- <hr /> -->
+
+      </div>
+      <!-- details wrap -->
+       <div class="row">
+      <div class="details-wrap mt-2 col-12">
+
+        <div class="col-lg-4 col-6 model-data mt-2"><span>Registration No</span><br>{{ vehicleDetail?.regno}}
+        </div>
+         <div class="col-lg-4 col-6 model-data mt-2"><span>RTO City</span><br>{{ vehicleDetail?.rto}}
+        </div>
+
+        <div class="col-lg-4 col-6 model-data mt-2"><span>Insurance Validity</span><br>{{ vehicleDetail?.insurance}}({{ vehicleDetail?.insurancedate}})
+        </div>
+        <div class="col-lg-4 col-6 model-data mt-2"><span>Body Style</span><br>{{ vehicleDetail?.model_body_type}}
+        </div>
+        <div class="col-lg-4 col-6 model-data mt-2"><span>Fuel Tank Capacity</span><br>{{ vehicleDetail?.model_fuel_tank_capacity }}</div>
+        <div class="col-lg-4 col-6 model-data mt-2"><span>No. of Gears</span><br>{{ vehicleDetail?.model_gears }}</div>
+
+        <div class="col-lg-4 col-6 model-data mt-2">  <span>Condition</span><br>{{ vehicleDetail?.vcondition}}     </div>
+        <div class="col-lg-4 col-6 model-data mt-2"><span>Year</span><br>{{ vehicleDetail?.year }}</div>
+        <div class="col-lg-4 col-6 model-data mt-2"><span>Mileage</span><br>{{ vehicleDetail?.kms }} km</div>
+        <div class="col-lg-4 col-6 model-data mt-2"><span>Transmission</span><br>{{ vehicleDetail?.transmission }}</div>
+        <!-- <div class="col-lg-4 col-6 model-data mt-2"><span>Interior Color</span><br>Dark Grey</div> -->
+
+        <div class="col-lg-4 col-6 model-data mt-2"><span>Fuel Type</span><br>{{ vehicleDetail?.fuel_type }}</div>
+
+        <div class="col-lg-12 col-12 model-data mt-2 pull-left"><span>Address</span><br>{{ vehicleDetail?.features }}</div>
+
+        </div>
+      </div>
+
+    </div>
+      <!-- right -->
+    </div>
+    <div class="row">
+
+        <div class="details-wrap mt-2 col-12">
+          <h5 class="sidebar-title">Description</h5>
+          <p>{{ vehicleDetail?.description }}</p>
+
+          </div>
+
+      <div class="details-wrap  mt-2">
+        <!-- <br />
+        <h5 class="sidebar-title">Specifications</h5> -->
+
+          <!-- <div class="col-lg-4 col-6 model-data mt-2"><span>Make</span><br>{{ vehicleDetail?.brand_name }}</div>
+          <div class="col-lg-4 col-6 model-data mt-2"><span>Model</span><br>{{ vehicleDetail?.model_name }}</div> -->
+
+          <div class="col-lg-4 col-6 model-data mt-2"><span>Power </span><br>{{ vehicleDetail?.model_power }}</div>
+          <div class="col-lg-4 col-6 model-data mt-2"><span>Torque </span><br>{{ vehicleDetail?.model_torque }}</div>
+          <div class="col-lg-4 col-6 model-data mt-2"><span>Odometer </span><br>{{ vehicleDetail?.model_odometer}}</div>
+          <div class="col-lg-4 col-6 model-data mt-2"><span>Central locking </span><br>{{ vehicleDetail?.model_central_locking}}</div>
+          <div class="col-lg-4 col-6 model-data mt-2"><span>Child Safety locks </span><br>{{ vehicleDetail?.model_child_safety_locks}}</div>
+          <div class="col-lg-4 col-6 model-data mt-2"><span>ABS </span><br>{{ vehicleDetail?.model_abs}}</div>
+          <div class="col-lg-4 col-6 model-data mt-2"><span>Ventilation System </span><br>{{ vehicleDetail?.model_ventilation_system}}</div>
+
+         <div class="col-lg-4 col-6 model-data mt-2"><span>Displacement</span><br>{{ vehicleDetail?.model_displacement }}</div>
+          <div class="col-lg-4 col-6 model-data mt-2"><span>Emission</span><br>{{ vehicleDetail?.model_emission_norm }}</div>
+          <div class="col-lg-4 col-6 model-data mt-2"><span>Dimensions</span><br>{{ vehicleDetail?.model_height }} x {{ vehicleDetail?.model_height }} x {{ vehicleDetail?.model_width }}</div>
+
+          <div class="col-lg-4 col-6 model-data mt-2"><span>Kerb Weight</span><br>{{ vehicleDetail?.model_kerb_weight }}</div>
+          <div class="col-lg-4 col-6 model-data mt-2"><span>Ground Clearance</span><br>{{ vehicleDetail?.model_ground_clearance }}</div>
+          <div class="col-lg-4 col-6 model-data mt-2"><span>Front Brakes</span><br>{{ vehicleDetail?.model_front_brakes }}</div>
+          <div class="col-lg-4 col-6 model-data mt-2"><span>Rear Brakes</span><br>{{ vehicleDetail?.model_rear_brakes }}</div>
+          <div class="col-lg-4 col-6 model-data mt-2"><span>Power windows</span><br>{{ vehicleDetail?.model_power_windows }}</div>
+          <div class="col-lg-4 col-6 model-data mt-2"><span>Power Seats</span><br>{{ vehicleDetail?.model_power_seats }}</div>
+          <div class="col-lg-4 col-6 model-data mt-2"><span>Seating Capacity</span><br>{{ vehicleDetail?.model_seating_capacity }}</div>
+
+
+
+        </div>
+    </div>
+  </div>
+</section>
+<section class="section" *ngIf="moreVehicleData?.length > 0">
+  <div class="container mt-50 mt-60">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-12">
+        <div class="section-title text-left pb-2">
+          <h4 class="title mb-3">Explore More Vahan</h4>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-50">
+      <div class="col-12">
+        <div class="col-lg-3 col-md-6 col-12 p-10" *ngFor="let veh of moreVehicleData">
+          <a
+            href="javascript:void(0)"
+            routerLink="/vehicle-details/{{veh.regno}}"
+            class="vahan-a"
+          >
+            <div
+              class="card property border-0 shadow position-relative overflow-hidden rounded-3"
+            >
+              <div class="property-image-home position-relative overflow-hidden">
+                <img *ngIf="!veh.image" src="assets/images/car.jpg" class="img-fluid" alt="">
+                <img *ngIf="veh.image" src="{{imageUrl}}{{veh.image}}" class="img-fluid" alt="">
+              </div>
+              <div class="card-body content p-3">
+                <h5 class="title fs-5 text-dark fw-medium">{{veh.year}} {{veh.brand_name}} {{veh.model_name}}</h5>
+                <ul
+                  class="list-unstyled border-top border-bottom d-flex align-items-center justify-content-between"
+                >
+                  <li class="d-flex align-items-center me-3">
+                    <i class="mdi mdi-car-info fs-5 me-2 text-primary"></i
+                    ><span class="text-muted">{{veh.kms}} KM - {{veh.fuel_type}} - {{veh.variant}}</span>
+                  </li>
+                </ul>
+                <ul
+                  class="list-unstyled d-flex justify-content-between mt-2 mb-0"
+                >
+                  <li class="list-inline-item mb-0">
+                    <span class="fw-medium mb-0"
+                      ><i class="mdi mdi-currency-inr fs-5 text-primary"></i>
+                      {{veh.price}}</span
+                    >
+                  </li>
+                  <!-- <li class="list-inline-item mb-0">
+                    <i class="mdi mdi-location-enter fs-5 me-2 text-primary"></i
+                    ><span class="text-muted">{{veh.location}}</span>
+                  </li> -->
+                </ul>
+                <ul
+                  class="list-unstyled d-flex justify-content-between mt-2 mb-0"
+                >
+                  <li class="list-inline-item mb-0">
+                    <i
+                      class="mdi mdi-face-man-outline fs-5 me-2 text-primary"
+                    ></i>
+                    <span class="text-muted" *ngIf="veh.added_type != 'DEALER'">Customer</span>
+                    <span class="text-muted" *ngIf="veh.added_type == 'DEALER'">{{veh.dealer_name}}</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,79 @@
+<section class="section pb-0">
+  <div class="container mt-50 mt-60">
+        <div class="row justify-content-center">
+            <div class="col">
+                <div class="section-title text-center mb-4 pb-2">
+                    <h4 class="title mb-3">My Enquiry</h4>
+
+                    <!-- if dealer -->
+
+                </div>
+            </div><!--end col-->
+        </div><!--end row-->
+
+          </div>
+          </section>
+
+          <section class="section pb-0">
+              <div class="container mt-50">
+                  <div class="row">
+                      <div class="col-lg-12 col-md-12">
+                          <div class="card text-center">
+                              <div class="card-body table-responsive">
+                                  <table class="table">
+                                      <thead>
+                                          <tr>
+                                              <th>S.no</th>
+                                              <th>Customer Name</th>
+                                              <th>Email</th>
+                                              <th>Phone No</th>
+                                              <th>Car Details</th>
+                                              <th>Date of Enquiry</th>
+                                              <th>Action</th>
+                                          </tr>
+                                      </thead>
+                                      <tbody>
+                                          <tr *ngFor="let enq of enquiryList | paginate: { itemsPerPage: 10, currentPage: p,totalItems: total };let i=index;">
+                                            <td>{{i+1}}</td>
+                                                <td>{{enq.cust_name}}</td>
+                                                <td>{{enq.cust_email}}</td>
+                                                <td>{{enq.cust_phone}}</td>
+                                              <td>
+                                                  <table class="table ">
+                                                              <tr>
+                                                                  <td>Category</td>
+                                                                  <td>Brand</td>
+                                                                  <td>Model</td>
+                                                                  <td>Ownership</td>
+                                                              </tr>
+                                                              <tr *ngFor="let car of enq.carsDetail">
+                                                                  <td>{{car.category_id}}</td>
+                                                                  <td>{{car.brand_id}}</td>
+                                                                  <td>{{car.model_id}}</td>
+                                                                  <td>{{car.ownership}}</td>
+                                                              </tr>
+                                                          </table>
+                                              </td>
+                                              <td>{{enq.date}}</td>
+                                              <td>
+
+                                                      <select name="status" [(ngModel)]="enq.status" class="form-control" (change)="updateCustomEnquiryStatus($event,enq.enqId)">
+                                                        <option value="">Select Status</option>
+                                                        <option value="Enquired">Pending</option>
+                                                        <option value="Attended">Attended</option>
+                                                      </select>
+
+                                                      <button *ngIf="enq.hide == '0'" class="btn btn-primary btn-sm" (click)="hideMPEnquiry(enq.enqId)">Hide</button>
+
+                                              </td>
+                                          </tr>
+                                      </tbody>
+                                  </table>
+
+                              </div>
+                          </div>
+                      </div>
+                      <!-- col-lg-12 -->
+                </div>
+              </div>
+          </section>

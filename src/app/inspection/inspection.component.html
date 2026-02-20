@@ -1,0 +1,406 @@
+
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add Cars Details</h5>
+        <button type="button" class="btn btn-success mx-3" (click)="addRow()">Add +</button>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+          <div class="row" *ngFor="let car of cars; let i=index;">
+            <div class="col-md-6">
+              <h5 class="text text-danger">Car - {{i + 1}}</h5>
+            </div>
+            <div class="col-md-6">
+              <button *ngIf="i > 0" type="button" class="btn btn-danger btn-sm" (click)="removeRow(i)">Remove</button>
+            </div>
+            <div class="col-md-4">
+              <div class="mb-3">
+                <label class="form-label"
+                  >Car Model<span class="text-danger">*</span></label
+                >
+                <input
+                  name="model-{{i}}"
+                  id="model"
+                  type="text"
+                  class="form-control"
+                  placeholder="Model"
+                  [(ngModel)]="cars[i].model"
+                />
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="mb-3">
+                <label class="form-label"
+                  >Car Type <span class="text-danger">*</span></label
+                >
+                <input
+                  name="carType-{{i}}"
+                  id="carType"
+                  type="text"
+                  class="form-control"
+                  placeholder="type"
+                  [(ngModel)]="cars[i].carType"
+                />
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="mb-3">
+                <label class="form-label"
+                  >Document <span class="text-danger">*</span></label
+                >
+                <input
+                  name="image-{{i}}"
+                  id="image"
+                  type="file"
+                  class="form-control"
+                  (change)="onDocUpload($event,i)"
+                />
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label class="form-label"
+                  >Car Quality<span class="text-danger">*</span></label
+                >
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label class="form-label">
+                      <input
+                        name="carQuality-{{i}}"
+                        id="type"
+                        type="radio"
+                        value="New Car"
+                        class=""
+                        [(ngModel)]="cars[i].carQuality"
+
+                      />
+                      New Car</label
+                    >
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label class="form-label">
+                      <input
+                        name="carQuality-{{i}}"
+                        id="type"
+                        type="radio"
+                        value="Used Car"
+                        class=""
+                        [(ngModel)]="cars[i].carQuality"
+
+                      />
+                      Used Car</label
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label class="form-label"
+                  >Car Condition<span class="text-danger">*</span></label
+                >
+              </div>
+            <div class="row">
+
+              <div class="col-md-4">
+                <div class="mb-3">
+                  <label class="form-label">
+                    <input
+                      name="carCondition-{{i}}"
+                      id="type"
+                      type="radio"
+                      value="Running"
+                      class=""
+                      [(ngModel)]="cars[i].carCondition"
+
+                    />
+                    Running</label
+                  >
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="mb-3">
+                  <label class="form-label">
+                    <input
+                      name="carCondition-{{i}}"
+                      id="type"
+                      type="radio"
+                      value="Non Running"
+                      class=""
+                      [(ngModel)]="cars[i].carCondition"
+                    />
+                    Non Running</label
+                  >
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="mb-3">
+                  <label class="form-label">
+                    <input
+                      name="carCondition-{{i}}"
+                      id="type"
+                      type="radio"
+                      value="Scrap"
+                      class=""
+                      [(ngModel)]="cars[i].carCondition"
+                    />
+                    Scrap</label
+                  >
+                </div>
+              </div>
+
+            </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button (click)="saveCardDetails()" type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Save
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+   <!-- Hero Start -->
+   <section class="section pb-0  text-center page-header-new " >
+    <div class="container  mt-60">
+          <div class="row justify-content-center">
+              <div class="col">
+                  <div class="section-title mb-4 pb-2">
+                    <h1 class="text-center f-30 fw-bold">Inspection </h1>
+                      <h5 class=" text-center mb-0"> Book a Vahan Inspection</h5>
+                      <br>
+                      <nav aria-label="breadcrumb" class="d-block">
+                        <ul class="breadcrumb breadcrumb-muted mb-0 p-0">
+                          <li class="breadcrumb-item"><a href="">Vahan Assist</a></li>
+                          <li class="breadcrumb-item active" aria-current="page">
+                            Inspection
+                          </li>
+                        </ul>
+                      </nav>
+    
+                  </div>
+              </div><!--end col-->
+          </div><!--end row-->
+          </div>
+          </section>
+          
+         
+
+      
+
+          <section class="section pb-0">
+            <div class="container">
+              <div class="row justify-content-center">
+                <div class="col-lg-10">
+                  <div class="p-4 rounded-3 shadow">
+                    <!-- <form method="POST" [formGroup]="bookingForm" (ngSubmit)="bookingForm.valid && onBookingFormSubmit()"> -->
+                    <form
+                    name="form"
+                     #tForm="ngForm"
+                      method="POST"
+                      (ngSubmit)="onTrailerFormSubmit(this.formData)"
+                    >
+                      <!-- <p *ngIf="!tForm.form.valid" class="mb-0 text-danger text-center" style="font-size:30px" id="error-msg">Fill out required feild.</p>
+                                      <div *ngIf="tForm.form.valid" style="font-size:30px" id="simple-msg" class="text-success text-center">Good to go please Click get Quote button</div> -->
+                      <div class="row">
+                        <div class="col-md-12">
+                          <div class="mb-3">
+                            <label class="form-label"
+                              >Booking Type<span class="text-danger">*</span></label
+                            >
+                          </div>
+                        </div>
+                        <div class="col-md-12">
+                          <div class="col-md-2 pull-left">
+                            <div class="mb-3">
+                              <label class="form-label">
+                                <input
+                                  name="type"
+                                  id="type"
+                                  type="radio"
+                                  value="Pre Delivery Inspection"
+                                  class=""
+                                 [(ngModel)]="formData.type"
+                                />
+                               Pre Delivery Inspection</label
+                              >
+                            </div>
+                          </div>
+                          <div class="col-md-2 pull-left">
+                            <div class="mb-3">
+                              <label class="form-label">
+                                <input
+                                  name="type"
+                                  id="type"
+                                  type="radio"
+                                  value="General Inspection"
+                                  class=""
+                                 [(ngModel)]="formData.type"
+                                />General Inspection</label
+                              >
+                            </div>
+                          </div>
+                        </div>
+          
+                        <div class="col-md-6">
+                          <div class="mb-3">
+                              <label class="form-label">Inspection Location <span class="text-danger">*</span></label>
+                              <input name="inspection" id="inspection" type="text" class="form-control" placeholder="Inspection Location" (change)="getPickupLocation($event)">
+                              <div class="pickDropdown" *ngIf="pickupList.length">
+                                <select name="pickup" class="form-control" (change)="getPickLatLngByPlaceId($event)">
+                                  <option value="">Select Location</option>
+                                  <option *ngFor="let pick of pickupList" value="{{pick.place_id}}">{{pick.description}}</option>
+                                </select>
+                              </div>
+                          </div>
+                      </div>
+                      
+                        <div class="col-md-12">
+                          <div class="mb-3">
+                            <button
+                              type="button"
+                              class="btn btn-primary btn-sm"
+                              data-bs-toggle="modal"
+                              data-bs-target="#exampleModal"
+                            >
+                              Add Cars +
+                            </button>
+                          </div>
+                        </div>
+          
+                        <div class="col-md-6">
+                          <div class="mb-3">
+                            <label class="form-label"
+                              >Date <span class="text-danger">*</span></label
+                            >
+                            <input
+                              name="date"
+                              id="date"
+                              type="date"
+                              [(ngModel)]="formData.date"
+                              class="form-control"
+                              placeholder="Date"
+                            />
+                          </div>
+                        </div>
+          
+                        <div class="col-md-6">
+                          <div class="mb-3">
+                            <label class="form-label"
+                              >Time <span class="text-danger">*</span></label
+                            >
+                            <input
+                              name="time"
+                              id="time"
+                              type="time"
+                              [(ngModel)]="formData.time"
+                              class="form-control"
+                              placeholder="time"
+                            />
+                          </div>
+                        </div>
+          
+                        <div class="col-md-6">
+                          <div class="mb-3">
+                            <label class="form-label"
+                              >Name <span class="text-danger">*</span></label
+                            >
+                            <input
+                              name="name"
+                              id="name"
+                              type="text"
+                              class="form-control"
+                              [(ngModel)]="formData.name"
+                              placeholder="Name"
+                            />
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="mb-3">
+                            <label class="form-label"
+                              >Phone <span class="text-danger">*</span></label
+                            >
+                            <input
+                              name="phone"
+                              id="phone"
+                              type="text"
+                              class="form-control"
+                              [(ngModel)]="formData.phone"
+                              placeholder="Phone"
+                            />
+                          </div>
+                        </div>
+          
+                        <div class="col-md-6">
+                          <div class="mb-3">
+                            <label class="form-label"
+                              >Your Email <span class="text-danger">*</span></label
+                            >
+                            <input
+                              name="email"
+                              id="email"
+                              type="email"
+                              class="form-control"
+                              [(ngModel)]="formData.email"
+                              placeholder="Email :"
+                            />
+                          </div>
+                        </div>
+          
+                        <div class="col-6">
+                          <div class="mb-3">
+                            <label class="form-label"
+                              >Comments <span class="text-danger">*</span></label
+                            >
+                            <textarea
+                              name="comments"
+                              id="comments"
+                              rows="4"
+                              class="form-control"
+                              [(ngModel)]="formData.comments"
+                              placeholder="Message :"
+                            ></textarea>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-12">
+                          <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">
+                              Get Quote
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+          

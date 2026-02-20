@@ -1,0 +1,100 @@
+<section class="section pb-0"  style="    background: rgb(238 238 238 / 32%);">
+    <div class="container mt-50 mt-60">
+          <div class="row justify-content-center">
+              <div class="col">
+                  <div class="section-title text-center mb-4 pb-2">
+                      <h4 class="title mb-3">Hello! {{userName}}</h4>
+                      <p class="text-muted para-desc mb-0 mx-auto">Welome to your dashboard</p>
+
+                      <!-- if dealer -->
+
+                  </div>
+              </div><!--end col-->
+          </div><!--end row-->
+
+            </div>
+            </section>
+
+            <section class="section pt-0"  style="    background: rgb(238 238 238 / 32%);">
+                <div class="container mt-60">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-3 mb-3 col-6">
+                            <a [routerLink]="'/add-vehicle'" class="a-dashboard">
+                                <div class="card card-dashboard text-center">
+                                    <div class="card-body">
+                                    <img src="assets/images/car.png"><br>
+                                    Add Vehicle
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <!-- col-lg-4 -->
+
+                        <div class="col-lg-3 col-md-3 mb-3 col-6">
+                            <a [routerLink]="'/view-vehicle'"  class="a-dashboard">
+                             <div class="card card-dashboard text-center">
+                                <div class="card-body">
+                                    <img src="assets/images/vehicles.png"><br>
+                                        View Vehicle
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <!-- col-lg-4 -->
+
+                        <div class="col-lg-3 col-md-3 mb-3 col-6">
+                            <a [routerLink]="'/view-enquiry'"  class="a-dashboard">
+                            <div class="card card-dashboard text-center">
+                              <div class="card-body">
+                                  
+                                      <img src="assets/images/view.png"><br>
+                                      Enquiry for your Vahan
+                                  
+                                </div>
+                            </div>
+                            </a>
+                      </div>
+
+
+                        <div class="col-lg-3 col-md-3 mb-3 col-6" *ngIf="userType == 'DEALER'">
+                            <a [routerLink]="'/view-custom-enquiry'"  class="a-dashboard">
+                            <div class="card card-dashboard text-center">
+                                <div class="card-body">
+                                    
+                                        <img src="assets/images/questionnaire.png"><br>
+                                        Custom Enquiry <br><span>(for all Dealers)</span>
+                                    
+                                </div>
+                                </div>
+                            </a>
+                        </div>
+                        <!-- col-lg-4 -->
+                        <div class="col-lg-3 col-md-3 mb-3 col-6">
+                            <a [routerLink]="'/user-account'"  class="a-dashboard">
+                            <div class="card card-dashboard text-center">
+                                <div class="card-body">
+                                    
+                                        <img src="assets/images/enquiry.png"><br>
+                                        My Profile
+                                    
+                                </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-lg-6" *ngIf="userType == 'DEALER'">
+                            <div class="card card-dashboard text-center">
+                                <div class="card-body">
+                                    <a  [routerLink]="'/subscription'"  class="a-dashboard">
+                                        <img src="assets/images/subscription.png"><br>
+                                    <h5>Your Plan - Free Trail 70 Days</h5>
+                                    <h5>Get our subscription <span class="btn btn-primary">click here</span></h5>
+                                     </a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- col-lg-6 -->
+                        
+                    </div>
+
+                    </div>
+                    </section>
