@@ -30,7 +30,7 @@ export class AddVehicleComponent {
   modelDetails: any;
   type: any = '';
   uploadSingle: boolean = false;
-  discountPrice:any=0;
+  discountPrice: any = 0;
   constructor(private webapi: WebapiService, private toastr: ToastrService, private router: Router, private activatedRoute: ActivatedRoute, private cdr: ChangeDetectorRef) {
     this.imageUrl = this.webapi.imageBaseUrl;
     this.vehicleId = this.activatedRoute.snapshot.paramMap.get("id");
@@ -78,7 +78,7 @@ export class AddVehicleComponent {
       });
     }
     else {
-      if('image' in this.formData){
+      if ('image' in this.formData) {
         if (this.imagesUploadArr.length > 1) {
           if (this.type == 'USER') {
             data.listingtype = 'std';
@@ -88,26 +88,26 @@ export class AddVehicleComponent {
 
           console.log(data);
 
-          // this.webapi.insertMKVehicle(data).subscribe((res: any) => {
+          this.webapi.insertMKVehicle(data).subscribe((res: any) => {
 
-          //   if (res.status == 'success') {
-          //     if (this.imagesUploadArr.length > 0) {
-          //       this.uploadMultipleImages(res.vehicleId);
-          //     }
-          //     this.toastr.success(res.msg);
-          //     this.router.navigate(['/view-vehicle'])
-          //   }
-          //   else {
-          //     this.toastr.error(res.msg);
-          //   }
+            if (res.status == 'success') {
+              if (this.imagesUploadArr.length > 0) {
+                this.uploadMultipleImages(res.vehicleId);
+              }
+              this.toastr.success(res.msg);
+              this.router.navigate(['/view-vehicle'])
+            }
+            else {
+              this.toastr.error(res.msg);
+            }
 
-          // });
+          });
         }
         else {
           alert('Please Add atleast 2 Multi images for vehicle..')
         }
       }
-      else{
+      else {
         alert('Cover image is required');
       }
 
@@ -115,36 +115,36 @@ export class AddVehicleComponent {
 
   }
 
-  onPercentPrice(e: any){
-    if(!this.formData.price){
-     alert('Please Enter Price first');
-     this.formData.discount_percent = '';
-    return
+  onPercentPrice(e: any) {
+    if (!this.formData.price) {
+      alert('Please Enter Price first');
+      this.formData.discount_percent = '';
+      return
     }
 
-          let d_price = Number(this.formData.price) * (Number(e.target.value)/100);
+    let d_price = Number(this.formData.price) * (Number(e.target.value) / 100);
 
-          let sellingPrice = Number(this.formData.price) - Number(d_price);
+    let sellingPrice = Number(this.formData.price) - Number(d_price);
 
-          this.formData.discount_price = sellingPrice;
-          this.discountPrice = sellingPrice;
+    this.formData.discount_price = sellingPrice;
+    this.discountPrice = sellingPrice;
   }
 
 
-  onPercentPriceV2(e: any){
-    if(this.formData.discount_percent){
-      if(!this.formData.price){
+  onPercentPriceV2(e: any) {
+    if (this.formData.discount_percent) {
+      if (!this.formData.price) {
         alert('Please Enter Price first');
         this.formData.discount_percent = '';
-       return
-       }
+        return
+      }
 
-             let d_price = Number(this.formData.price) * (Number(e)/100);
+      let d_price = Number(this.formData.price) * (Number(e) / 100);
 
-             let sellingPrice = Number(this.formData.price) - Number(d_price);
+      let sellingPrice = Number(this.formData.price) - Number(d_price);
 
-             this.formData.discount_price = sellingPrice;
-             this.discountPrice = sellingPrice;
+      this.formData.discount_price = sellingPrice;
+      this.discountPrice = sellingPrice;
     }
 
   }

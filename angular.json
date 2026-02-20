@@ -14,7 +14,8 @@
           "builder": "@angular-devkit/build-angular:application",
           "options": {
             "allowedCommonJsDependencies": [
-              "ngx-google-places-autocomplete"
+              "ngx-google-places-autocomplete",
+              "to-words"
             ],
             "outputPath": "dist/vahan-assist",
             "index": "src/index.html",
@@ -28,6 +29,13 @@
               "src/assets"
             ],
             "styles": [
+              "src/assets/css/bootstrap.min.css",
+              "src/assets/css/tiny-slider.css",
+              "src/assets/css/tobii.min.css",
+              "src/assets/css/choices.min.css",
+              "src/assets/css/materialdesignicons.min.css",
+              "src/assets/css/style.min.css",
+              "src/assets/css/custom.css",
               "node_modules/ngx-owl-carousel-o/lib/styles/prebuilt-themes/owl.carousel.min.css",
               "node_modules/ngx-owl-carousel-o/lib/styles/prebuilt-themes/owl.theme.default.min.css",
               "src/styles.css",
@@ -49,8 +57,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumWarning": "2mb",
+                  "maximumError": "4mb"
                 },
                 {
                   "type": "anyComponentStyle",

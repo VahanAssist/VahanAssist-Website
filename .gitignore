@@ -76,3 +76,15 @@ Thumbs.db
 *.ps1
 *.bak
 *.tmp
+
+# Archives & compressed database dumps
+*.zip
+*.gz
+*.tar
+
+# Local/backup directories
+/prod_ready/
+/vahaan-admin/
+
+# Gemini AI
+.gemini/
