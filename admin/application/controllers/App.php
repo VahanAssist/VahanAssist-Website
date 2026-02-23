@@ -363,42 +363,34 @@ class App extends CI_Controller
 
 		$password = date('dm') . $val;
 
-		$dataUp['password'] = $password;
+		$dataUp['password'] = md5($password);
 
 		$getUsers = $this->App_model->getUserByEmail($data['email']);
 
-		//print_r($getUsers);
-
-		if ($getUsers[0]['id'] != "") {
+		if (!empty($getUsers) && $getUsers[0]['id'] != "") {
 			$this->App_model->updatePassword($getUsers[0]['id'], $dataUp);
 
-			$message = 'Your password is ' . $password;
+			$message = '<h3>VahanAssist - Password Reset</h3>
+				<p>Hello ' . $getUsers[0]['firstName'] . ',</p>
+				<p>Your new password is: <strong>' . $password . '</strong></p>
+				<p>Please login and change your password immediately.</p>
+				<br><p>Regards,<br>Team VahanAssist</p>';
 
+			$this->load->config('email');
+			$config = $this->config->item('gmail');
 			$this->load->library('email');
+			$this->email->initialize($config);
 
 			$this->email->set_newline("\r\n");
-
-			$this->email->from('info@Kedia.com'); // change it to yours
-
-			$this->email->to($data['email']); // change it to yours
-
-			$this->email->subject('Your new  password');
-
+			$this->email->from($config['smtp_user'], 'VahanAssist');
+			$this->email->to($data['email']);
+			$this->email->subject('VahanAssist - Password Reset');
 			$this->email->message($message);
 
 			if ($this->email->send()) {
-
-
-
-				// echo 'Email sent.';
-
 				echo json_encode(array('msg' => 'email Sent'));
 			} else {
-
-
-
-				//show_error($this->email->print_debugger());
-
+				echo json_encode(array('msg' => 'Password updated but email could not be sent. Please try again later.'));
 			}
 		} else {
 			echo json_encode(array('msg' => 'email Not found'));

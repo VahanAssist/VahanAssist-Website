@@ -1079,13 +1079,13 @@
 			$data['state'] = empty($this->input->post('state')) ? '' : strtolower($this->input->post('state'));
 			$data['city'] = empty($this->input->post('city')) ? '' : strtolower($this->input->post('city'));
 			$data['type'] = empty($this->input->post('type')) ? '' : $this->input->post('type');
-			$data['checkTandC'] = empty($this->input->post('check')) ? '' : $this->input->post('check');
+			// checkTandC removed — not a DB column, causes insert to fail
 
 			if($data['type'] == 'USER'){
 				$data['status'] = 1;
 			}
 			else if($data['type'] == 'DEALER'){
-				$data['status'] = 0;
+				$data['status'] = 1;
 			}
 			else{
 				$data['status'] = 1;
@@ -1106,7 +1106,7 @@
 					$data['source'] = 'ADMIN';
 					$res = $this->Manage_product->insertUser($data);
 					if ($res == 1) {
-						$this->emailUserRegister($data);
+						try { $this->emailUserRegister($data); } catch (\Exception $e) { /* ignore */ }
 						redirect(base_url() . 'Main_con/view_user');
 					} else {
 						echo 'Failed, Please try again or Contact Admin.';
@@ -1123,7 +1123,7 @@
 					$res = $this->Manage_product->insertUser($data);
 
 					if ($res == 1) {
-						$this->emailUserRegister($data);
+						try { $this->emailUserRegister($data); } catch (\Exception $e) { /* ignore */ }
 						echo json_encode(array('status' => "ok", 'message' => 'Registered Success'));
 					} else {
 						echo json_encode(array('status' => "error", 'message' => 'Failed, Please try again or Contact Admin.'));
@@ -1661,22 +1661,20 @@
 		{
 
 			$message = "Thanks for register..". $data['firstName'];
-        $this->load->library('email');
-	   $this->email->message($message);
+
+			$this->load->config('email');
+			$config = $this->config->item('gmail');
+			$this->load->library('email');
+			$this->email->initialize($config);
+
       $this->email->set_newline("\r\n");
-      $this->email->from('info@vahanassist.com'); // change it to yours
-      $this->email->to($data['email']);// change it to yours
-      $this->email->subject('vahanassist.com');
+      $this->email->from($config['smtp_user'], 'VahanAssist');
+      $this->email->to($data['email']);
+      $this->email->subject('Welcome to VahanAssist');
       $this->email->message($message);
-    //    $this->email->set_mailtype("html");
-      if($this->email->send())
-     {
-    //   echo 'Email sent.';
-     }
-     else
-    {
-     show_error($this->email->print_debugger());
-    }
+
+      $this->email->send();
+      // Silently fail — do not crash registration if email fails
 
 		}
 

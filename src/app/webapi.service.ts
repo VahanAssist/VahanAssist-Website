@@ -81,6 +81,14 @@ export class WebapiService {
     return this.http.post(this.baseUrl + "login", form_data);
   }
 
+  forgetPassword(data: any) {
+    var form_data = new FormData();
+    for (var key in data) {
+      form_data.append(key, data[key]);
+    }
+    return this.http.post(environment.apiAppUrl + "/forgetPassword", form_data);
+  }
+
   uploadDocument(data: any) {
     var form_data = new FormData();
     for (var key in data) {
