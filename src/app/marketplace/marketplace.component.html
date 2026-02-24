@@ -1,14 +1,15 @@
 <style>
-    .marketplace-hero{
+  .marketplace-hero {
     background: url(assets/images/marketplacebg.jpg);
     background-size: cover;
-background-position: right;
-}
-.vehdetails{
-  min-height: 50px;
-  max-height: 50px;
+    background-position: right;
+  }
 
-}
+  .vehdetails {
+    min-height: 50px;
+    max-height: 50px;
+
+  }
 </style>
 
 
@@ -20,15 +21,17 @@ background-position: right;
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form class="form" name="custENquiry" #cnqForm="ngForm" method="POST" (ngSubmit)="customEnquiry(this.customData)">
+        <form class="form" name="custENquiry" #cnqForm="ngForm" method="POST"
+          (ngSubmit)="customEnquiry(this.customData)">
 
 
-            <div class="form-group mb-2">
-              <label class="label_popup">Vahan Category</label>
-                  <label class="input-wrap" for="{{cat.name}}" *ngFor="let cat of categoryList">
-                    <input type="checkbox" value="{{cat.id}}" id="{{cat.name}}" name="cat" (change)="setcustomCat($event);getBrandByBrandMultiple($event)">
-                     {{cat.name}}
-                  </label>
+          <div class="form-group mb-2">
+            <label class="label_popup">Vahan Category</label>
+            <label class="input-wrap" for="{{cat.name}}" *ngFor="let cat of categoryList">
+              <input type="checkbox" value="{{cat.id}}" id="{{cat.name}}" name="cat"
+                (change)="setcustomCat($event);getBrandByBrandMultiple($event)">
+              {{cat.name}}
+            </label>
 
           </div>
           <div class="form-group mb-2">
@@ -37,12 +40,13 @@ background-position: right;
               <label class="label_popup">Make</label>
               <ul>
                 <li *ngFor="let brand of brandList">
-                     <label class="input-wrap" for="{{brand.name}}1">
-                    <input type="checkbox" value="{{brand.id}}" id="{{brand.name}}1" name="brand" class="" (change)="getModelByBrandMultiple($event);setcustomBrand($event);">
+                  <label class="input-wrap" for="{{brand.name}}1">
+                    <input type="checkbox" value="{{brand.id}}" id="{{brand.name}}1" name="brand" class=""
+                      (change)="getModelByBrandMultiple($event);setcustomBrand($event);">
                     {{brand.name}}
                   </label>
                 </li>
-            </ul>
+              </ul>
             </div>
 
           </div>
@@ -50,61 +54,62 @@ background-position: right;
           <div class="form-group mb-2">
 
             <div class="scroll-custom">
-                <label class="label_popup">Model</label>
+              <label class="label_popup">Model</label>
 
-                <ul>
-                    <li *ngFor="let model of modelList">
+              <ul>
+                <li *ngFor="let model of modelList">
 
-                    <label class="input-wrap" for="{{model.name}}">
-                        <input type="checkbox" value="{{model.id}}" name="model" class="" (change)="setcustomModel($event)">
-                        {{model.name}}
-                    </label>
-                    </li>
-                </ul>
+                  <label class="input-wrap" for="{{model.name}}">
+                    <input type="checkbox" value="{{model.id}}" name="model" class="" (change)="setcustomModel($event)">
+                    {{model.name}}
+                  </label>
+                </li>
+              </ul>
             </div>
 
           </div>
 
           <div class="form-group mb-2">
-              <!-- <label class="label_popup" class="label_popup">Ownership</label>
-              <input type="number" value="" placeholder="1" class="form-control" name="ownership" [(ngModel)]="customData.ownership"> -->
+            <label class="label_popup">Owners</label>
+            <div class="d-flex flex-wrap gap-2">
               <label class="input-wrap" for="1">
                 <input type="checkbox" value="1" name="model" class="" (change)="setOwnershipFilter($event)">
-               1
-            </label>
-            <label class="input-wrap" for="2">
-              <input type="checkbox" value="2" name="model" class="" (change)="setOwnershipFilter($event)">
-             2
-          </label>
-          <label class="input-wrap" for="3">
-            <input type="checkbox" value="3" name="model" class="" (change)="setOwnershipFilter($event)">
-           3
-        </label>
-        <label class="input-wrap" for="4">
-          <input type="checkbox" value="4" name="model" class="" (change)="setOwnershipFilter($event)">
-         4
-      </label>
+                1
+              </label>
+              <label class="input-wrap" for="2">
+                <input type="checkbox" value="2" name="model" class="" (change)="setOwnershipFilter($event)">
+                2
+              </label>
+              <label class="input-wrap" for="3">
+                <input type="checkbox" value="3" name="model" class="" (change)="setOwnershipFilter($event)">
+                3
+              </label>
+              <label class="input-wrap" for="4">
+                <input type="checkbox" value="4" name="model" class="" (change)="setOwnershipFilter($event)">
+                4
+              </label>
+            </div>
           </div>
 
 
           <div class="form-group mb-2">
             <label class="label_popup" class="label_popup">Price</label>
             <input type="text" value="" placeholder="" class="form-control" name="price" [(ngModel)]="customData.price">
-        </div>
+          </div>
 
-        <div class="form-group mb-2">
+          <div class="form-group mb-2">
             <label class="label_popup" class="label_popup">Description</label>
-           <textarea class="form-control" name="Description"  [(ngModel)]="customData.Description" rows="4"></textarea>
+            <textarea class="form-control" name="Description" [(ngModel)]="customData.Description" rows="4"></textarea>
 
-        </div>
+          </div>
 
           <div class="form-group mb-2">
             <input type="submit" value="Enquire Now" placeholder="1" class="btn btn-primary">
           </div>
-      </form>
+        </form>
       </div>
       <div class="modal-footer">
-        <button type="button"  #closeModal class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" #closeModal class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
@@ -131,110 +136,117 @@ background-position: right;
       <div class="modal-body">
         <div class="sidebar-marketplace">
 
-        <div class="col-12 text-left" *ngIf="userType == 'DEALER'">
+          <div class="col-12 text-left" *ngIf="userType == 'DEALER'">
             <label>BUY Vahan From</label>
             <br>
             <label class=""> <input (change)="setBuyFrom($event)" value="USER" type="checkbox"> Customer</label><br>
             <label class=""> <input (change)="setBuyFrom($event)" value="DEALER" type="checkbox"> Dealer</label>
 
-       </div>
+          </div>
 
-        <!-- for dealer -->
-    <div class="col-12" *ngIf="userId">
-        <br>
-        Send Requiement to all Dealers - <a href="javascript:void(0)" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Send Buy Requirement</a><br><br>
-        <h5>Filters:</h5>
-    </div>
-    <div class="col-12">
-        <form class="form-filter form" name="mpFilter" #filterForm="ngForm" method="POST" (ngSubmit)="onMPFilterVehicle(this.formData)">
+          <!-- for dealer -->
+          <div class="col-12" *ngIf="userId">
+            <br>
+            Send Requiement to all Dealers - <a href="javascript:void(0)" class="btn btn-primary" data-bs-toggle="modal"
+              data-bs-target="#exampleModal">Send Buy Requirement</a><br><br>
+            <h5>Filters:</h5>
+          </div>
+          <div class="col-12">
+            <form class="form-filter form" name="mpFilter" #filterForm="ngForm" method="POST"
+              (ngSubmit)="onMPFilterVehicle(this.formData)">
 
-            <div class="col-12 form-group mb-2">
+              <div class="col-12 form-group mb-2">
                 <label class="label_popup">Vahan Category</label>
-                    <label class="input-wrap" for="{{cat.name}}2" *ngFor="let cat of categoryList">
-                      <input type="checkbox" value="{{cat.id}}" id="{{cat.name}}" name="cat" (change)="setcustomCatV2($event);getBrandByBrandMultiple($event)">
-                       {{cat.name}}
-                    </label>
+                <label class="input-wrap" for="{{cat.name}}2" *ngFor="let cat of categoryList">
+                  <input type="checkbox" value="{{cat.id}}" id="{{cat.name}}" name="cat"
+                    (change)="setcustomCatV2($event);getBrandByBrandMultiple($event)">
+                  {{cat.name}}
+                </label>
 
-            </div>
+              </div>
 
 
-             <div class="col-12 form-group mb-2">
+              <div class="col-12 form-group mb-2">
                 <div class="scroll-custom">
                   <label class="label_popup">Brand</label>
-                  <ng-multiselect-dropdown
-[placeholder]="'Select Brand'"
-[settings]="dropdownSettings"
-[data]="brandList"
-[(ngModel)]="selectedItems"
-name="brand_id"
-(onSelect)="onItemBrandSelect($event)"
-(onDeSelect)="onBrandDeselect($event)"
->
-</ng-multiselect-dropdown>
-            </div>
+                  <ng-multiselect-dropdown [placeholder]="'Select Brand'" [settings]="dropdownSettings"
+                    [data]="brandList" [(ngModel)]="selectedItems" name="brand_id"
+                    (onSelect)="onItemBrandSelect($event)" (onDeSelect)="onBrandDeselect($event)">
+                  </ng-multiselect-dropdown>
+                </div>
 
-      </div>
+              </div>
 
-      <div class="col-12 form-group mb-2">
-        <div class="scroll-custom">
-          <label class="label_popup">Model</label>
-          <ng-multiselect-dropdown
-          [placeholder]="'Select Model'"
-          [settings]="dropdownSettingsv2"
-          [data]="modelList"
-          [(ngModel)]="selectedItemsV2"
-          name="model_id"
-          (onSelect)="onItemModelSelect($event)"
-          (onDeSelect)="onModelDeselect($event)"
-        >
-        </ng-multiselect-dropdown>
-        </div>
+              <div class="col-12 form-group mb-2">
+                <div class="scroll-custom">
+                  <label class="label_popup">Model</label>
+                  <ng-multiselect-dropdown [placeholder]="'Select Model'" [settings]="dropdownSettingsv2"
+                    [data]="modelList" [(ngModel)]="selectedItemsV2" name="model_id"
+                    (onSelect)="onItemModelSelect($event)" (onDeSelect)="onModelDeselect($event)">
+                  </ng-multiselect-dropdown>
+                </div>
 
-      </div>
+              </div>
 
-      <div class="col-12 form-group mb-2">
+              <div class="col-12 form-group mb-2">
 
-        <select class="form-control" name="state" [(ngModel)]="formData.state" (change)="getAllCityByState($event)">
-            <option value="undefined">Select State</option>
-            <option *ngFor="let state of stateList" value="{{state.id}}">{{state.state}}</option>
-        </select>
-    </div>
-
-    <div class="col-12 form-group mb-2">
-
-      <select class="form-control" name="city" [(ngModel)]="formData.city">
-          <option value="undefined">Select City</option>
-          <option *ngFor="let city of cityList" value="{{city.id}}">{{city.city}}</option>
-      </select>
-  </div>
-
-            <div class="col-12 form-group mb-2">
-
-                <select class="form-control" name="ownership" [(ngModel)]="formData.ownership">
-                    <option value="undefined">Select Ownership</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
+                <select class="form-control" name="state" [(ngModel)]="formData.state"
+                  (change)="getAllCityByState($event)">
+                  <option value="undefined">Select State</option>
+                  <option *ngFor="let state of stateList" value="{{state.id}}">{{state.state}}</option>
                 </select>
-            </div>
+              </div>
 
-            <div class="col-12 form-group mb-2">
+              <div class="col-12 form-group mb-2">
+
+                <select class="form-control" name="city" [(ngModel)]="formData.city">
+                  <option value="undefined">Select City</option>
+                  <option *ngFor="let city of cityList" value="{{city.id}}">{{city.city}}</option>
+                </select>
+              </div>
+
+              <div class="col-12 form-group mb-2">
+                <label class="label_popup">Owners</label>
+                <div class="d-flex flex-wrap gap-2">
+                  <label class="input-wrap" for="m1">
+                    <input type="checkbox" value="1" id="m1" name="model" class=""
+                      (change)="setOwnershipFilter($event)">
+                    1
+                  </label>
+                  <label class="input-wrap" for="m2">
+                    <input type="checkbox" value="2" id="m2" name="model" class=""
+                      (change)="setOwnershipFilter($event)">
+                    2
+                  </label>
+                  <label class="input-wrap" for="m3">
+                    <input type="checkbox" value="3" id="m3" name="model" class=""
+                      (change)="setOwnershipFilter($event)">
+                    3
+                  </label>
+                  <label class="input-wrap" for="m4">
+                    <input type="checkbox" value="4" id="m4" name="model" class=""
+                      (change)="setOwnershipFilter($event)">
+                    4
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-12 form-group mb-2">
                 <input class="form-control" type="text" placeholder="Year" name="year" [(ngModel)]="formData.year">
-            </div>
-            <div class="col-12 form-group mb-2">
+              </div>
+              <div class="col-12 form-group mb-2">
                 <input class="form-control" type="text" placeholder="Price" name="price" [(ngModel)]="formData.price">
-            </div>
+              </div>
 
-            <div class="col-12 form-group">
+              <div class="col-12 form-group">
                 <input class="" type="submit" class="btn btn-primary" value="Filter">
-            </div>
-        </form>
-    </div>
-  </div>
+              </div>
+            </form>
+          </div>
+        </div>
       </div>
       <div class="modal-footer">
-        <button type="button"  #closeModal class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" #closeModal class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
@@ -248,243 +260,228 @@ Filter Modal End
 -->
 
 <section class="section pb-0 marketplace-hero">
-<div class="container mt-50">
-      <div class="row justify-content-center">
-          <div class="col">
-              <div class="section-title mb-4 pb-2">
-                  <h4 class="title mb-3">VahanAssist Marketplace.</h4>
-                  <h5 class=" para-desc mb-0">Your Vehicle Our Expertise  A great platform to buy & sell Vahan at 0% commission.</h5>
-                    <p>
-                        Experience the future of vehicle buying and selling with VahanAssist. With our innovative features, zero percent commission model, and commitment to customer satisfaction, we are revolutionizing the automotive marketplace. Join us today and embark on a journey towards seamless transactions and unparalleled convenience.
-                    </p>
+  <div class="container mt-50">
+    <div class="row justify-content-center">
+      <div class="col">
+        <div class="section-title mb-4 pb-2">
+          <h4 class="title mb-3">VahanAssist Marketplace.</h4>
+          <h5 class=" para-desc mb-0">Your Vehicle Our Expertise A great platform to buy & sell Vahan at 0% commission.
+          </h5>
+          <p>
+            Experience the future of vehicle buying and selling with VahanAssist. With our innovative features, zero
+            percent commission model, and commitment to customer satisfaction, we are revolutionizing the automotive
+            marketplace. Join us today and embark on a journey towards seamless transactions and unparalleled
+            convenience.
+          </p>
 
-              </div>
-          </div><!--end col-->
-      </div><!--end row-->
-      </div>
-      </section>
-    <section class="section bg-gray market-wrap">
-    <div class="container mt-50">
-      <div class="row g-4 mt-0">
-        <div class="col-12 col-md-3">
-            <div class="d-block d-sm-none">
-                <a href="javascript:void(0)" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#filtermodal">View Filters</a>
-            </div>
-            <div class="d-none d-sm-block">
-            <div class="sidebar-marketplace">
+        </div>
+      </div><!--end col-->
+    </div><!--end row-->
+  </div>
+</section>
+<section class="section bg-gray market-wrap">
+  <div class="container mt-50">
+    <div class="row g-4 mt-0">
+      <div class="col-12 col-md-3">
+        <div class="d-block d-sm-none">
+          <a href="javascript:void(0)" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#filtermodal">View
+            Filters</a>
+        </div>
+        <div class="d-none d-sm-block">
+          <div class="sidebar-marketplace">
 
             <div class="col-12 text-left" *ngIf="userType == 'DEALER'">
-                <label>BUY Vahan From</label>
-                <br>
-                <label class=""> <input (change)="setBuyFrom($event)" value="USER" type="checkbox"> Customer</label><br>
-                <label class=""> <input (change)="setBuyFrom($event)" value="DEALER" type="checkbox"> Dealer</label>
+              <label>BUY Vahan From</label>
+              <br>
+              <label class=""> <input (change)="setBuyFrom($event)" value="USER" type="checkbox"> Customer</label><br>
+              <label class=""> <input (change)="setBuyFrom($event)" value="DEALER" type="checkbox"> Dealer</label>
 
-           </div>
+            </div>
 
             <!-- for dealer -->
-        <div class="col-12" *ngIf="userId">
-            <br>
-            Send Requiement to all Dealers - <a href="javascript:void(0)" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Send Buy Requirement</a><br><br>
-            <h5>Filters: <a class="clear-filter" href="javascript:void(0)" (click)="clearFilter()">Clear Filters</a> </h5>
-        </div>
-        <div class="col-12">
-            <form class="form-filter form" name="mpFilter" #filterForm="ngForm" method="POST" (ngSubmit)="onMPFilterVehicle(this.formData)">
+            <div class="col-12" *ngIf="userId">
+              <br>
+              Send Requiement to all Dealers - <a href="javascript:void(0)" class="btn btn-primary"
+                data-bs-toggle="modal" data-bs-target="#exampleModal">Send Buy Requirement</a><br><br>
+              <h5>Filters: <a class="clear-filter" href="javascript:void(0)" (click)="clearFilter()">Clear Filters</a>
+              </h5>
+            </div>
+            <div class="col-12">
+              <form class="form-filter form" name="mpFilter" #filterForm="ngForm" method="POST"
+                (ngSubmit)="onMPFilterVehicle(this.formData)">
 
                 <div class="col-12 form-group mb-2">
-                    <label class="label_popup">Vahan Category</label>
-                        <label class="input-wrap" for="{{cat.name}}2" *ngFor="let cat of categoryList">
-                          <input type="checkbox" value="{{cat.id}}" id="{{cat.name}}2" name="cat" (change)="setcustomCatV2($event);getBrandByBrandMultiple($event)">
-                           {{cat.name}}
-                        </label>
+                  <label class="label_popup">Vahan Category</label>
+                  <label class="input-wrap" for="{{cat.name}}2" *ngFor="let cat of categoryList">
+                    <input type="checkbox" value="{{cat.id}}" id="{{cat.name}}2" name="cat"
+                      (change)="setcustomCatV2($event);getBrandByBrandMultiple($event)">
+                    {{cat.name}}
+                  </label>
 
                 </div>
 
 
-                 <div class="form-group mb-2">
+                <div class="form-group mb-2">
 
-                <div class="scroll-custom">
+                  <div class="scroll-custom">
                     <label class="label_popup">Brand</label>
-                     <ng-multiselect-dropdown
-  [placeholder]="'Select Brand'"
-  [settings]="dropdownSettings"
-  [data]="brandList"
-  [(ngModel)]="selectedItems"
-  name="brand_id"
-  (onSelect)="onItemBrandSelect($event)"
-  (onDeSelect)="onBrandDeselect($event)"
->
-</ng-multiselect-dropdown>
+                    <ng-multiselect-dropdown [placeholder]="'Select Brand'" [settings]="dropdownSettings"
+                      [data]="brandList" [(ngModel)]="selectedItems" name="brand_id"
+                      (onSelect)="onItemBrandSelect($event)" (onDeSelect)="onBrandDeselect($event)">
+                    </ng-multiselect-dropdown>
 
                   </div>
 
-          </div>
+                </div>
 
-          <div class="form-group mb-2">
+                <div class="form-group mb-2">
 
-                <div class="scroll-custom">
+                  <div class="scroll-custom">
                     <label class="label_popup">Model</label>
-                    <ng-multiselect-dropdown
-                    [placeholder]="'Select Model'"
-                    [settings]="dropdownSettingsv2"
-                    [data]="modelList"
-                    [(ngModel)]="selectedItemsV2"
-                    name="model_id"
-                    (onSelect)="onItemModelSelect($event)"
-                    (onDeSelect)="onModelDeselect($event)"
-                  >
-                  </ng-multiselect-dropdown>
+                    <ng-multiselect-dropdown [placeholder]="'Select Model'" [settings]="dropdownSettingsv2"
+                      [data]="modelList" [(ngModel)]="selectedItemsV2" name="model_id"
+                      (onSelect)="onItemModelSelect($event)" (onDeSelect)="onModelDeselect($event)">
+                    </ng-multiselect-dropdown>
+
+                  </div>
 
                 </div>
 
-          </div>
-
-          <div class="col-12 form-group mb-2">
-            <ng-multiselect-dropdown
-                    [placeholder]="'Select State'"
-                    [settings]="dropdownStateSettingsv2"
-                    [data]="stateList"
-                    [(ngModel)]="selectedItemsState"
-                    name="model_id"
-                    (onSelect)="onItemModelStateSelect($event)"
-                    (onDeSelect)="onModelStateDeselect($event)"
-                  >
+                <div class="col-12 form-group mb-2">
+                  <ng-multiselect-dropdown [placeholder]="'Select State'" [settings]="dropdownStateSettingsv2"
+                    [data]="stateList" [(ngModel)]="selectedItemsState" name="model_id"
+                    (onSelect)="onItemModelStateSelect($event)" (onDeSelect)="onModelStateDeselect($event)">
                   </ng-multiselect-dropdown>
-<!--
+                  <!--
             <select class="form-control" name="state" [(ngModel)]="formData.state">
                 <option value="undefined">Select State</option>
                 <option *ngFor="let state of stateList" value="{{state.id}}">{{state.state}}</option>
 
             </select> -->
-        </div>
+                </div>
 
-        <div class="col-12 form-group mb-2">
-          <ng-multiselect-dropdown
-          [placeholder]="'Select City'"
-          [settings]="dropdownCitySettingsv2"
-          [data]="cityList"
-          [(ngModel)]="selectedItemsCity"
-          name="model_id"
-          (onSelect)="onItemModelCitySelect($event)"
-          (onDeSelect)="onModelCityDeselect($event)"
-        >
-        </ng-multiselect-dropdown>
-          <!-- <select class="form-control" name="city" [(ngModel)]="formData.city">
+                <div class="col-12 form-group mb-2">
+                  <ng-multiselect-dropdown [placeholder]="'Select City'" [settings]="dropdownCitySettingsv2"
+                    [data]="cityList" [(ngModel)]="selectedItemsCity" name="model_id"
+                    (onSelect)="onItemModelCitySelect($event)" (onDeSelect)="onModelCityDeselect($event)">
+                  </ng-multiselect-dropdown>
+                  <!-- <select class="form-control" name="city" [(ngModel)]="formData.city">
               <option value="undefined">Select City</option>
               <option *ngFor="let city of cityList" value="{{city.id}}">{{city.city}}</option>
           </select> -->
-      </div>
+                </div>
 
 
                 <div class="col-12 form-group mb-2">
-
-                  <label class="input-wrap" for="1">
-                    <input type="checkbox" value="1" name="model" class="" (change)="setOwnershipFilter($event)">
-                    1
-                </label>
-                <label class="input-wrap" for="2">
-                  <input type="checkbox" value="2" name="model" class="" (change)="setOwnershipFilter($event)">
-                  2
-              </label>
-              <label class="input-wrap" for="3">
-                <input type="checkbox" value="3" name="model" class="" (change)="setOwnershipFilter($event)">
-                3
-            </label>
-            <label class="input-wrap" for="4">
-              <input type="checkbox" value="4" name="model" class="" (change)="setOwnershipFilter($event)">
-              4
-          </label>
-                    <!-- <select class="form-control" name="ownership" [(ngModel)]="formData.ownership">
-                        <option value="undefined">Select Ownership</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                    </select> -->
+                  <label class="label_popup">Owners</label>
+                  <div class="d-flex flex-wrap gap-2">
+                    <label class="input-wrap" for="1">
+                      <input type="checkbox" value="1" name="model" class="" (change)="setOwnershipFilter($event)">
+                      1
+                    </label>
+                    <label class="input-wrap" for="2">
+                      <input type="checkbox" value="2" name="model" class="" (change)="setOwnershipFilter($event)">
+                      2
+                    </label>
+                    <label class="input-wrap" for="3">
+                      <input type="checkbox" value="3" name="model" class="" (change)="setOwnershipFilter($event)">
+                      3
+                    </label>
+                    <label class="input-wrap" for="4">
+                      <input type="checkbox" value="4" name="model" class="" (change)="setOwnershipFilter($event)">
+                      4
+                    </label>
+                  </div>
                 </div>
 
                 <div class="col-12 form-group mb-2">
-                    <input class="form-control" type="text" placeholder="Year" name="year" [(ngModel)]="formData.year">
+                  <input class="form-control" type="text" placeholder="Year" name="year" [(ngModel)]="formData.year">
                 </div>
                 <div class="col-12 form-group mb-2">
-                    <input class="form-control" type="text" placeholder="Price" name="price" [(ngModel)]="formData.price">
+                  <input class="form-control" type="text" placeholder="Price" name="price" [(ngModel)]="formData.price">
                 </div>
 
                 <div class="col-12 form-group">
-                    <input class="" type="submit" class="btn btn-primary btn-block" value="Apply Filter">
+                  <input class="" type="submit" class="btn btn-primary btn-block" value="Apply Filter">
                 </div>
-            </form>
+              </form>
+            </div>
+          </div>
         </div>
+        <!-- d-none d-sm-block -->
       </div>
-    </div>
-    <!-- d-none d-sm-block -->
-    </div>
       <!-- col-3 -->
 
 
 
       <div class="col-12 col-md-9 col-lg-9 ">
         <div class="col-12 col-lg-12">
-            <input class="form-control search-marketplace" placeholder="Search by Brand or Model & click suggestions" type="text" (keyup) = "searchCars($event)">
-            <div class="search-drop">
-                <ul class="search-suggestion" *ngIf="searchResult && searchResult.length > 0">
-                    <li *ngFor="let result of searchResult" (click)="searchWithClick(result.search_key,result.search_id)">{{result.name}}</li>
-                </ul>
+          <input class="form-control search-marketplace" placeholder="Search by Brand or Model & click suggestions"
+            type="text" (keyup)="searchCars($event)">
+          <div class="search-drop">
+            <ul class="search-suggestion" *ngIf="searchResult && searchResult.length > 0">
+              <li *ngFor="let result of searchResult" (click)="searchWithClick(result.search_key,result.search_id)">
+                {{result.name}}</li>
+            </ul>
 
-            </div>
+          </div>
         </div>
 
         <div class="main-marketplace col-12 col-lg-12">
-          <div class="col-lg-4 col-md-6 col-12 p-10"  *ngFor="let veh of vehicleList | paginate: { itemsPerPage: 10, currentPage: p,totalItems: total }">
-            <a routerLinkActive="router-link-active" class="vahan-a" href="javascript:void(0)" (click)="checkLoginUser(veh.regno,veh.added_by)" >
+          <div class="col-lg-4 col-md-6 col-12 p-10"
+            *ngFor="let veh of vehicleList | paginate: { itemsPerPage: 10, currentPage: p,totalItems: total }">
+            <a routerLinkActive="router-link-active" class="vahan-a" href="javascript:void(0)"
+              (click)="checkLoginUser(veh.regno,veh.added_by)">
               <div class="card property border-0 shadow position-relative overflow-hidden rounded-3">
-                  <div class="property-image-home position-relative overflow-hidden">
-                      <img *ngIf="!veh.image" src="assets/images/car.jpg" class="img-fluid" alt="">
-                      <img *ngIf="veh.image" src="{{imageUrl}}{{veh.image}}" class="img-fluid" alt="">
-                      <!-- <ul class="list-unstyled property-icon">
+                <div class="property-image-home position-relative overflow-hidden">
+                  <img *ngIf="!veh.image" src="assets/images/car.jpg" class="img-fluid" alt="">
+                  <img *ngIf="veh.image" src="{{imageUrl}}{{veh.image}}" class="img-fluid" alt="">
+                  <!-- <ul class="list-unstyled property-icon">
 
                           <li class="mt-1"><a href="javascript:void(0)" class="btn btn-sm btn-icon btn-pills btn-primary"><i data-feather="heart" class="icons"></i>heart</a></li>
                       </ul> -->
-                  </div>
-                  <div class="card-body content p-2">
-                    <h5 class="title fs-5 text-dark fw-medium">{{veh.year}} {{veh.brand_name}} {{veh.model_name}}</h5>
+                </div>
+                <div class="card-body content p-2">
+                  <h5 class="title fs-5 text-dark fw-medium">{{veh.year}} {{veh.brand_name}} {{veh.model_name}}</h5>
 
-                    <ul class="list-unstyled border-top border-bottom d-flex align-items-center justify-content-between">
-                        <li class="d-flex align-items-center me-3 vehdetails">
-                            <i class="mdi mdi-car-info fs-5 me-2 text-primary"></i>
-                            <span class="text-muted">{{veh.kms}} KM - {{veh.fuel_type}} - {{veh.variant}}</span>
-                        </li>
+                  <ul class="list-unstyled border-top border-bottom d-flex align-items-center justify-content-between">
+                    <li class="d-flex align-items-center me-3 vehdetails">
+                      <i class="mdi mdi-car-info fs-5 me-2 text-primary"></i>
+                      <span class="text-muted">{{veh.kms}} KM - {{veh.fuel_type}} - {{veh.variant}}</span>
+                    </li>
 
-                    </ul>
-                    <ul class="list-unstyled d-flex justify-content-between mt-2 mb-0">
-                        <li class="list-inline-item mb-0">
-                            <!-- <span *ngIf="veh.discount_percent > 0" class="text-muted price">{{veh.price}}</span>
+                  </ul>
+                  <ul class="list-unstyled d-flex justify-content-between mt-2 mb-0">
+                    <li class="list-inline-item mb-0">
+                      <!-- <span *ngIf="veh.discount_percent > 0" class="text-muted price">{{veh.price}}</span>
                             <span *ngIf="veh.discount_percent > 0" class="fw-medium mb-0"> <i class="mdi mdi-currency-inr fs-5 text-primary"></i> {{veh.discount_price}}</span> -->
-                            <span class="fw-medium mb-0"> <i class="mdi mdi-currency-inr fs-5 text-primary"></i> {{veh.price}}</span>
-                        </li>
+                      <span class="fw-medium mb-0"> <i class="mdi mdi-currency-inr fs-5 text-primary"></i>
+                        {{veh.price}}</span>
+                    </li>
 
-                        <li class="list-inline-item mb-0">
-                            <i class="mdi mdi-location-enter fs-5 me-2 text-primary"></i>
-                            <span class="text-muted">{{veh.city_name}}</span>
-                        </li>
+                    <li class="list-inline-item mb-0">
+                      <i class="mdi mdi-location-enter fs-5 me-2 text-primary"></i>
+                      <span class="text-muted">{{veh.city_name}}</span>
+                    </li>
 
-                        <!-- <li class="list-inline-item mb-0">
+                    <!-- <li class="list-inline-item mb-0">
                           <i class="mdi mdi-location-enter fs-5 me-2 text-primary"></i>
                           <span class="text-muted">{{veh.state_name}}</span>
                       </li> -->
 
 
-                    </ul>
-                    <ul class="list-unstyled d-flex justify-content-between mt-2 mb-0">
-                        <li class="list-inline-item mb-0">
-                            <i class="mdi mdi-face-man-outline fs-5 me-2 text-primary"></i>
-                            <span class="text-muted" *ngIf="veh.added_type != 'DEALER'">Customer</span>
-                            <span class="text-muted" *ngIf="veh.added_type == 'DEALER'">{{veh.dealer_name}}</span>
-                        </li>
+                  </ul>
+                  <ul class="list-unstyled d-flex justify-content-between mt-2 mb-0">
+                    <li class="list-inline-item mb-0">
+                      <i class="mdi mdi-face-man-outline fs-5 me-2 text-primary"></i>
+                      <span class="text-muted" *ngIf="veh.added_type != 'DEALER'">Customer</span>
+                      <span class="text-muted" *ngIf="veh.added_type == 'DEALER'">{{veh.dealer_name}}</span>
+                    </li>
 
-                        <li>
-                          <span class="listingtype">{{veh.listingtype}}</span>
-                      </li>
-                        </ul>
+                    <li>
+                      <span class="listingtype">{{veh.listingtype}}</span>
+                    </li>
+                  </ul>
                 </div>
               </div>
             </a>
@@ -493,16 +490,16 @@ Filter Modal End
 
 
           <div class="col-12 mt-4 pt-2">
-              <div class="text-center">
-                  <!-- <a href="" class="mt-3 fs-6 text-primary">View More <i class="mdi mdi-arrow-right align-middle"></i></a> -->
-                  <pagination-controls (pageChange)="onTableDataChange($event)"></pagination-controls>
-              </div>
+            <div class="text-center">
+              <!-- <a href="" class="mt-3 fs-6 text-primary">View More <i class="mdi mdi-arrow-right align-middle"></i></a> -->
+              <pagination-controls (pageChange)="onTableDataChange($event)"></pagination-controls>
+            </div>
           </div>
+        </div>
       </div>
-    </div>
       <!--col-9-->
 
 
-  </div>
+    </div>
   </div><!--end container-->
 </section>

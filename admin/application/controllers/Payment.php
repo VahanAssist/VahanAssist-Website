@@ -31,15 +31,21 @@ class Payment extends CI_Controller
 		$packageId = $this->input->post('package_id');
 
 		$getPackage = $this->Manage_product->getSubscriptionById($packageId);
+		
+		if(empty($getPackage)) {
+			echo json_encode(array('status' => 'error', 'msg' => 'Invalid Package Selected!'));
+			return;
+		}
+
 		$amount = intval($getPackage[0]['price']);
 
-		$api = new Api('rzp_test_e8qlrwMACF9ZqQ', '889tL8znCpqiV0yeOVAiWB4t');
+		$api = new Api('rzp_live_SJ4vZVaVQgQY12', 'UfzHMM81gfApr2hn1XrcwN26');
 
 		$razorpayOrder = $api->order->create(array(
 			'receipt'         => "VH".rand(),
 			'amount'          => $amount * 100, // 2000 rupees in paise
 			'currency'        => 'INR',
-			'payment_capture' => 0 // auto capture
+			'payment_capture' => 1 // auto capture
 		));
 		$razorpayOrderId = $razorpayOrder['id'];
 
@@ -51,6 +57,11 @@ class Payment extends CI_Controller
 
 		$getUser = $this->Manage_product->getUserById($userId);
 		$res = $this->Manage_product->insertPayment($data);
+
+		if(empty($getUser)) {
+			echo json_encode(array('status' => 'error', 'msg' => 'User not found!'));
+			return;
+		}
 
 		$reponseArr['name'] = $getUser[0]['firstName'];
 		$reponseArr['email'] = $getUser[0]['email'];
@@ -74,8 +85,7 @@ class Payment extends CI_Controller
 
 		$success = true;
 		if (empty($_POST['razorpay_payment_id']) === false) {
-			$api = new Api('rzp_test_e8qlrwMACF9ZqQ', '889tL8znCpqiV0yeOVAiWB4t');
-			// $api = new Api('rzp_live_Ukhim9fMDQS6r7','E7EbNb1oCEYmi8Bjy59bkU16');
+			$api = new Api('rzp_live_SJ4vZVaVQgQY12', 'UfzHMM81gfApr2hn1XrcwN26');
 			try {
 				$attributes = array(
 					'razorpay_order_id' => $order_id,
@@ -112,9 +122,7 @@ class Payment extends CI_Controller
 
 	public function pay()
 	{
-		$api = new Api('rzp_test_e8qlrwMACF9ZqQ', '889tL8znCpqiV0yeOVAiWB4t');
-
-		// $api = new Api('rzp_live_Ukhim9fMDQS6r7','E7EbNb1oCEYmi8Bjy59bkU16');
+		$api = new Api('rzp_live_SJ4vZVaVQgQY12', 'UfzHMM81gfApr2hn1XrcwN26');
 
 		/**
 		 * You can calculate payment amount as per your logic
@@ -149,8 +157,7 @@ class Payment extends CI_Controller
 		$success = true;
 		$error = "payment_failed";
 		if (empty($_POST['razorpay_payment_id']) === false) {
-			$api = new Api('rzp_test_e8qlrwMACF9ZqQ', '889tL8znCpqiV0yeOVAiWB4t');
-			// $api = new Api('rzp_live_Ukhim9fMDQS6r7','E7EbNb1oCEYmi8Bjy59bkU16');
+			$api = new Api('rzp_live_SJ4vZVaVQgQY12', 'UfzHMM81gfApr2hn1XrcwN26');
 			try {
 				$attributes = array(
 					'razorpay_order_id' => $_SESSION['razorpay_order_id'],
@@ -186,7 +193,7 @@ class Payment extends CI_Controller
 	{
 		$getUser = $this->User_model->getUsers($_SESSION['login_id']);
 		$data = array(
-			"key" => 'rzp_test_e8qlrwMACF9ZqQ',
+			"key" => 'rzp_live_SJ4vZVaVQgQY12',
 			"amount" => $amount,
 			"name" => "DUKANSE",
 			"description" => "Best Shops",

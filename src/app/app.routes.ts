@@ -29,46 +29,48 @@ import { PrivacyComponent } from './privacy/privacy.component';
 import { RtoComponent } from './rto/rto.component';
 import { InsuranceComponent } from './insurance/insurance.component';
 import { TowingComponent } from './towing/towing.component';
+import { ViewBookingComponent } from './view-booking/view-booking.component';
 
 export const routes: Routes = [
-  { path: '', component:HomeComponent},
-   {path: 'home', component: HomeComponent},
-   {path: 'driver-booking', component: DriverBookingComponent},
-   {path: 'trailor-booking', component: TrailorBookingComponent},
-   {path: 'inspection', component: InspectionComponent},
+  { path: '', component: HomeComponent },
+  { path: 'home', component: HomeComponent },
+  { path: 'driver-booking', component: DriverBookingComponent },
+  { path: 'trailor-booking', component: TrailorBookingComponent },
+  { path: 'inspection', component: InspectionComponent },
 
-   {path: 'login', component: LoginComponent},
-   {path: 'signup', component: SignupComponent},
-   {path: 'forgot-password', component: ForgotpwdComponent},
+  { path: 'login', component: LoginComponent },
+  { path: 'signup', component: SignupComponent },
+  { path: 'forgot-password', component: ForgotpwdComponent },
 
-   {path: 'dealer-signup', component: DealerSignupComponent},
-   {path: 'contact', component: ContactComponent},
-   {path: 'about', component: AboutComponent},
-   {path: 'subscription', component: SubscriptionComponent},
-   {path: 'marketplace', component: MarketplaceComponent},
-   {path: 'dealer-details/:id', component: DealerDetailsComponent},
-   {path: 'user-profile', component: UserProfileComponent, canActivate: [authGuard]},
-   {path: 'user-account', component: UserAccountComponent, canActivate: [authGuard]},
-   {path: 'add-vehicle', component: AddVehicleComponent, canActivate: [authGuard]},
-   {path: 'view-vehicle', component: ViewVehicleComponent, canActivate: [authGuard]},
-   {path: 'view-enquiry', component: ViewEnquiryComponent, canActivate: [authGuard]},
-   {path: 'view-custom-enquiry', component: ViewCustomEnquiryComponent, canActivate: [authGuard]},
+  { path: 'dealer-signup', component: DealerSignupComponent },
+  { path: 'contact', component: ContactComponent },
+  { path: 'about', component: AboutComponent },
+  { path: 'subscription', component: SubscriptionComponent },
+  { path: 'marketplace', component: MarketplaceComponent },
+  { path: 'dealer-details/:id', component: DealerDetailsComponent },
+  { path: 'user-profile', component: UserProfileComponent, canActivate: [authGuard] },
+  { path: 'user-account', component: UserAccountComponent, canActivate: [authGuard] },
+  { path: 'add-vehicle', component: AddVehicleComponent, canActivate: [authGuard] },
+  { path: 'view-vehicle', component: ViewVehicleComponent, canActivate: [authGuard] },
+  { path: 'view-enquiry', component: ViewEnquiryComponent, canActivate: [authGuard] },
+  { path: 'view-custom-enquiry', component: ViewCustomEnquiryComponent, canActivate: [authGuard] },
+  { path: 'view-booking', component: ViewBookingComponent, canActivate: [authGuard] },
 
-   {path: 'add-vehicle/:id', component: AddVehicleComponent, canActivate: [authGuard]},
+  { path: 'add-vehicle/:id', component: AddVehicleComponent, canActivate: [authGuard] },
 
-   {path: 'view-enquiry-vehicle/:id', component: ViewEnquiryVehicleComponent, canActivate: [authGuard]},
-   {path: 'view-appointments-vehicle/:id', component: ViewAppointmentsVehicleComponent, canActivate: [authGuard]},
-   {path: 'view-price-vehicle/:id', component: ViewPriceRequestsVehicleComponent, canActivate: [authGuard]},
+  { path: 'view-enquiry-vehicle/:id', component: ViewEnquiryVehicleComponent, canActivate: [authGuard] },
+  { path: 'view-appointments-vehicle/:id', component: ViewAppointmentsVehicleComponent, canActivate: [authGuard] },
+  { path: 'view-price-vehicle/:id', component: ViewPriceRequestsVehicleComponent, canActivate: [authGuard] },
 
-   {path: 'vehicle-details/:id', component: VehicleDetailComponent},
-   {path: 'razor-pay', component: RazorPayComponent},
+  { path: 'vehicle-details/:id', component: VehicleDetailComponent },
+  { path: 'razor-pay', component: RazorPayComponent },
 
-   {path: 'tnc', component: TncComponent},
-   {path: 'privacypolicy', component: PrivacyComponent},
+  { path: 'tnc', component: TncComponent },
+  { path: 'privacypolicy', component: PrivacyComponent },
 
-   {path: 'rto', component: RtoComponent},
-   {path: 'insurance', component: InsuranceComponent},
-   {path: 'towing', component: TowingComponent}
+  { path: 'rto', component: RtoComponent },
+  { path: 'insurance', component: InsuranceComponent },
+  { path: 'towing', component: TowingComponent }
 
 
 ];
