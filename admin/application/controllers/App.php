@@ -240,8 +240,8 @@ class App extends CI_Controller
 
 		//$getCategory = $this->App_model->getProductSuggestion($search);
 		//print_r($getCategory);
-		$keyId = 'rzp_test_JBcW2dBm5uOJ6R';
-		$keySecret = 'H4ErnrdOzZKDKEJrvsZoc5Qt';
+		$keyId = 'rzp_live_SJ4vZVaVQgQY12';
+		$keySecret = 'UfzHMM81gfApr2hn1XrcwN26';
 		$displayCurrency = 'INR';
 		echo  json_encode(array("keyId" => $keyId, "keySecret" => $keySecret, "displayCurrency" => $displayCurrency));
 	}

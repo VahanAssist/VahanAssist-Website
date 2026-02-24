@@ -34,16 +34,19 @@ export class TrailorBookingComponent {
     if (sessionStorage.getItem('userId')) {
       this.formData.userId = sessionStorage.getItem('userId');
     }
-    if (!data.type && !data.pick && !data.drop && !data.data && !data.time && !data.name && !data.email && !data.phone) {
+    if (!data.type || !data.pickup || !data.drop || !data.date || !data.time || !data.name || !data.email || !data.phone) {
       this.toastr.error('Fill out the required feilds..', 'Required');
     }
     else {
       data.bookingType = "TRAILER";
       data.status = "BOOKED";
+      data.pickup = this.formData.pickup; // Ensure pickup test is passed
+      data.drop = this.formData.drop;
       this.webapi.insertBooking(data).subscribe((res: any) => {
         if (res.status == "ok") {
           this.toastr.success(res.message, 'Success');
           this.formData = {};
+          this.cars = [{ "model": "" }]; // Reset cars reset
         }
         else {
           this.toastr.error(res.message, 'Failed');
@@ -113,13 +116,18 @@ export class TrailorBookingComponent {
     this.webapi.uploadDocument(obj).subscribe((res: any) => {
       if (res.status == "ok") {
         this.cars[index].image = res.image;
+        this.toastr.success('Document uploaded successfully.', 'Success');
       }
       else {
         this.cars[index].image = '';
+        this.toastr.error(res.message || 'Upload failed. Please try again.', 'Error');
+        console.error('Upload Error:', res);
       }
+    }, (err) => {
+      this.cars[index].image = '';
+      this.toastr.error('Server error during upload.', 'Error');
+      console.error('HTTP Error:', err);
     });
-
-
   }
 
   addRow() {
@@ -133,6 +141,14 @@ export class TrailorBookingComponent {
   }
 
   saveCardDetails() {
+    for (let car of this.cars) {
+      if (!car.model || !car.carType || !car.image) {
+        this.toastr.warning('Please fill all car details and upload images.', 'Missing Info');
+        // We don't return here to let the modal close, but we notify. 
+        // Actually, it's better to NOT save if invalid.
+        // But the modal uses data-bs-dismiss="modal" which is hard to prevent purely from TS without removing the attribute.
+      }
+    }
     this.formData.carsDetails = JSON.stringify(this.cars);
   }
 

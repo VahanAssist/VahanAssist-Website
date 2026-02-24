@@ -84,7 +84,7 @@ export class SubscriptionComponent {
       currency: 'INR',
       name: 'Vahaan Subscription', // company name or product name
       description: '',  // product description
-      image: './assets/logo.png', // company logo or product image
+      image: '', // Removed local logo to avoid CORS/Mixed Content errors in local testing
       order_id: val.order_id, // order_id created by you in backend
       modal: {
         // We should prevent closing of the form when esc key is pressed.

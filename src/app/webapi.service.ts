@@ -399,8 +399,12 @@ export class WebapiService {
   }
 
 
-  //  getChecks(id=""){
-  //   return this.http.get(this.baseUrl+"getChecks/"+id);
-  //  }
+  getAllBooking(data: any) {
+    var form_data = new FormData();
+    for (var key in data) {
+      form_data.append(key, data[key]);
+    }
+    return this.http.post(this.baseUrl + "getAllBooking", form_data);
+  }
 
 }

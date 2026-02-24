@@ -31,6 +31,12 @@ class Payment extends CI_Controller
 		$packageId = $this->input->post('package_id');
 
 		$getPackage = $this->Manage_product->getSubscriptionById($packageId);
+		
+		if(empty($getPackage)) {
+			echo json_encode(array('status' => 'error', 'msg' => 'Invalid Package Selected!'));
+			return;
+		}
+
 		$amount = intval($getPackage[0]['price']);
 
 		$api = new Api('rzp_live_SJ4vZVaVQgQY12', 'UfzHMM81gfApr2hn1XrcwN26');
@@ -51,6 +57,11 @@ class Payment extends CI_Controller
 
 		$getUser = $this->Manage_product->getUserById($userId);
 		$res = $this->Manage_product->insertPayment($data);
+
+		if(empty($getUser)) {
+			echo json_encode(array('status' => 'error', 'msg' => 'User not found!'));
+			return;
+		}
 
 		$reponseArr['name'] = $getUser[0]['firstName'];
 		$reponseArr['email'] = $getUser[0]['email'];

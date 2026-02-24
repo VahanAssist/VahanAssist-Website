@@ -932,7 +932,7 @@
 
 			$id = $this->input->post('id');
 			$carsArr = json_decode($this->input->post('carsDetails'), true);
-			$data['vehicleId'] = empty($this->input->post('vehicleId')) ? '' : $this->input->post('vehicleId');
+			$data['userId'] = empty($this->input->post('userId')) ? '' : $this->input->post('userId');
 			$data['picklng'] = empty($this->input->post('pickLng')) ? '' : $this->input->post('pickLng');
 			$data['droplng'] = empty($this->input->post('dropLng')) ? '' : $this->input->post('dropLng');
 			$data['picklat'] = empty($this->input->post('pickLat')) ? '' : $this->input->post('pickLat');
@@ -942,6 +942,10 @@
 			$data['date'] = empty($this->input->post('date')) ? '' : $this->input->post('date');
 			$data['time'] = empty($this->input->post('time')) ? '' : $this->input->post('time');
 			$data['status'] = empty($this->input->post('status')) ? '' : $this->input->post('status');
+			$data['name'] = empty($this->input->post('name')) ? '' : $this->input->post('name');
+			$data['email'] = empty($this->input->post('email')) ? '' : $this->input->post('email');
+			$data['phoneNumber'] = empty($this->input->post('phone')) ? '' : $this->input->post('phone');
+			$data['service_type'] = empty($this->input->post('service_type')) ? '' : $this->input->post('service_type');
 			$data['bookingType'] = empty($this->input->post('bookingType')) ? '' : $this->input->post('bookingType');
 
 			$getData = $this->getDistanceByLatLng($data['picklat'], $data['picklng'], $data['droplat'], $data['droplng']);
@@ -962,9 +966,8 @@
 							foreach ($carsArr as $cr) {
 								$log['bookingId'] = $res['last_id'];
 								$log['model'] = $cr['model'];
-								// $log['category'] = $cr['category'];
-								// $log['brand'] = $cr['brand'];
-								$log['carType'] = $cr['carType'];
+								$log['category'] = $cr['carType'];
+								$log['brand'] = ''; // Or empty if not provided
 								$log['carQuality'] = $cr['carQuality'];
 								$log['carCondition'] = $cr['carCondition'];
 								$log['doc'] = $cr['image'];
@@ -1008,9 +1011,8 @@
 						foreach ($carsArr as $cr) {
 							$log['bookingId'] = $res['last_id'];
 							$log['model'] = $cr['model'];
-							// $log['category'] = $cr['category'];
-							// $log['brand'] = $cr['brand'];
-							$log['carType'] = $cr['carType'];
+							$log['category'] = $cr['carType'];
+							$log['brand'] = '';
 							$log['carQuality'] = $cr['carQuality'];
 							$log['carCondition'] = $cr['carCondition'];
 							$log['doc'] = $cr['image'];
@@ -1045,25 +1047,41 @@
 
 		public function uploadDocument()
 		{
-
-			$config['upload_path'] = './images/booking_image/';
-			$config['allowed_types'] = 'gif|jpg|png|jpeg|pdf';
-			$config['width']    = '150';
-			$config['height']   = '150';
-			$this->load->library('upload', $config);
-			$this->upload->initialize($config);
-			if ($this->upload->do_upload('image')) {
-				//echo "jj";
-				$image	= 	$this->upload->data();
-				$config['image_library'] = 'gd2';
-				$this->load->library('image_lib', $config);
-				$this->image_lib->resize();
-				//echo $this->image_lib->display_errors();
-			} else {
-				$this->upload->display_errors();
+			// Try to find the correct images folder
+			$upload_path = FCPATH . 'images/booking_image/';
+			if (!is_dir($upload_path)) {
+				$upload_path = FCPATH . '../images/booking_image/'; // Fallback for nested structure
+			}
+			
+			// If still not a dir, try to create it
+			if (!is_dir($upload_path)) {
+				mkdir($upload_path, 0777, true);
 			}
 
-			echo json_encode(array('status' => "ok", 'image' => $image['file_name']));
+			$config['upload_path'] = $upload_path;
+			$config['allowed_types'] = 'gif|jpg|png|jpeg|pdf';
+			$config['max_size'] = '5000';
+			$this->load->library('upload', $config);
+			$this->upload->initialize($config);
+
+			if ($this->upload->do_upload('image')) {
+				$imageData = $this->upload->data();
+				
+				if (in_array(strtolower($imageData['file_ext']), ['.jpg', '.jpeg', '.png', '.gif'])) {
+					$config_lib['image_library'] = 'gd2';
+					$config_lib['source_image'] = $imageData['full_path'];
+					$config_lib['maintain_ratio'] = TRUE;
+					$config_lib['width'] = 800;
+					$config_lib['height'] = 800;
+					$this->load->library('image_lib', $config_lib);
+					$this->image_lib->resize();
+				}
+
+				echo json_encode(array('status' => "ok", 'image' => $imageData['file_name']));
+			} else {
+				$error = $this->upload->display_errors('', '');
+				echo json_encode(array('status' => "error", 'message' => $error, 'path' => $upload_path));
+			}
 		}
 
 		public function register()
@@ -1138,7 +1156,8 @@
 			date_default_timezone_set('Asia/kolkata');
 			$data['phoneNumber'] = empty($this->input->post('phoneNumber')) ? '' : $this->input->post('phoneNumber');
 			$data['password'] = empty($this->input->post('password')) ? '' : md5($this->input->post('password'));
-			// $data['type'] = empty($this->input->post('type')) ? '' : $this->input->post('type');
+			$data['type'] = empty($this->input->post('type')) ? '' : $this->input->post('type');
+			
 			$res = $this->Manage_product->getUserLogin($data);
 
 			if (count($res) > 0) {
@@ -1148,11 +1167,17 @@
 				$log['email'] = $res[0]['email'];
 				$log['city'] = $res[0]['city'];
 
-				$data['login_time'] = date('Y-m-d G:i:s');
-				$this->Manage_product->updateUser($res[0]['id'],$data);
+				$dataUp['login_time'] = date('Y-m-d G:i:s');
+				$this->Manage_product->updateUser($res[0]['id'],$dataUp);
 				echo json_encode(array('status' => "ok", 'message' => 'Login Success', 'data' => $log));
 			} else {
-				echo json_encode(array('status' => "error", 'message' => 'Failed Invalid Credentials, Please try again or Contact Admin.'));
+				// Check if account exists but is inactive
+				$checkAccount = $this->Manage_product->getUserByPhone($data['phoneNumber']);
+				if(count($checkAccount) > 0 && $checkAccount[0]['status'] == 0) {
+					echo json_encode(array('status' => "error", 'message' => 'Your account is inactive. Please contact Admin for approval.'));
+				} else {
+					echo json_encode(array('status' => "error", 'message' => 'Failed Invalid Credentials, Please try again or Contact Admin.'));
+				}
 			}
 		}
 
@@ -1560,10 +1585,9 @@
 
 		public function getDistanceByLatLng($pickLat, $pickLng, $dropLat, $dropLng)
 		{
-			// $pickLat = $this->input->post('pickLat');
-			// $pickLng = $this->input->post('pickLng');
-			// $dropLat = $this->input->post('dropLat');
-			// $dropLng = $this->input->post('dropLng');
+			if (empty($pickLat) || empty($pickLng) || empty($dropLat) || empty($dropLng)) {
+				return array('km' => 0, 'originAddress' => 'Unknown', 'destinationAddress' => 'Unknown');
+			}
 			$url = "https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=$pickLat,$pickLng&destinations=$dropLat,$dropLng&key=AIzaSyB39Z-mhm2udO-plmGRgG4QOyX3UjqOqqo";
 
 			$crl = curl_init();
@@ -1573,16 +1597,21 @@
 
 			$response = curl_exec($crl);
 			if (!$response) {
-				die('Error: "' . curl_error($crl) . '" - Code: ' . curl_errno($crl));
+				// die('Error: "' . curl_error($crl) . '" - Code: ' . curl_errno($crl));
+				return array('km' => 0, 'originAddress' => 'API Error', 'destinationAddress' => 'API Error');
 			}
 
 			$rd = json_decode($response, true);
 
-			// echo json_encode(array('status' =>"ok",'km'=>($rd['rows'][0]['elements'][0]['distance']['value']/1000),'originAddress'=>$rd['origin_addresses'][0],'destinationAddress'=>$rd['destination_addresses'][0]));
-
-			return array('km' => ($rd['rows'][0]['elements'][0]['distance']['value'] / 1000), 'originAddress' => $rd['origin_addresses'][0], 'destinationAddress' => $rd['destination_addresses'][0]);
-
-
+			if (isset($rd['status']) && $rd['status'] == 'OK' && isset($rd['rows'][0]['elements'][0]['distance'])) {
+				return array(
+					'km' => ($rd['rows'][0]['elements'][0]['distance']['value'] / 1000),
+					'originAddress' => $rd['origin_addresses'][0],
+					'destinationAddress' => $rd['destination_addresses'][0]
+				);
+			} else {
+				return array('km' => 0, 'originAddress' => 'Location Not Found', 'destinationAddress' => 'Location Not Found');
+			}
 
 			curl_close($crl);
 		}
@@ -2037,7 +2066,7 @@
 
 			$data = $this->Manage_product->getAllPackages();
 
-		   echo json_encode(array($data));
+		   echo json_encode($data);
 
 		}
 

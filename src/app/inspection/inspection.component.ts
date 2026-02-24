@@ -36,16 +36,18 @@ export class InspectionComponent {
     if (sessionStorage.getItem('userId')) {
       this.formData.userId = sessionStorage.getItem('userId');
     }
-    if (!data.type && !data.pick && !data.drop && !data.data && !data.time && !data.name && !data.email && !data.phone) {
+    if (!data.type || !data.inspection || !data.date || !data.time || !data.name || !data.email || !data.phone) {
       this.toastr.error('Fill out the required feilds..', 'Required');
     }
     else {
       data.bookingType = "INSPECTION";
       data.status = "BOOKED";
+      data.pickup = this.formData.inspection;
       this.webapi.insertBooking(data).subscribe((res: any) => {
         if (res.status == "ok") {
           this.toastr.success(res.message, 'Success');
           this.formData = {};
+          this.cars = [{ "model": "" }];
         }
         else {
           this.toastr.error(res.message, 'Failed');
@@ -135,6 +137,11 @@ export class InspectionComponent {
   }
 
   saveCardDetails() {
+    for (let car of this.cars) {
+      if (!car.model || !car.carType || !car.image) {
+        this.toastr.warning('Please fill all car details and upload images.', 'Missing Info');
+      }
+    }
     this.formData.carsDetails = JSON.stringify(this.cars);
   }
 

@@ -1,0 +1,54 @@
+<div class="container py-5">
+    <div class="row mb-4">
+        <div class="col">
+            <h2 class="fw-bold">My Bookings</h2>
+            <p class="text-muted">Track your vehicle trailers and inspections.</p>
+        </div>
+        <div class="col-auto">
+            <a routerLink="/user-profile" class="btn btn-outline-secondary">Back to Profile</a>
+        </div>
+    </div>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Type</th>
+                            <th>Pickup (From)</th>
+                            <th>Drop (To)</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let booking of bookings">
+                            <td>
+                                <span class="badge" [ngClass]="{
+                                    'bg-primary': booking.bookingType === 'TRAILER',
+                                    'bg-info': booking.bookingType === 'INSPECTION',
+                                    'bg-secondary': booking.bookingType !== 'TRAILER' && booking.bookingType !== 'INSPECTION'
+                                }">{{ booking.bookingType }}</span>
+                            </td>
+                            <td>{{ booking.pickupLocation }}</td>
+                            <td>{{ booking.dropLocation || 'N/A' }}</td>
+                            <td>{{ booking.date }}</td>
+                            <td>
+                                <span class="badge" [ngClass]="{
+                                    'bg-warning text-dark': booking.status === 'BOOKED',
+                                    'bg-primary': booking.status === 'ASSIGNED',
+                                    'bg-success': booking.status === 'COMPLETED',
+                                    'bg-danger': booking.status === 'CANCELLED'
+                                }">{{ booking.status }}</span>
+                            </td>
+                        </tr>
+                        <tr *ngIf="bookings.length === 0">
+                            <td colspan="5" class="text-center py-4 text-muted">No bookings found.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
