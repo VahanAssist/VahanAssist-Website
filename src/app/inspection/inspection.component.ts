@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {FormsModule} from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { WebapiService } from '../webapi.service';
 import { ToastrService } from 'ngx-toastr';
@@ -8,48 +8,50 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-inspection',
   standalone: true,
-  imports: [CommonModule,FormsModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './inspection.component.html',
   styleUrl: './inspection.component.css'
 })
 export class InspectionComponent {
-  userId:any;
-  userType:any='';
-  formData:any={};
-  pickupList: any=[];
+  userId: any;
+  userType: any = '';
+  formData: any = {};
+  pickupList: any = [];
   dropList: any = [];
-  cars:any=[];
+  cars: any = [];
 
-  constructor(private webapi:WebapiService,private toastr:ToastrService){
-    if(sessionStorage.getItem('userId')){
+  constructor(private webapi: WebapiService, private toastr: ToastrService) {
+    if (sessionStorage.getItem('userId')) {
       this.userId = sessionStorage.getItem('userId');
       this.userType = sessionStorage.getItem('type');
     }
-      this.cars = [
-        {
-          "model":""
-        }
-      ]
+    this.cars = [
+      {
+        "model": ""
+      }
+    ]
   }
 
-  onTrailerFormSubmit(data:any){
-    if(sessionStorage.getItem('userId')){
+  onTrailerFormSubmit(data: any) {
+    if (sessionStorage.getItem('userId')) {
       this.formData.userId = sessionStorage.getItem('userId');
     }
-    if(!data.type && !data.pick && !data.drop && !data.data && !data.time && !data.name && !data.email && !data.phone){
-      this.toastr.error('Fill out the required feilds..','Required');
+    if (!data.type || !data.inspection || !data.date || !data.time || !data.name || !data.email || !data.phone) {
+      this.toastr.error('Fill out the required feilds..', 'Required');
     }
-    else{
-      data.bookingType = "TRALIOR";
+    else {
+      data.bookingType = "INSPECTION";
       data.status = "BOOKED";
-      this.webapi.insertBooking(data).subscribe((res:any)=>{
-        if(res.status == "ok"){
-          this.toastr.success(res.message,'Success');
+      data.pickup = this.formData.inspection;
+      this.webapi.insertBooking(data).subscribe((res: any) => {
+        if (res.status == "ok") {
+          this.toastr.success(res.message, 'Success');
           this.formData = {};
-         }
-         else{
-          this.toastr.error(res.message,'Failed');
-         }
+          this.cars = [{ "model": "" }];
+        }
+        else {
+          this.toastr.error(res.message, 'Failed');
+        }
       });
     }
 
@@ -58,84 +60,89 @@ export class InspectionComponent {
 
 
 
-  getPickupLocation(e:any){
-    if(e.target.value){
+  getPickupLocation(e: any) {
+    if (e.target.value) {
       let val = {
-        "query":e.target.value
+        "query": e.target.value
       }
-      this.webapi.getPlacesByText(val).subscribe((res:any)=>{
-         this.pickupList = res.data;
+      this.webapi.getPlacesByText(val).subscribe((res: any) => {
+        this.pickupList = res.data;
       });
     }
-    else{
+    else {
       console.log('ff');
     }
 
   }
 
-  getDropLocation(e:any){
-    if(e.target.value){
+  getDropLocation(e: any) {
+    if (e.target.value) {
       let val = {
-        "query":e.target.value
+        "query": e.target.value
       }
-      this.webapi.getPlacesByText(val).subscribe((res:any)=>{
+      this.webapi.getPlacesByText(val).subscribe((res: any) => {
         this.dropList = res.data;
       });
     }
-    else{
+    else {
       console.log('ff');
     }
 
   }
-   getPickLatLngByPlaceId(e:any){
+  getPickLatLngByPlaceId(e: any) {
 
     let val = {
-      placeId : e.target.value
+      placeId: e.target.value
     }
-    this.webapi.getLatLngByPlaceId(val).subscribe((res:any)=>{
+    this.webapi.getLatLngByPlaceId(val).subscribe((res: any) => {
       this.formData.pickLat = res.data.lat
       this.formData.pickLng = res.data.lng
     });
 
-   }
+  }
 
-   getDropLatLngByPlaceId(e:any){
+  getDropLatLngByPlaceId(e: any) {
     let val = {
-      placeId : e.target.value
+      placeId: e.target.value
     }
-    this.webapi.getLatLngByPlaceId(val).subscribe((res:any)=>{
+    this.webapi.getLatLngByPlaceId(val).subscribe((res: any) => {
       this.formData.dropLat = res.data.lat
-      this.formData.dropLat = res.data.lng
+      this.formData.dropLng = res.data.lng
     });
-   }
+  }
 
 
-  onDocUpload(e: any,index:any) {
-    let obj = { "image" : e.target.files[0]};
-    this.webapi.uploadDocument(obj).subscribe((res:any)=>{
-       if(res.status == "ok"){
+  onDocUpload(e: any, index: any) {
+    let obj = { "image": e.target.files[0] };
+    this.webapi.uploadDocument(obj).subscribe((res: any) => {
+      if (res.status == "ok") {
         this.cars[index].image = res.image;
-       }
-       else{
+      }
+      else {
         this.cars[index].image = '';
-       }
+      }
     });
 
 
   }
 
-  addRow(){
+  addRow() {
     this.cars.push({});
   }
 
-  removeRow(i:any){
+  removeRow(i: any) {
     console.log(i);
-    this.cars.splice(i,1);
+    this.cars.splice(i, 1);
 
   }
 
-  saveCardDetails(){
-  this.formData.carsDetails = JSON.stringify(this.cars);
+  saveCardDetails() {
+    for (let car of this.cars) {
+      if (!car.model || !car.carType || !car.image) {
+        this.toastr.warning('Please fill all car details and upload images.', 'Missing Info');
+      }
+    }
+    this.formData.carsDetails = JSON.stringify(this.cars);
   }
 
 

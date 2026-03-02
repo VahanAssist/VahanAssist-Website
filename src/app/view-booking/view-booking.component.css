@@ -1,0 +1,20 @@
+.badge {
+    font-weight: 500;
+    padding: 0.5em 0.8em;
+}
+
+.table th {
+    border-top: none;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 0.5px;
+    color: #6c757d;
+}
+
+.card {
+    border-radius: 12px;
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(0,0,0,0.02);
+}

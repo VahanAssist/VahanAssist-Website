@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterLink,Router } from '@angular/router';
+import { RouterLink, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { WebapiService } from '../webapi.service';
@@ -13,13 +13,13 @@ import { ToastrService } from 'ngx-toastr';
   styleUrl: './dealer-signup.component.css'
 })
 export class DealerSignupComponent {
-  userId:any;
-  type:any;
+  userId: any;
+  type: any;
   formData: any = {};
-  stateList:any={};
-  cityList:any={};
-  userName:any='';
-  constructor(private webapi: WebapiService, private toastr: ToastrService,private router: Router) {
+  stateList: any = [];
+  cityList: any = [];
+  userName: any = '';
+  constructor(private webapi: WebapiService, private toastr: ToastrService, private router: Router) {
     this.userId = sessionStorage.getItem('userId');
     this.type = sessionStorage.getItem('type');
     this.userName = sessionStorage.getItem('name');
@@ -56,24 +56,24 @@ export class DealerSignupComponent {
 
   getAllStates() {
     this.webapi.getAllStates().subscribe((res: any) => {
-         if(res.length > 0) {
-          this.stateList = res;
-         }
+      if (res.length > 0) {
+        this.stateList = res;
+      }
     });
   }
 
-  getAllCityByState(e:any) {
+  getAllCityByState(e: any) {
     let val = {
-      state:e.target.value
+      state: e.target.value
     }
     this.webapi.getAllCityByState(val).subscribe((res: any) => {
-         if(res.length > 0) {
-          this.cityList = res;
-         }
+      if (res.length > 0) {
+        this.cityList = res;
+      }
     });
   }
 
-  logout(){
+  logout() {
     sessionStorage.clear();
     location.href = '/';
   }

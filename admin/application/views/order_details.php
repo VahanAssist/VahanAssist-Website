@@ -6,20 +6,35 @@
     // $space = trim($order_id);
     $getbookingData = $this->Manage_product->getBookingById($order_id);
     $getCarDeatail = $this->Manage_product->getCarDetailsByBooking($order_id);
-    $getUser = $this->Manage_product->getUserById($getbookingData[0]['userId']);
+    
+    $getUser = [];
+    if (!empty($getbookingData)) {
+        $getUser = $this->Manage_product->getUserById($getbookingData[0]['userId']);
+    }
+    
     $getTracking = $this->Manage_product->getTrackingByBooking($order_id);
     $getPaymentByBookingId = $this->Manage_product->getPaymentByBookingId($order_id);
 
-    if ($getCarDeatail[0]['assignDriverId'] != 0) {
-        $getFirstDriver = $this->Manage_product->getUserById($getCarDeatail[0]['assignDriverId']);
-        $getFirstPickup = $this->Manage_product->getCarPickupImages($getCarDeatail[0]['assignDriverId']);
-        $getFirstDrop = $this->Manage_product->getCarDropImages($getCarDeatail[0]['assignDriverId']);
-    }
+    // Initialize arrays to prevent "Argument #1 must be of type Countable|array, null given"
+    $getFirstDriver = [];
+    $getFirstPickup = [];
+    $getFirstDrop = [];
+    $getSecondDriver = [];
+    $getSecondPickup = [];
+    $getSecondDrop = [];
 
-    if ($getCarDeatail[0]['assignSecondDriverId'] != 0) {
-        $getSecondDriver = $this->Manage_product->getUserById($getCarDeatail[0]['assignSecondDriverId']);
-        $getSecondPickup = $this->Manage_product->getCarPickupImages($getCarDeatail[0]['assignSecondDriverId']);
-        $getSecondDrop = $this->Manage_product->getCarDropImages($getCarDeatail[0]['assignSecondDriverId']);
+    if (!empty($getCarDeatail) && isset($getCarDeatail[0])) {
+        if (!empty($getCarDeatail[0]['assignDriverId'])) {
+            $getFirstDriver = $this->Manage_product->getUserById($getCarDeatail[0]['assignDriverId']);
+            $getFirstPickup = $this->Manage_product->getCarPickupImages($getCarDeatail[0]['assignDriverId']);
+            $getFirstDrop = $this->Manage_product->getCarDropImages($getCarDeatail[0]['assignDriverId']);
+        }
+
+        if (!empty($getCarDeatail[0]['assignSecondDriverId'])) {
+            $getSecondDriver = $this->Manage_product->getUserById($getCarDeatail[0]['assignSecondDriverId']);
+            $getSecondPickup = $this->Manage_product->getCarPickupImages($getCarDeatail[0]['assignSecondDriverId']);
+            $getSecondDrop = $this->Manage_product->getCarDropImages($getCarDeatail[0]['assignSecondDriverId']);
+        }
     }
 
     

@@ -1062,7 +1062,7 @@ class Manage_product extends CI_Model
 
 	function getAllBooking($id)
 	{
-
+		$this->db->where('userId', $id);
 		$query = $this->db->get('tbl_booking');
 
 		return $query->result_array();
@@ -1532,11 +1532,14 @@ class Manage_product extends CI_Model
 	function getUserLogin($dt)
 	{
 
-		$query  = $this->db->where('phoneNumber', $dt['phoneNumber']);
-		$query  = $this->db->where('password', $dt['password']);
-		$query  = $this->db->where('status', 1);
-		$query  = $this->db->where('blocked', 0);
-		$query  = $this->db->where('deleteAccountReq', 0);
+		$this->db->where('phoneNumber', $dt['phoneNumber']);
+		$this->db->where('password', $dt['password']);
+		$this->db->where('status', 1);
+		$this->db->where('blocked', 0);
+		$this->db->where('deleteAccountReq', 0);
+		if(!empty($dt['type'])){
+			$this->db->where('type', $dt['type']);
+		}
 		$query = $this->db->get('tbl_signup');
 		// echo $this->db->last_query();
 		return $query->result_array();
