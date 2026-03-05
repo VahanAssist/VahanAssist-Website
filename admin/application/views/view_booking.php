@@ -17,6 +17,9 @@
             </div>
          </div>
       </div>
+      <?php if ($this->session->flashdata('success')): ?>
+         <div class="alert alert-success mt-2"><?php echo $this->session->flashdata('success'); ?></div>
+      <?php endif; ?>
       <div class="row">
          <div class="col-lg-12">
             <div class="main-card mb-3 card">

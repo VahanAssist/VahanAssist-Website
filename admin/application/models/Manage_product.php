@@ -1177,6 +1177,24 @@ class Manage_product extends CI_Model
 		return $query->result_array();
 	}
 
+	function getBookingByUserId($userId)
+	{
+		$this->db->where('userId', $userId);
+		$this->db->where('bookingType !=', 'TRAILER');
+		$this->db->order_by('id', 'DESC');
+		$query = $this->db->get('tbl_booking');
+		return $query->result_array();
+	}
+
+	function getTrailerByUserId($userId)
+	{
+		$this->db->where('userId', $userId);
+		$this->db->where('bookingType', 'TRAILER');
+		$this->db->order_by('id', 'DESC');
+		$query = $this->db->get('tbl_booking');
+		return $query->result_array();
+	}
+
 	function getCarDetailsById($id)
 	{
 		$query  = $this->db->where('id', $id);

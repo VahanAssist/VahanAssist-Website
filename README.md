@@ -13,6 +13,7 @@ Before setting up the project, ensure you have the following installed:
 - **Composer** (for PHP dependencies)
 - **Angular CLI** (`npm install -g @angular/cli`)
 
+
 ---
 
 ## 🚀 Installation & Setup
