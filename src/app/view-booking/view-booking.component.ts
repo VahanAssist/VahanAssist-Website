@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { WebapiService } from '../webapi.service';
 
@@ -14,8 +14,14 @@ export class ViewBookingComponent implements OnInit {
     bookings: any[] = [];
     userId: any;
 
-    constructor(private webapi: WebapiService) {
-        this.userId = sessionStorage.getItem('userId');
+    constructor(private webapi: WebapiService, private location: Location) {
+        if (typeof sessionStorage !== 'undefined') {
+            this.userId = sessionStorage.getItem('userId');
+        }
+    }
+
+    goBack(): void {
+        this.location.back();
     }
 
     ngOnInit(): void {
@@ -26,8 +32,19 @@ export class ViewBookingComponent implements OnInit {
 
     loadBookings() {
         this.webapi.getAllBooking({ userId: this.userId }).subscribe((res: any) => {
-            if (res) {
-                this.bookings = res;
+            if (res && res.status === 'success' && res.data) {
+                let allBookings: any[] = [];
+                if (res.data.booking && res.data.booking.length > 0) {
+                    allBookings = [...allBookings, ...res.data.booking];
+                }
+                if (res.data.trailer && res.data.trailer.length > 0) {
+                    allBookings = [...allBookings, ...res.data.trailer];
+                }
+
+                allBookings.sort((a, b) => parseInt(b.id) - parseInt(a.id));
+                this.bookings = allBookings;
+            } else {
+                this.bookings = [];
             }
         });
     }

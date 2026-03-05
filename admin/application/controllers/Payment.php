@@ -104,7 +104,23 @@ class Payment extends CI_Controller
 			$data['status'] = 'Completed';
 
 			$res = $this->Manage_product->updatePayment($getPaymentInfo[0]['id'],$data);
+
 			if($res == 1){
+				// UPDATE DEALER QUOTA
+				$userId = $getPaymentInfo[0]['user_id'];
+				$packageId = $getPaymentInfo[0]['package_id'];
+
+				// Fetch newly purchased package limit
+				$getPackage = $this->Manage_product->getSubscriptionById($packageId);
+				if(!empty($getPackage)) {
+					$newQuota = intval($getPackage[0]['upload_limit']);
+					// Update dealer account with new package and increment their upload quota limit
+					$this->db->where('id', $userId);
+					$this->db->set('active_package', $packageId);
+					$this->db->set('dealer_posts_quota', 'dealer_posts_quota + ' . $newQuota, FALSE);
+					$this->db->update('tbl_users');
+				}
+
 				echo json_encode(array('status'=>'success','msg'=>'Payment Completed!'));
 			}
 			else{
@@ -119,6 +135,96 @@ class Payment extends CI_Controller
       
 	}
 
+	public function createPaymentIdForBooking() {
+		$userId = $this->input->post('user_id');
+		$bookingId = $this->input->post('booking_id');
+
+		$getBooking = $this->Manage_product->getBookingById($bookingId);
+		
+		if(empty($getBooking) || $getBooking[0]['userId'] != $userId) {
+			echo json_encode(array('status' => 'error', 'msg' => 'Invalid Booking Selected!'));
+			return;
+		}
+
+		$amount = intval($getBooking[0]['total_quote']);
+		if ($amount <= 0) {
+			echo json_encode(array('status' => 'error', 'msg' => 'Invalid Quote Amount!'));
+			return;
+		}
+
+		$api = new Api('rzp_live_SJ4vZVaVQgQY12', 'UfzHMM81gfApr2hn1XrcwN26');
+
+		$razorpayOrder = $api->order->create(array(
+			'receipt'         => "BQ".rand(),
+			'amount'          => $amount * 100, // in paise
+			'currency'        => 'INR',
+			'payment_capture' => 1 // auto capture
+		));
+		$razorpayOrderId = $razorpayOrder['id'];
+
+		$data['package_id'] = $bookingId; // abuse package_id as booking_id for now
+		$data['user_id'] = $userId;
+		$data['order_id'] = $razorpayOrderId;
+		$data['status'] = 'Pending';
+
+		$getUser = $this->Manage_product->getUserById($userId);
+		$res = $this->Manage_product->insertPayment($data);
+
+		if(empty($getUser)) {
+			echo json_encode(array('status' => 'error', 'msg' => 'User not found!'));
+			return;
+		}
+
+		$reponseArr['name'] = $getUser[0]['firstName'];
+		$reponseArr['email'] = $getUser[0]['email'];
+		$reponseArr['phoneNumber'] = $getUser[0]['phoneNumber'];
+		$reponseArr['amount'] = $amount;
+		$reponseArr['order_id'] = $razorpayOrderId;
+
+		if ($res == 1) {
+			echo json_encode(array('status' => 'success', 'msg' => 'Order Id Created', 'data' => $reponseArr));
+		} else {
+			echo json_encode(array('status' => 'error', 'msg' => 'Something went wrong, Try Again!'));
+		}
+	}
+
+	public function verifyRazorPaymentForBooking(){
+		$order_id = $this->input->post('razorpay_order_id');
+		$payment_id = $this->input->post('razorpay_payment_id');
+		$signature = $this->input->post('razorpay_signature');
+
+		$success = true;
+		if (empty($_POST['razorpay_payment_id']) === false) {
+			$api = new Api('rzp_live_SJ4vZVaVQgQY12', 'UfzHMM81gfApr2hn1XrcwN26');
+			try {
+				$attributes = array(
+					'razorpay_order_id' => $order_id,
+					'razorpay_payment_id' => $payment_id,
+					'razorpay_signature' => $signature
+				);
+				$api->utility->verifyPaymentSignature($attributes);
+			} catch (SignatureVerificationError $e) {
+				$success = false;
+			}
+		}
+		if ($success === true) {
+			$getPaymentInfo = $this->Manage_product->getPaymentByOrderId($order_id);
+			$data['payment_id'] = $payment_id;
+			$data['status'] = 'Completed';
+
+			$res = $this->Manage_product->updatePayment($getPaymentInfo[0]['id'],$data);
+
+			if($res == 1){
+				echo json_encode(array('status'=>'success','msg'=>'Payment Completed!'));
+			}
+			else{
+				echo json_encode(array('status'=>'error','msg'=>'Internal Db Error!!'));
+			}
+
+		} else {
+			echo json_encode(array('status'=>'error','msg'=>'Payment Not Verified!!'));
+		}
+	}
 
 	public function pay()
 	{

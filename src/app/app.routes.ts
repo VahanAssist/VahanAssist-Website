@@ -30,6 +30,7 @@ import { RtoComponent } from './rto/rto.component';
 import { InsuranceComponent } from './insurance/insurance.component';
 import { TowingComponent } from './towing/towing.component';
 import { ViewBookingComponent } from './view-booking/view-booking.component';
+import { BookingDetailsComponent } from './booking-details/booking-details.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -55,6 +56,7 @@ export const routes: Routes = [
   { path: 'view-enquiry', component: ViewEnquiryComponent, canActivate: [authGuard] },
   { path: 'view-custom-enquiry', component: ViewCustomEnquiryComponent, canActivate: [authGuard] },
   { path: 'view-booking', component: ViewBookingComponent, canActivate: [authGuard] },
+  { path: 'booking-details/:id', component: BookingDetailsComponent, canActivate: [authGuard] },
 
   { path: 'add-vehicle/:id', component: AddVehicleComponent, canActivate: [authGuard] },
 

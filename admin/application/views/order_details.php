@@ -560,10 +560,10 @@
                                                 <td><?php echo $car['carQuality'] ?></td>
                                                 <td><?php echo $car['carCondition'] ?></td>
                                                 <td>
-                                                    <form action="<?php echo base_url(); ?>Insert_con/updateBookingTrailor" method="POST">
+                                                    <form class="assign-driver-form" action="javascript:void(0);" method="POST" onsubmit="submitAssignDriverForm(this, 'updateBookingTrailorAjax')">
                                                         <input type="hidden" name="bookingId" value="<?php echo  $order_id ?>" />
                                                         <input type="hidden" name="carId" value="<?php echo $car['id'] ?>" />
-                                                        <select name="assignDriverId" class="form-control">
+                                                        <select name="assignDriverId" class="form-control mb-2">
                                                             <option value="">Select Driver</option>
                                                             <?php
                                                             $getDrivers = $this->Manage_product->getDrivers();
@@ -572,17 +572,17 @@
                                                                 <option <?php echo $car['assignDriverId'] == $dr['id'] ? 'selected' : '' ?> value="<?php echo $dr['id'] ?>"><?php echo $dr['firstName'] ?></option>
                                                             <?php } ?>
                                                         </select>
-                                                        <button type="submit" class="btn btn-primary btn-sm">Assign</button>
+                                                        <button type="submit" class="btn btn-primary btn-sm btn-block">Assign</button>
                                                     </form>
                                                 </td>
                                                 <?php
                                                 if ($getbookingData[0]['bookingType'] == 'TRAILER') {
                                                 ?>
                                                     <td>
-                                                        <form action="<?php echo base_url(); ?>Insert_con/updateBookingTrailorV2" method="POST">
+                                                        <form class="assign-driver-form-v2" action="javascript:void(0);" method="POST" onsubmit="submitAssignDriverForm(this, 'updateBookingTrailorV2Ajax')">
                                                             <input type="hidden" name="bookingId" value="<?php echo  $order_id ?>" />
                                                             <input type="hidden" name="carId" value="<?php echo $car['id'] ?>" />
-                                                            <select name="assignSecondDriverId" class="form-control">
+                                                            <select name="assignSecondDriverId" class="form-control mb-2">
                                                                 <option value="">Select Driver</option>
                                                                 <?php
                                                                 $getDrivers = $this->Manage_product->getDrivers();
@@ -591,7 +591,7 @@
                                                                     <option <?php echo $car['assignSecondDriverId'] == $dr['id'] ? 'selected' : '' ?> value="<?php echo $dr['id'] ?>"><?php echo $dr['firstName'] ?></option>
                                                                 <?php } ?>
                                                             </select>
-                                                            <button type="submit" class="btn btn-primary btn-sm">Assign</button>
+                                                            <button type="submit" class="btn btn-primary btn-sm btn-block">Assign</button>
                                                         </form>
                                                     </td>
                                                 <?php } ?>
@@ -665,3 +665,32 @@
                 <br>
                 <br>
                 <?php include 'inc/footer.php'; ?>
+                
+<script>
+function submitAssignDriverForm(form, ajaxFunc) {
+    const data = $(form).serialize();
+    const btn = $(form).find('button[type="submit"]');
+    const originalText = btn.text();
+    btn.text('Assigning...').prop('disabled', true);
+
+    $.ajax({
+        url: '<?php echo base_url(); ?>Insert_con/' + ajaxFunc,
+        type: 'POST',
+        data: data,
+        dataType: 'json',
+        success: function(response) {
+            btn.text(originalText).prop('disabled', false);
+            if(response.status === 'success') {
+                btn.removeClass('btn-primary').addClass('btn-success').text('Assigned!');
+                setTimeout(() => { btn.removeClass('btn-success').addClass('btn-primary').text('Assign'); }, 2000);
+            } else {
+                alert("Failed: " + response.msg);
+            }
+        },
+        error: function() {
+            btn.text(originalText).prop('disabled', false);
+            alert("Network error updating driver.");
+        }
+    });
+}
+</script>

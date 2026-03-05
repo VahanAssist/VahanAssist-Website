@@ -976,6 +976,7 @@
 							}
 						}
 
+                        $this->session->set_flashdata('success', 'Booking Submitted Successfully!');
 						redirect(base_url() . 'Main_con/view_booking');
 					} else {
 						echo "Error on Inserting Booking..";
@@ -997,6 +998,7 @@
 							}
 						}
 
+                        $this->session->set_flashdata('success', 'Booking Updated Successfully!');
 						redirect(base_url() . 'Main_con/view_booking');
 					} else {
 						redirect(base_url() . "Main_con/add_booking/$id");
@@ -1432,6 +1434,25 @@
 				echo 'Error on updating bookings';
 			}
 		}
+
+		public function updateBookingStatusAjax()
+		{
+			$bookingId = empty($this->input->post('bookingId')) ? '' : $this->input->post('bookingId');
+			$data['status'] = empty($this->input->post('status')) ? '' : $this->input->post('status');
+			
+			if (empty($bookingId) || empty($data['status'])) {
+				echo json_encode(['status' => 'error', 'msg' => 'Invalid parameters.']);
+				return;
+			}
+
+			$res = $this->Manage_product->updateBooking($bookingId, $data);
+
+			if ($res == 1) {
+				echo json_encode(['status' => 'success', 'msg' => 'Status updated dynamically!']);
+			} else {
+				echo json_encode(['status' => 'error', 'msg' => 'Error on updating bookings.']);
+			}
+		}
 		public function updateBooking()
 		{
 			$bookingId = empty($this->input->post('bookingId')) ? '' : $this->input->post('bookingId');
@@ -1455,25 +1476,28 @@
 			$data['assignSecondDriverId'] = 0;
 			$log['status'] = "ASSIGNED" ;
 
-			$getCarDetail = $this->Manage_product->getCarDetailsByDriverId($data['assignDriverId']);
-			$getCarDetailV2 = $this->Manage_product->getCarDetailsByDriverIdV2($data['assignDriverId']);
+			if (!empty($data['assignDriverId'])) {
+				$getCarDetail = $this->Manage_product->getCarDetailsByDriverId($data['assignDriverId']);
+				$getCarDetailV2 = $this->Manage_product->getCarDetailsByDriverIdV2($data['assignDriverId']);
 
-			if(count($getCarDetail) > 0){
-              $getBooking = $this->Manage_product->getBookingById($getCarDetail[0]['bookingId']);
+				if(count($getCarDetail) > 0){
+				$getBooking = $this->Manage_product->getBookingById($getCarDetail[0]['bookingId']);
 
-			  if(count($getBooking) > 0 && $getCarDetail[0]['bookingId'] != $bookingId && $getBooking[0]['status'] != 'COMPLETED'){
-				$this->session->set_flashdata('error', 'This Driver is Assigned and Booking Yet not Completed!');
-				redirect(base_url() . "Main_con/orderdetails/$bookingId");
-			  }
-			}
-			else if(count($getCarDetailV2) > 0){
-				$getBooking = $this->Manage_product->getBookingById($getCarDetailV2[0]['bookingId']);
+				if(count($getBooking) > 0 && $getCarDetail[0]['bookingId'] != $bookingId && $getBooking[0]['status'] != 'COMPLETED'){
+					$this->session->set_flashdata('error', 'This Driver is Assigned and Booking Yet not Completed!');
+					redirect(base_url() . "Main_con/orderdetails/$bookingId");
+				}
+				}
+				else if(count($getCarDetailV2) > 0){
+					$getBooking = $this->Manage_product->getBookingById($getCarDetailV2[0]['bookingId']);
 
-				if(count($getBooking) > 0 &&  $getCarDetail[0]['bookingId'] != $bookingId && $getBooking[0]['status'] != 'COMPLETED'){
-				  $this->session->set_flashdata('error', 'This Driver is Assigned and Booking Yet not Completed!');
-				  redirect(base_url() . "Main_con/orderdetails/$bookingId");
+					if(count($getBooking) > 0 &&  $getCarDetail[0]['bookingId'] != $bookingId && $getBooking[0]['status'] != 'COMPLETED'){
+					$this->session->set_flashdata('error', 'This Driver is Assigned and Booking Yet not Completed!');
+					redirect(base_url() . "Main_con/orderdetails/$bookingId");
+					}
 				}
 			}
+
 			$res = $this->Manage_product->updateCarTrailorBooking($carId, $data);
 			
 			if ($res == 1) {
@@ -1482,6 +1506,49 @@
 			} else {
 				$this->session->set_flashdata('error', 'Something Went Wrong!');
 				redirect(base_url() . "Main_con/orderdetails/$bookingId");
+			}
+		}
+
+		public function updateBookingTrailorAjax()
+		{
+			$bookingId = empty($this->input->post('bookingId')) ? '' : $this->input->post('bookingId');
+			$carId = empty($this->input->post('carId')) ? '' : $this->input->post('carId');
+			$data['assignDriverId'] = empty($this->input->post('assignDriverId')) ? '' : $this->input->post('assignDriverId');
+			$data['assignSecondDriverId'] = 0;
+			$log['status'] = "ASSIGNED" ;
+
+			if (empty($bookingId) || empty($carId)) {
+				echo json_encode(['status' => 'error', 'msg' => 'Invalid Request']);
+				return;
+			}
+
+			if (!empty($data['assignDriverId'])) {
+				$getCarDetail = $this->Manage_product->getCarDetailsByDriverId($data['assignDriverId']);
+				$getCarDetailV2 = $this->Manage_product->getCarDetailsByDriverIdV2($data['assignDriverId']);
+
+				if(count($getCarDetail) > 0){
+					$getBooking = $this->Manage_product->getBookingById($getCarDetail[0]['bookingId']);
+					if(count($getBooking) > 0 && $getCarDetail[0]['bookingId'] != $bookingId && $getBooking[0]['status'] != 'COMPLETED'){
+						echo json_encode(['status' => 'error', 'msg' => 'This Driver is Assigned and Booking Yet not Completed!']);
+						return;
+					}
+				}
+				else if(count($getCarDetailV2) > 0){
+					$getBooking = $this->Manage_product->getBookingById($getCarDetailV2[0]['bookingId']);
+					if(count($getBooking) > 0 &&  $getCarDetail[0]['bookingId'] != $bookingId && $getBooking[0]['status'] != 'COMPLETED'){
+						echo json_encode(['status' => 'error', 'msg' => 'This Driver is Assigned and Booking Yet not Completed!']);
+						return;
+					}
+				}
+			}
+
+			$res = $this->Manage_product->updateCarTrailorBooking($carId, $data);
+			
+			if ($res == 1) {
+				$this->Manage_product->updateBooking($bookingId,$log);
+				echo json_encode(['status' => 'success', 'msg' => 'Driver Assigned Successfully']);
+			} else {
+				echo json_encode(['status' => 'error', 'msg' => 'Something Went Wrong!']);
 			}
 		}
 
@@ -1494,26 +1561,27 @@
 			// $data['assignDriverId'] = 0;
 			$log['status'] = "REASSIGNED" ;
 
-			$getCarDetail = $this->Manage_product->getCarDetailsByDriverId($data['assignSecondDriverId']);
-			$getCarDetailV2 = $this->Manage_product->getCarDetailsByDriverIdV2($data['assignSecondDriverId']);
+			if(!empty($data['assignSecondDriverId'])) {
+				$getCarDetail = $this->Manage_product->getCarDetailsByDriverId($data['assignSecondDriverId']);
+				$getCarDetailV2 = $this->Manage_product->getCarDetailsByDriverIdV2($data['assignSecondDriverId']);
 
-			if(count($getCarDetail) > 0){
-              $getBooking = $this->Manage_product->getBookingById($getCarDetail[0]['bookingId']);
-
-			  if(count($getBooking) > 0 && $getCarDetail[0]['bookingId'] != $bookingId && $getBooking[0]['status'] != 'COMPLETED'){
-				$this->session->set_flashdata('errorv2', 'This Driver is Assigned and Booking Yet not Completed!');
-				redirect(base_url() . "Main_con/orderdetails/$bookingId");
-			  }
-			}
-			else if(count($getCarDetailV2) > 0){
-				$getBooking = $this->Manage_product->getBookingById($getCarDetailV2[0]['bookingId']);
+				if(count($getCarDetail) > 0){
+				$getBooking = $this->Manage_product->getBookingById($getCarDetail[0]['bookingId']);
 
 				if(count($getBooking) > 0 && $getCarDetail[0]['bookingId'] != $bookingId && $getBooking[0]['status'] != 'COMPLETED'){
-				  $this->session->set_flashdata('errorv2', 'This Driver is Assigned and Booking Yet not Completed!');
-				  redirect(base_url() . "Main_con/orderdetails/$bookingId");
+					$this->session->set_flashdata('errorv2', 'This Driver is Assigned and Booking Yet not Completed!');
+					redirect(base_url() . "Main_con/orderdetails/$bookingId");
+				}
+				}
+				else if(count($getCarDetailV2) > 0){
+					$getBooking = $this->Manage_product->getBookingById($getCarDetailV2[0]['bookingId']);
+
+					if(count($getBooking) > 0 && $getCarDetail[0]['bookingId'] != $bookingId && $getBooking[0]['status'] != 'COMPLETED'){
+					$this->session->set_flashdata('errorv2', 'This Driver is Assigned and Booking Yet not Completed!');
+					redirect(base_url() . "Main_con/orderdetails/$bookingId");
+					}
 				}
 			}
-
 			
 			$res = $this->Manage_product->updateCarTrailorBooking($carId, $data);
 			
@@ -1523,6 +1591,53 @@
 			} else {
 				$this->session->set_flashdata('errorv2', 'Something Went Wrong!');
 				redirect(base_url() . "Main_con/orderdetails/$bookingId");
+			}
+		}
+
+		public function updateBookingTrailorV2Ajax()
+		{
+			$bookingId = empty($this->input->post('bookingId')) ? '' : $this->input->post('bookingId');
+			$carId = empty($this->input->post('carId')) ? '' : $this->input->post('carId');
+			$data['assignSecondDriverId'] = empty($this->input->post('assignSecondDriverId')) ? '' : $this->input->post('assignSecondDriverId');
+			$data['secondDriverAssignFlag'] = 1;
+			
+			// Leave status as ASSIGNED so dropdowns don't break with "REASSIGNED"
+			// Unless they strictly want REASSIGNED for tracking history.
+			// Let's set it to ASSIGNED.
+			$log['status'] = "ASSIGNED" ;
+
+			if (empty($bookingId) || empty($carId)) {
+				echo json_encode(['status' => 'error', 'msg' => 'Invalid Request']);
+				return;
+			}
+
+			if(!empty($data['assignSecondDriverId'])) {
+				$getCarDetail = $this->Manage_product->getCarDetailsByDriverId($data['assignSecondDriverId']);
+				$getCarDetailV2 = $this->Manage_product->getCarDetailsByDriverIdV2($data['assignSecondDriverId']);
+
+				if(count($getCarDetail) > 0){
+					$getBooking = $this->Manage_product->getBookingById($getCarDetail[0]['bookingId']);
+					if(count($getBooking) > 0 && $getCarDetail[0]['bookingId'] != $bookingId && $getBooking[0]['status'] != 'COMPLETED'){
+						echo json_encode(['status' => 'error', 'msg' => 'This Driver is Assigned and Booking Yet not Completed!']);
+						return;
+					}
+				}
+				else if(count($getCarDetailV2) > 0){
+					$getBooking = $this->Manage_product->getBookingById($getCarDetailV2[0]['bookingId']);
+					if(count($getBooking) > 0 && $getCarDetail[0]['bookingId'] != $bookingId && $getBooking[0]['status'] != 'COMPLETED'){
+						echo json_encode(['status' => 'error', 'msg' => 'This Driver is Assigned and Booking Yet not Completed!']);
+						return;
+					}
+				}
+			}
+
+			$res = $this->Manage_product->updateCarTrailorBooking($carId, $data);
+			
+			if ($res == 1) {
+				$this->Manage_product->updateBooking($bookingId,$log);
+				echo json_encode(['status' => 'success', 'msg' => 'Second Driver Assigned Successfully']);
+			} else {
+				echo json_encode(['status' => 'error', 'msg' => 'Something Went Wrong!']);
 			}
 		}
 
@@ -3413,6 +3528,56 @@
 				}
 			}
 
+
+		}
+		public function getAllBooking()
+		{
+			$userId = $this->input->post('userId');
+			
+			$data['booking'] = $this->Manage_product->getBookingByUserId($userId);
+			$data['trailer'] = $this->Manage_product->getTrailerByUserId($userId);
+			
+			if (!empty($data)) {
+				echo json_encode(array('status' => 'success', "data" => $data));
+			} else {
+				echo json_encode(array('status' => 'error', "msg" => "No bookings found", "data" => []));
+			}
 		}
 
+		public function getBookingDetails() {
+			$bookingId = $this->input->post('bookingId');
+			if (empty($bookingId)) {
+				echo json_encode(array('status' => 'error', 'msg' => 'Booking ID is required', 'data' => []));
+				return;
+			}
+			$data['booking'] = $this->Manage_product->getBookingById($bookingId);
+			if (empty($data['booking'])) {
+				echo json_encode(array('status' => 'error', 'msg' => 'No bookings found', 'data' => []));
+				return;
+			}
+			$data['car'] = $this->Manage_product->getCarDetailsByBooking($bookingId);
+			
+			$data['driver1'] = null;
+			if (!empty($data['booking'][0]['assignDriverId'])) {
+				$data['driver1'] = $this->Manage_product->getUserById($data['booking'][0]['assignDriverId']);
+			}
+			
+			$data['driver2'] = null;
+			if (!empty($data['booking'][0]['assignSecondDriverId'])) {
+				$data['driver2'] = $this->Manage_product->getUserById($data['booking'][0]['assignSecondDriverId']);
+			}
+			
+			$data['vahan'] = null;
+			if (!empty($data['booking'][0]['vehicleId'])) {
+				$getVehicles = $this->Manage_product->getVehicle();
+				foreach ($getVehicles as $vh) {
+					if ($vh['id'] == $data['booking'][0]['vehicleId']) {
+						$data['vahan'] = $vh['name'];
+						break;
+					}
+				}
+			}
+			
+			echo json_encode(array('status' => 'success', 'data' => $data));
+		}
 	}

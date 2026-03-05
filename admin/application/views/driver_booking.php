@@ -17,6 +17,9 @@
             </div>
          </div>
       </div>
+      <?php if ($this->session->flashdata('success')): ?>
+         <div class="alert alert-success mt-2"><?php echo $this->session->flashdata('success'); ?></div>
+      <?php endif; ?>
       <div class="row">
          <div class="col-lg-12">
             <div class="main-card mb-3 card">
@@ -66,24 +69,20 @@
                                  <?php echo $data['status'] ?><br>
                                  <?php echo date("d-m-Y", strtotime($data['updated'])) ?>
 
-                                   <form class="status form" method="post" action="<?php echo base_url();?>Insert_con/updateBookingStatus">
-                                    <input type="hidden" name="bookingId" value="<?php echo $data['id'] ?>">
-                                            <div class="form-group ">
-                                             <select  name="status">
-                                             <option value="null">Select Status</option>
+                                   <form class="status-form" method="post" action="javascript:void(0);">
+                                        <input type="hidden" name="bookingId" value="<?php echo $data['id'] ?>">
+                                        <div class="form-group mb-0">
+                                            <select name="status" class="form-control form-control-sm status-dropdown" onchange="updateStatusDynamically(this)">
+                                                <option value="null">Select Status</option>
                                                 <option <?php echo $data['status'] == 'COMPLETED' ? "selected" : '' ?> value="COMPLETED">COMPLETED</option>
-                                              <!--   <option <?php echo $data['status'] == 'NEW' ? "selected" : '' ?> value="NEW">NEW</option>
-                                                <option <?php echo $data['status'] == 'HOLD' ? "selected" : '' ?> value="HOLD">HOLD</option> -->
                                                 <option <?php echo $data['status'] == 'BOOKED' ? "selected" : '' ?> value="BOOKED">BOOKED</option>
                                                 <option <?php echo $data['status'] == 'ASSIGNED' ? "selected" : '' ?> value="ASSIGNED">ASSIGNED</option>
+                                                <option <?php echo $data['status'] == 'REASSIGNED' ? "selected" : '' ?> value="REASSIGNED">REASSIGNED</option>
                                                 <option <?php echo $data['status'] == 'ONGOING' ? "selected" : '' ?> value="ONGOING">ONGOING</option>
                                                 <option <?php echo $data['status'] == 'CANCEL' ? "selected" : '' ?> value="CANCEL">CANCEL</option>
-                                             </select>
-                                            </div>
-                                            <div class="form-group">
-                                                 <input type="Submit" class="btn btn-sm btn-info" value="submit" >
-                                            </div>
-                                        </form>
+                                            </select>
+                                        </div>
+                                    </form>
                               </td>
                               <td>
                                 <p> Total -   <?php echo $totalCar; ?></p>
@@ -132,7 +131,41 @@
    </div>
    <?php
    include 'inc/footer.php';
-
-
-
    ?>
+
+<script>
+function updateStatusDynamically(selectElement) {
+    const form = $(selectElement).closest('form');
+    const bookingId = form.find('input[name="bookingId"]').val();
+    const status = $(selectElement).val();
+    
+    if(status === 'null') return;
+
+    // Optional visual cue that it is saving
+    $(selectElement).prop('disabled', true);
+
+    $.ajax({
+        url: '<?php echo base_url(); ?>Insert_con/updateBookingStatusAjax',
+        type: 'POST',
+        data: {
+            bookingId: bookingId,
+            status: status
+        },
+        dataType: 'json',
+        success: function(response) {
+            $(selectElement).prop('disabled', false);
+            if(response.status === 'success') {
+                // Flash success color briefly
+                $(selectElement).css('background-color', '#d4edda');
+                setTimeout(() => { $(selectElement).css('background-color', ''); }, 1500);
+            } else {
+                alert("Failed to update status: " + response.msg);
+            }
+        },
+        error: function() {
+            $(selectElement).prop('disabled', false);
+            alert("Network error updating status.");
+        }
+    });
+}
+</script>

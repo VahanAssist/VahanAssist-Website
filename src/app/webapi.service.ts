@@ -407,4 +407,28 @@ export class WebapiService {
     return this.http.post(this.baseUrl + "getAllBooking", form_data);
   }
 
+  getBookingDetails(data: any) {
+    var form_data = new FormData();
+    for (var key in data) {
+      form_data.append(key, data[key]);
+    }
+    return this.http.post(this.baseUrl + "getBookingDetails", form_data);
+  }
+
+  createOrderRazorPayBooking(data: any) {
+    var form_data = new FormData();
+    for (var key in data) {
+      form_data.append(key, data[key]);
+    }
+    return this.http.post(this.basePaymentUrl + "createPaymentIdForBooking", form_data);
+  }
+
+  verifyRazorPaymentBooking(data: any) {
+    var form_data = new FormData();
+    for (var key in data) {
+      form_data.append(key, data[key]);
+    }
+    return this.http.post(this.basePaymentUrl + "verifyRazorPaymentForBooking", form_data);
+  }
+
 }

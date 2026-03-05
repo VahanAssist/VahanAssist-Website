@@ -23,9 +23,18 @@ export class RazorPayComponent {
   rzaorPayPayment() {
     // call api to create order_id
     // this.payWithRazor("1234");
+
+    let user_id = sessionStorage.getItem('userId');
+    let package_id = sessionStorage.getItem('package_id') || 1; // Fallback to 1 if no package_id in session
+
+    if (!user_id) {
+      alert("Please Login First!!");
+      return;
+    }
+
     let val = {
-      user_id: 2,
-      package_id: 1
+      user_id: user_id,
+      package_id: package_id
     };
 
     this.webapi.createOrderRazorPay(val).subscribe((res: any) => {

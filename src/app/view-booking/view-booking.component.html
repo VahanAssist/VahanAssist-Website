@@ -5,7 +5,7 @@
             <p class="text-muted">Track your vehicle trailers and inspections.</p>
         </div>
         <div class="col-auto">
-            <a routerLink="/user-profile" class="btn btn-outline-secondary">Back to Profile</a>
+            <a (click)="goBack()" style="cursor: pointer;" class="btn btn-outline-secondary">Back</a>
         </div>
     </div>
 
@@ -20,6 +20,7 @@
                             <th>Drop (To)</th>
                             <th>Date</th>
                             <th>Status</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -38,13 +39,19 @@
                                 <span class="badge" [ngClass]="{
                                     'bg-warning text-dark': booking.status === 'BOOKED',
                                     'bg-primary': booking.status === 'ASSIGNED',
+                                    'bg-info': booking.status === 'ONGOING',
+                                    'bg-secondary': booking.status === 'REASSIGNED' || booking.status === 'NEW',
                                     'bg-success': booking.status === 'COMPLETED',
-                                    'bg-danger': booking.status === 'CANCELLED'
+                                    'bg-danger': booking.status === 'CANCELLED' || booking.status === 'CANCEL'
                                 }">{{ booking.status }}</span>
+                            </td>
+                            <td>
+                                <a [routerLink]="['/booking-details', booking.id]"
+                                    class="btn btn-sm btn-outline-primary">View</a>
                             </td>
                         </tr>
                         <tr *ngIf="bookings.length === 0">
-                            <td colspan="5" class="text-center py-4 text-muted">No bookings found.</td>
+                            <td colspan="6" class="text-center py-4 text-muted">No bookings found.</td>
                         </tr>
                     </tbody>
                 </table>
