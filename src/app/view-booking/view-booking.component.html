@@ -6,6 +6,7 @@
         </div>
         <div class="col-auto">
             <a (click)="goBack()" style="cursor: pointer;" class="btn btn-outline-secondary">Back</a>
+            <a routerLink="/user-profile" class="btn btn-outline-secondary">Back to Profile</a>
         </div>
     </div>
 
@@ -52,6 +53,13 @@
                         </tr>
                         <tr *ngIf="bookings.length === 0">
                             <td colspan="6" class="text-center py-4 text-muted">No bookings found.</td>
+                                    'bg-success': booking.status === 'COMPLETED',
+                                    'bg-danger': booking.status === 'CANCELLED'
+                                }">{{ booking.status }}</span>
+                            </td>
+                        </tr>
+                        <tr *ngIf="bookings.length === 0">
+                            <td colspan="5" class="text-center py-4 text-muted">No bookings found.</td>
                         </tr>
                     </tbody>
                 </table>

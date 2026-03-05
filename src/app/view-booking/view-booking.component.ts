@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { WebapiService } from '../webapi.service';
 
@@ -22,6 +23,8 @@ export class ViewBookingComponent implements OnInit {
 
     goBack(): void {
         this.location.back();
+    constructor(private webapi: WebapiService) {
+        this.userId = sessionStorage.getItem('userId');
     }
 
     ngOnInit(): void {
@@ -45,6 +48,8 @@ export class ViewBookingComponent implements OnInit {
                 this.bookings = allBookings;
             } else {
                 this.bookings = [];
+            if (res) {
+                this.bookings = res;
             }
         });
     }
