@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
-import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { WebapiService } from '../webapi.service';
 
@@ -23,8 +22,22 @@ export class ViewBookingComponent implements OnInit {
 
     goBack(): void {
         this.location.back();
-    constructor(private webapi: WebapiService) {
-        this.userId = sessionStorage.getItem('userId');
+    }
+
+    getTypeClass(type: string): string {
+        if (type === 'TRAILER') return 'bg-primary';
+        if (type === 'INSPECTION') return 'bg-info';
+        return 'bg-secondary';
+    }
+
+    getStatusClass(status: string): string {
+        if (status === 'BOOKED') return 'bg-warning text-dark';
+        if (status === 'ASSIGNED') return 'bg-primary';
+        if (status === 'ONGOING') return 'bg-info';
+        if (status === 'REASSIGNED' || status === 'NEW') return 'bg-secondary';
+        if (status === 'COMPLETED') return 'bg-success';
+        if (status === 'CANCELLED' || status === 'CANCEL') return 'bg-danger';
+        return 'bg-secondary';
     }
 
     ngOnInit(): void {
@@ -48,8 +61,6 @@ export class ViewBookingComponent implements OnInit {
                 this.bookings = allBookings;
             } else {
                 this.bookings = [];
-            if (res) {
-                this.bookings = res;
             }
         });
     }
