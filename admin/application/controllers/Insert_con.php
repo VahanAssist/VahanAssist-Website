@@ -893,6 +893,7 @@
 				$data['comment'] = empty($this->input->post('comment')) ? '' : $this->input->post('comment');
 				$data['date_time'] = date('Y-m-d H:i:s');
 			$this->Manage_product->insertBookingTracking($data);
+			$this->session->set_flashdata('tracking_success', 'Tracking Comment Added Successfully!');
 			redirect(base_url() . "Main_con/orderdetails/$bookingId");
 		}
 
