@@ -13,13 +13,13 @@ import { ToastrService } from 'ngx-toastr';
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
-  formData: any = {};
+  formData: any = { type: '' };
   constructor(private webapi: WebapiService, private toastr: ToastrService, private router: Router) {
   }
 
   onLoginFormSubmit(data: any) {
-    if (!data.phoneNumber || !data.password) {
-      this.toastr.error('Fill out the required feilds', 'Required');
+    if (!data.phoneNumber || !data.password || !data.type) {
+      this.toastr.error('Fill out the required fields', 'Required');
     }
     else {
       this.webapi.getUser(data).subscribe((res: any) => {
