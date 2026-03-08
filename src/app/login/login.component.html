@@ -147,12 +147,12 @@
                             </div>
 
                             <div class="form-floating mb-3">
-                                <select name="type" class="form-control" [(ngModel)]="formData.type">
-                                    <option value="">Select Type</option>
+                                <select name="type" id="floatingType" class="form-control" [(ngModel)]="formData.type">
+                                    <option value="" selected disabled hidden>Select Type</option>
                                     <option value="USER">User</option>
                                     <option value="DEALER">Dealer</option>
                                 </select>
-                                <label for="floatingPassword">Type</label>
+                                <label for="floatingType">Type</label>
                             </div>
 
                             <div class="d-flex justify-content-between">
