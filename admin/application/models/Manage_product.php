@@ -1865,11 +1865,11 @@ class Manage_product extends CI_Model
 		return $query->result_array();
 	}
 	function getVehicleById($id)
-	{
-		$query  = $this->db->where('id', $id);
-		$query = $this->db->get('tbl_vehicle');
-		return $query->result_array();
-	}
+{
+    $query = $this->db->where('bookingId', $id);
+    $query = $this->db->get('tbl_car_detail');
+    return $query->result_array();
+}
 
 	function getVehicleByReg($id)
 	{
