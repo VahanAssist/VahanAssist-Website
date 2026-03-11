@@ -47,15 +47,15 @@
                         $i = 1;
                         foreach ($bookings as $data) { 
                            $getUserById = $this->Manage_product->getUserById($data['userId']);
-                           $getVehicleById = $this->Manage_product->getVehicleById($data['userId'])
+                           $getVehicleById = $this->Manage_product->getVehicleById($data['id']);
                            ?>
                         
                            <tr>
                               <td><?php echo $i ?></td>
                               <td><?php echo $getUserById[0]['firstName'] ?></td>
-                              <td><?php echo $getVehicleById[0]['name'] ?></td>
-                              <td><?php echo $data['pickup'] ?></td>
-                              <td><?php echo $data['drop'] ?></td>
+                              <td><?php echo $getVehicleById[0]['model'] ?></td>
+                              <td><?php echo $data['pickupLocation'] ?></td>
+                              <td><?php echo $data['dropLocation'] ?></td>
                               <td><?php echo $data['date'] ?></td>
                               <td><?php echo $data['time'] ?></td>
                               <td><?php echo $data['type'] ?></td>
@@ -86,6 +86,8 @@
                         <?php $i++;
                         } ?>
                      </tbody>
+
+                     
                   </table>
                   <?php echo $links; ?>
                </div>
