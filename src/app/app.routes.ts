@@ -35,9 +35,9 @@ import { BookingDetailsComponent } from './booking-details/booking-details.compo
 export const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'home', component: HomeComponent },
-  { path: 'driver-booking', component: DriverBookingComponent },
-  { path: 'trailor-booking', component: TrailorBookingComponent },
-  { path: 'inspection', component: InspectionComponent },
+  { path: 'driver-booking', component: DriverBookingComponent, canActivate: [authGuard] },
+  { path: 'trailor-booking', component: TrailorBookingComponent, canActivate: [authGuard] },
+  { path: 'inspection', component: InspectionComponent, canActivate: [authGuard] },
 
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
