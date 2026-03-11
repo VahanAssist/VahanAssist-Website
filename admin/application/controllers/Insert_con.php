@@ -890,7 +890,10 @@
 			$bookingId = $this->input->post('bookingId');
 			    date_default_timezone_set('Asia/Kolkata');
 				$data['bookingId'] = empty($this->input->post('bookingId')) ? '' : $this->input->post('bookingId');
-				$data['comment'] = empty($this->input->post('comment')) ? '' : $this->input->post('comment');
+				$data['comment'] = empty($this->input->post('comment')) ? 'No Comment' : trim($this->input->post('comment'));
+			if (trim($data['comment']) === '') {
+				$data['comment'] = 'No Comment';
+			}
 				$data['date_time'] = date('Y-m-d H:i:s');
 			$this->Manage_product->insertBookingTracking($data);
 			$this->session->set_flashdata('tracking_success', 'Tracking Comment Added Successfully!');

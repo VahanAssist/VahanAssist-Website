@@ -664,7 +664,7 @@
                                     foreach ($getTracking as $track) {
                                     ?>
                                         <tr>
-                                            <td><?php echo $track['comment'] ?></td>
+                                            <td><?php echo !empty(trim($track['comment'])) ? $track['comment'] : 'No Comment'; ?></td>
                                             <td><?php echo $track['date_time'] ?></td>
                                         </tr>
                                     <?php } ?>
