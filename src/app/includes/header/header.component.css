@@ -6,3 +6,12 @@
     justify-content: flex-end !important;
 }
 }
+
+@media (max-width: 991px) {
+    .submenu {
+        display: none;
+    }
+    .submenu.open {
+        display: block !important;
+    }
+}
