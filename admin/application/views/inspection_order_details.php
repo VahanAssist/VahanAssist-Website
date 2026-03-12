@@ -401,8 +401,21 @@
                                                 <td><?php echo $car['model'] ?></td>
                                                 <!-- <td><?php echo $car['carType'] ?></td> -->
                                         
+                                                <td>
+                                                    <?php if(!empty($car['doc'])): ?>
+                                                        <a href="<?php echo base_url('images/booking_image/' . $car['doc']) ?>" target="_blank" class="btn btn-primary btn-sm">View Document</a>
+                                                    <?php else: ?>
+                                                        N/A
+                                                    <?php endif; ?>
+                                                </td>
+
                                                 <td><?php echo $car['carQuality'] ?></td>
                                                 <td><?php echo $car['carCondition'] ?></td>
+                                                <td>
+                                                     <a href="<?php echo base_url() ?>Main_con/inspectionreport/<?php echo $getbookingData[0]['id'] ?>" class="btn btn-info" target="_blank">
+                                                         View Report
+                                                     </a>
+                                                </td>
                                                
                                                 
                                              

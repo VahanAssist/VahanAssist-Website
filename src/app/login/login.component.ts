@@ -19,7 +19,7 @@ export class LoginComponent {
 
   onLoginFormSubmit(data: any) {
     if (!data.phoneNumber || !data.password) {
-      this.toastr.error('Fill out the required feilds', 'Required');
+      this.toastr.error('Fill out the required fields', 'Required');
     }
     else {
       this.webapi.getUser(data).subscribe((res: any) => {

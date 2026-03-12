@@ -16,17 +16,18 @@ export class DriverBookingComponent {
   userId:any;
   userType:any='';
   bookingForm = new FormGroup({
-  type: new FormControl('',[Validators.required]),
-  date: new FormControl('',[Validators.required]),
-  time: new FormControl('',[Validators.required]),
-  name: new FormControl('',[Validators.required]),
-  phone: new FormControl('',[Validators.required]),
-  email: new FormControl('',[Validators.required,Validators.email]),
-  comments: new FormControl(''),
-  pickLat: new FormControl('',[Validators.required]),
-    dropLat: new FormControl('',[Validators.required]),
-    pickLng: new FormControl('',[Validators.required]),
-    dropLng: new FormControl('',[Validators.required]),
+    type: new FormControl('', [Validators.required]),
+    service_type: new FormControl('', [Validators.required]),
+    date: new FormControl('', [Validators.required]),
+    time: new FormControl('', [Validators.required]),
+    name: new FormControl('', [Validators.required]),
+    phone: new FormControl('', [Validators.required]),
+    email: new FormControl('', [Validators.required, Validators.email]),
+    comments: new FormControl(''),
+    pickLat: new FormControl('', [Validators.required]),
+    dropLat: new FormControl('', [Validators.required]),
+    pickLng: new FormControl('', [Validators.required]),
+    dropLng: new FormControl('', [Validators.required]),
     status: new FormControl('BOOKED',),
     bookingType: new FormControl('DRIVER',),
     userId: new FormControl('',),
@@ -43,7 +44,11 @@ export class DriverBookingComponent {
 
     this.cars = [
       {
-        "model":""
+        "model": "",
+        "carType": "",
+        "carQuality": "",
+        "carCondition": "",
+        "image": ""
       }
     ]
 
@@ -133,7 +138,13 @@ export class DriverBookingComponent {
   }
 
    addRow(){
-    this.cars.push({});
+    this.cars.push({
+      "model": "",
+      "carType": "",
+      "carQuality": "",
+      "carCondition": "",
+      "image": ""
+    });
   }
 
   removeRow(i:any){
