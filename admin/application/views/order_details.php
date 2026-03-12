@@ -620,8 +620,9 @@
 
 
                                 <?php
-                                $tracking_success = $this->session->flashdata('tracking_success');
+                                $tracking_success = $this->session->userdata('tracking_success');
                                 if ($tracking_success) {
+                                    $this->session->unset_userdata('tracking_success');
                                     echo '<div class="alert alert-success" id="trackingSuccessAlert">' . $tracking_success . '</div>';
                                     echo '<script>
                                         document.addEventListener("DOMContentLoaded", function() {
@@ -637,17 +638,38 @@
                                         });
                                     </script>';
                                 }
+                                
+                                $tracking_error = $this->session->userdata('tracking_error');
+                                if ($tracking_error) {
+                                    $this->session->unset_userdata('tracking_error');
+                                    echo '<div class="alert alert-danger" id="trackingErrorAlert">' . $tracking_error . '</div>';
+                                    echo '<script>
+                                        document.addEventListener("DOMContentLoaded", function() {
+                                            var el = document.getElementById("trackingErrorAlert");
+                                            if (el) {
+                                                el.scrollIntoView({ behavior: "smooth", block: "center" });
+                                                setTimeout(function() {
+                                                    el.style.transition = "opacity 0.5s";
+                                                    el.style.opacity = "0";
+                                                    setTimeout(function() { el.remove(); }, 500);
+                                                }, 5000);
+                                            }
+                                        });
+                                    </script>';
+                                }
                                 ?>
                                 <legend class="col-form-label col-sm-12">Tracking Information</legend>
+                                <div id="jsTrackingError" style="display:none;" class="alert alert-danger"></div>
 
 
 
-                                <form class="trackform form" method="post" action="<?php echo base_url(); ?>Insert_con/insertBookingTracking">
+                                <form class="trackform form" id="trackingForm" method="post" action="<?php echo base_url(); ?>Insert_con/insertBookingTracking">
                                     <input type="hidden" name="bookingId" value="<?php echo $order_id ?>">
                                     <div class="form-group col-lg-8 pull-left">
                                         <label>Tracking Comment</label>
                                         <!-- <input class="form-control" placeholder=""> -->
-                                        <textarea class="form-control" name="comment" rows="5"></textarea>
+                                        <textarea class="form-control" id="trackingComment" name="comment" rows="5"></textarea>
+                                        <small id="wordCountDisplay" class="form-text text-muted">0 / 200 words</small>
                                     </div>
                                     <div class="form-group col-lg-12 pull-left">
                                         <button type="submit" class="btn btn-sm btn-primary">Add</button>
@@ -711,5 +733,57 @@ function submitAssignDriverForm(form, ajaxFunc) {
             alert("Network error updating driver.");
         }
     });
-}
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const commentBox = document.getElementById('trackingComment');
+    const wordCountDisplay = document.getElementById('wordCountDisplay');
+    const maxWords = 200;
+    const trackingForm = document.getElementById('trackingForm');
+
+    if(commentBox && wordCountDisplay) {
+        function countWords(str) {
+            return str.trim().split(/\s+/).filter(word => word.length > 0).length;
+        }
+
+        commentBox.addEventListener('input', function() {
+            let words = countWords(this.value);
+            wordCountDisplay.textContent = words + ' / ' + maxWords + ' words';
+            if (words > maxWords) {
+                wordCountDisplay.style.color = 'red';
+            } else {
+                wordCountDisplay.style.color = '';
+            }
+        });
+        
+        if(trackingForm) {
+            trackingForm.addEventListener('submit', function(e) {
+                if(countWords(commentBox.value) > maxWords) {
+                    e.preventDefault();
+
+                    // Hide PHP alerts if they exist on the page
+                    const successAlert = document.getElementById('trackingSuccessAlert');
+                    if(successAlert) successAlert.style.display = 'none';
+                    const errorAlert = document.getElementById('trackingErrorAlert');
+                    if(errorAlert) errorAlert.style.display = 'none';
+
+                    const errDiv = document.getElementById('jsTrackingError');
+                    if(errDiv) {
+                        errDiv.textContent = "Tracking Comment cannot exceed 200 words.";
+                        errDiv.style.display = 'block';
+                        errDiv.style.opacity = '1';
+                        errDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        setTimeout(function() {
+                            errDiv.style.transition = 'opacity 0.5s';
+                            errDiv.style.opacity = '0';
+                            setTimeout(function() { errDiv.style.display = 'none'; }, 500);
+                        }, 5000);
+                    } else {
+                        alert("Tracking Comment cannot exceed 200 words.");
+                    }
+                }
+            });
+        }
+    }
+});
 </script>

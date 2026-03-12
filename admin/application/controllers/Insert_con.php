@@ -890,9 +890,26 @@
 			$bookingId = $this->input->post('bookingId');
 			    date_default_timezone_set('Asia/Kolkata');
 				$data['bookingId'] = empty($this->input->post('bookingId')) ? '' : $this->input->post('bookingId');
-				$data['comment'] = empty($this->input->post('comment')) ? '' : $this->input->post('comment');
+				
+				$commentInput = empty($this->input->post('comment')) ? 'No Comment' : trim($this->input->post('comment'));
+				
+				// Apply 200 words limit
+				$wordCount = str_word_count($commentInput);
+				if ($wordCount > 200) {
+                    $this->session->unset_userdata('tracking_success');
+					$this->session->set_flashdata('tracking_error', 'Tracking Comment cannot exceed 200 words.');
+					redirect(base_url() . "Main_con/orderdetails/$bookingId");
+					return;
+				}
+				
+				$data['comment'] = $commentInput;
+				
+			if (trim($data['comment']) === '') {
+				$data['comment'] = 'No Comment';
+			}
 				$data['date_time'] = date('Y-m-d H:i:s');
 			$this->Manage_product->insertBookingTracking($data);
+            $this->session->unset_userdata('tracking_error');
 			$this->session->set_flashdata('tracking_success', 'Tracking Comment Added Successfully!');
 			redirect(base_url() . "Main_con/orderdetails/$bookingId");
 		}
