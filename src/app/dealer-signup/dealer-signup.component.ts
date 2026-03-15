@@ -28,7 +28,7 @@ export class DealerSignupComponent {
 
   onSignupFormSubmit(data: any) {
     if (!data.firstName || !data.email || !data.password || !data.phoneNumber) {
-      this.toastr.error('Fill out the required feilds', 'Required');
+      this.toastr.error('Fill out the required fields', 'Required');
     }
     else {
 

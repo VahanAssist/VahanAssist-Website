@@ -35,7 +35,7 @@ export class TrailorBookingComponent {
       this.formData.userId = sessionStorage.getItem('userId');
     }
     if (!data.type || !data.pickup || !data.drop || !data.date || !data.time || !data.name || !data.email || !data.phone) {
-      this.toastr.error('Fill out the required feilds..', 'Required');
+      this.toastr.error('Fill out the required fields..', 'Required');
     }
     else {
       data.bookingType = "TRAILER";

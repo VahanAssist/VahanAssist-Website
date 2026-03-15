@@ -890,7 +890,6 @@
 			$bookingId = $this->input->post('bookingId');
 			    date_default_timezone_set('Asia/Kolkata');
 				$data['bookingId'] = empty($this->input->post('bookingId')) ? '' : $this->input->post('bookingId');
-				
 				$commentInput = empty($this->input->post('comment')) ? 'No Comment' : trim($this->input->post('comment'));
 				
 				// Apply 200 words limit
@@ -903,7 +902,6 @@
 				}
 				
 				$data['comment'] = $commentInput;
-				
 			if (trim($data['comment']) === '') {
 				$data['comment'] = 'No Comment';
 			}
@@ -951,7 +949,6 @@
 
 			$id = $this->input->post('id');
 			$carsArr = json_decode($this->input->post('carsDetails'), true);
-			$data['userId'] = empty($this->input->post('userId')) ? '' : $this->input->post('userId');
 			$data['picklng'] = empty($this->input->post('pickLng')) ? '' : $this->input->post('pickLng');
 			$data['droplng'] = empty($this->input->post('dropLng')) ? '' : $this->input->post('dropLng');
 			$data['picklat'] = empty($this->input->post('pickLat')) ? '' : $this->input->post('pickLat');
@@ -1005,7 +1002,7 @@
 				} else {
 					$res = $this->Manage_product->updateBooking($id, $data);
 					if ($res == 1) {
-						if (isset($carsArr)) {
+						if ($this->input->post('model')) {
 
 							for ($i = 0; $i < count($this->input->post('model')); $i++) {
 								// print_r($this->input->post('model'));
@@ -1558,7 +1555,7 @@
 				}
 				else if(count($getCarDetailV2) > 0){
 					$getBooking = $this->Manage_product->getBookingById($getCarDetailV2[0]['bookingId']);
-					if(count($getBooking) > 0 &&  $getCarDetail[0]['bookingId'] != $bookingId && $getBooking[0]['status'] != 'COMPLETED'){
+					if(count($getBooking) > 0 &&  $getCarDetailV2[0]['bookingId'] != $bookingId && $getBooking[0]['status'] != 'COMPLETED'){
 						echo json_encode(['status' => 'error', 'msg' => 'This Driver is Assigned and Booking Yet not Completed!']);
 						return;
 					}
@@ -1599,7 +1596,7 @@
 				else if(count($getCarDetailV2) > 0){
 					$getBooking = $this->Manage_product->getBookingById($getCarDetailV2[0]['bookingId']);
 
-					if(count($getBooking) > 0 && $getCarDetail[0]['bookingId'] != $bookingId && $getBooking[0]['status'] != 'COMPLETED'){
+					if(count($getBooking) > 0 && $getCarDetailV2[0]['bookingId'] != $bookingId && $getBooking[0]['status'] != 'COMPLETED'){
 					$this->session->set_flashdata('errorv2', 'This Driver is Assigned and Booking Yet not Completed!');
 					redirect(base_url() . "Main_con/orderdetails/$bookingId");
 					}
@@ -1647,7 +1644,7 @@
 				}
 				else if(count($getCarDetailV2) > 0){
 					$getBooking = $this->Manage_product->getBookingById($getCarDetailV2[0]['bookingId']);
-					if(count($getBooking) > 0 && $getCarDetail[0]['bookingId'] != $bookingId && $getBooking[0]['status'] != 'COMPLETED'){
+					if(count($getBooking) > 0 && $getCarDetailV2[0]['bookingId'] != $bookingId && $getBooking[0]['status'] != 'COMPLETED'){
 						echo json_encode(['status' => 'error', 'msg' => 'This Driver is Assigned and Booking Yet not Completed!']);
 						return;
 					}

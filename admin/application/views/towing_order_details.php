@@ -273,10 +273,10 @@
                                 <table class="table">
 
                                     <tbody>
-                                        <tr>
                                             <th>Vehicle Category</th>
                                             <th>Car Brand</th>
                                             <th>Car Model</th>
+                                            <th>Car Images</th>
                                          </tr>
                                         <?php
                                         foreach ($getCarDeatail as $car) {
@@ -285,6 +285,13 @@
                                                 <td><?php echo $car['category'] ?></td>
                                                 <td><?php echo $car['brand'] ?></td>
                                                 <td><?php echo $car['model'] ?></td>
+                                                <td>
+                                                    <?php if(!empty($car['doc'])): ?>
+                                                        <a href="<?php echo base_url('images/booking_image/' . $car['doc']) ?>" target="_blank" class="btn btn-primary btn-sm">View Document</a>
+                                                    <?php else: ?>
+                                                        N/A
+                                                    <?php endif; ?>
+                                                </td>
                                             </tr>
                                         <?php } ?>
 

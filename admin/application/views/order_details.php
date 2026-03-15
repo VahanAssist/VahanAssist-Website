@@ -422,9 +422,11 @@
                                                 <td><?php echo $car['model'] ?></td>
                                                 <!-- <td><?php echo $car['carType'] ?></td> -->
                                                 <td>
-                                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#carimages">
-                                                        Images
-                                                    </button>
+                                                    <?php if(!empty($car['doc'])): ?>
+                                                        <a href="<?php echo base_url('images/booking_image/' . $car['doc']) ?>" target="_blank" class="btn btn-primary btn-sm">View Document</a>
+                                                    <?php else: ?>
+                                                        N/A
+                                                    <?php endif; ?>
 
                                                     <!-- Modal -->
                                                   <!--   <div class="modal fade" id="carimages" tabindex="-1" role="dialog" aria-labelledby="carmodel<?php echo $car['model'] ?>" aria-hidden="true">
@@ -686,7 +688,7 @@
                                     foreach ($getTracking as $track) {
                                     ?>
                                         <tr>
-                                            <td><?php echo $track['comment'] ?></td>
+                                            <td><?php echo !empty(trim($track['comment'])) ? $track['comment'] : 'No Comment'; ?></td>
                                             <td><?php echo $track['date_time'] ?></td>
                                         </tr>
                                     <?php } ?>
