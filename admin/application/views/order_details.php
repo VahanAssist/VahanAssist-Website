@@ -621,6 +621,25 @@
 
 
 
+                                <?php
+                                $tracking_success = $this->session->flashdata('tracking_success');
+                                if ($tracking_success) {
+                                    echo '<div class="alert alert-success" id="trackingSuccessAlert">' . $tracking_success . '</div>';
+                                    echo '<script>
+                                        document.addEventListener("DOMContentLoaded", function() {
+                                            var el = document.getElementById("trackingSuccessAlert");
+                                            if (el) {
+                                                el.scrollIntoView({ behavior: "smooth", block: "center" });
+                                                setTimeout(function() {
+                                                    el.style.transition = "opacity 0.5s";
+                                                    el.style.opacity = "0";
+                                                    setTimeout(function() { el.remove(); }, 500);
+                                                }, 5000);
+                                            }
+                                        });
+                                    </script>';
+                                }
+                                ?>
                                 <legend class="col-form-label col-sm-12">Tracking Information</legend>
 
 

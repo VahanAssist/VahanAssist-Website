@@ -72,13 +72,13 @@ if ($id != "") {
                         <div class="position-relative row form-group">
                             <label class="col-sm-3 col-form-label">Pickup</label>
                             <div class="col-sm-9">
-                                <input name="pickup" type="text" class="form-control" value="<?php echo $getBooking[0]['pickup']; ?>">
+                                <input name="pickup" type="text" class="form-control" value="<?php echo $getBooking[0]['pickupLocation']; ?>">
                             </div>
                         </div>
                         <div class="position-relative row form-group">
                             <label class="col-sm-3 col-form-label">Drop</label>
                             <div class="col-sm-9">
-                                <input name="drop" type="text" class="form-control" value="<?php echo $getBooking[0]['drop']; ?>">
+                                <input name="drop" type="text" class="form-control" value="<?php echo $getBooking[0]['dropLocation']; ?>">
                             </div>
                         </div>
                         <div class="position-relative row form-group">
@@ -128,7 +128,7 @@ if ($id != "") {
                                                         <input type="text" name="model[]" value="<?php echo $data['model'] ?>" class="form-control">
                                                     </td>
                                                     <td>
-                                                        <input type="text" name="carType[]" value="<?php echo $data['carType'] ?>" class="form-control">
+                                                        <input type="text" name="carType[]" value="<?php echo $data['category'] ?>" class="form-control">
 
                                                     </td>
                                                     <td>

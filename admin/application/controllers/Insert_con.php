@@ -893,12 +893,14 @@
 				$data['comment'] = empty($this->input->post('comment')) ? '' : $this->input->post('comment');
 				$data['date_time'] = date('Y-m-d H:i:s');
 			$this->Manage_product->insertBookingTracking($data);
+			$this->session->set_flashdata('tracking_success', 'Tracking Comment Added Successfully!');
 			redirect(base_url() . "Main_con/orderdetails/$bookingId");
 		}
 
 
 		public function insertBooking()
 		{
+			
 
 			// print_r($_REQUEST);
 			// die();
@@ -946,12 +948,14 @@
 			$data['phoneNumber'] = empty($this->input->post('phone')) ? '' : $this->input->post('phone');
 			$data['service_type'] = empty($this->input->post('service_type')) ? '' : $this->input->post('service_type');
 			$data['bookingType'] = empty($this->input->post('bookingType')) ? '' : $this->input->post('bookingType');
+			$data['vehicleId'] = empty($this->input->post('vehicleId')) ? '' : $this->input->post('vehicleId');
 
 			$getData = $this->getDistanceByLatLng($data['picklat'], $data['picklng'], $data['droplat'], $data['droplng']);
 
 			$data['kmDiff'] = $getData['km'];
-			$data['pickupLocation'] = $getData['originAddress'];
-			$data['dropLocation'] = $getData['destinationAddress'];
+			$data['pickupLocation'] = !empty($this->input->post('pickup')) ? $this->input->post('pickup') : $getData['originAddress'];
+			$data['dropLocation'] = !empty($this->input->post('drop')) ? $this->input->post('drop') : $getData['destinationAddress'];
+			
 
 
 			if ($action == 'Admin') {
@@ -1021,8 +1025,10 @@
 							$this->Manage_product->insertCarDetails($log);
 						}
 					}
+					
 					echo json_encode(array('status' => "ok", 'message' => 'Booked, you will be contact shortly.'));
 				} else {
+					
 					echo json_encode(array('status' => "error", 'message' => 'Failed, Please try again or Contact Admin.'));
 				}
 			}

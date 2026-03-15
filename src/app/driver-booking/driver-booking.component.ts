@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {FormsModule,ReactiveFormsModule,FormGroup, FormControl, Validators} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { WebapiService } from '../webapi.service';
 import { ToastrService } from 'ngx-toastr';
@@ -7,14 +7,14 @@ import { SharedModule } from '../shared/shared.module';
 @Component({
   selector: 'app-driver-booking',
   standalone: true,
-  imports: [CommonModule,FormsModule,ReactiveFormsModule,SharedModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, SharedModule],
   templateUrl: './driver-booking.component.html',
   styleUrl: './driver-booking.component.css'
 })
 export class DriverBookingComponent {
-  cars:any=[];
-  userId:any;
-  userType:any='';
+  cars: any = [];
+  userId: any;
+  userType: any = '';
   bookingForm = new FormGroup({
     type: new FormControl('', [Validators.required]),
     service_type: new FormControl('', [Validators.required]),
@@ -33,11 +33,11 @@ export class DriverBookingComponent {
     userId: new FormControl('',),
     carsDetails: new FormControl('',)
   })
-  pickupList: any=[];
+  pickupList: any = [];
   dropList: any = [];
 
-  constructor(private webapi:WebapiService,private toastr:ToastrService){
-    if(sessionStorage.getItem('userId')){
+  constructor(private webapi: WebapiService, private toastr: ToastrService) {
+    if (sessionStorage.getItem('userId')) {
       this.userId = sessionStorage.getItem('userId');
       this.userType = sessionStorage.getItem('type');
     }
@@ -56,82 +56,86 @@ export class DriverBookingComponent {
 
 
 
-  onBookingFormSubmit(){
-    if(sessionStorage.getItem('userId')){
-      this.bookingForm.patchValue({userId: sessionStorage.getItem('userId')});
+  onBookingFormSubmit() {
+    if (sessionStorage.getItem('userId')) {
+      this.bookingForm.patchValue({ userId: sessionStorage.getItem('userId') });
     }
-    this.webapi.insertBooking(this.bookingForm.value).subscribe((res:any)=>{
+
+
+    this.webapi.insertBooking(this.bookingForm.value).subscribe((res: any) => {
       // console.log(res,'--');
-      if(res.status == "ok"){
-        this.toastr.success(res.message,'Success');
+      if (res.status == "ok") {
+        this.toastr.success(res.message, 'Success');
         this.bookingForm.reset();
-       }
-       else{
-        this.toastr.error(res.message,'Failed');
-       }
+      }
+      else {
+        this.toastr.error(res.message, 'Failed');
+      }
     });
   }
 
-  getPickupLocation(e:any){
-    if(e.target.value){
+  getPickupLocation(e: any) {
+    if (e.target.value) {
       let val = {
-        "query":e.target.value
+        "query": e.target.value
       }
-      this.webapi.getPlacesByText(val).subscribe((res:any)=>{
-         this.pickupList = res.data;
+      this.webapi.getPlacesByText(val).subscribe((res: any) => {
+        this.pickupList = res.data;
       });
     }
-    else{
+    else {
       console.log('ff');
     }
 
   }
 
-  getDropLocation(e:any){
-    if(e.target.value){
+  getDropLocation(e: any) {
+    if (e.target.value) {
       let val = {
-        "query":e.target.value
+        "query": e.target.value
       }
-      this.webapi.getPlacesByText(val).subscribe((res:any)=>{
+      this.webapi.getPlacesByText(val).subscribe((res: any) => {
         this.dropList = res.data;
       });
     }
-    else{
+    else {
       console.log('ff');
     }
 
   }
-   getPickLatLngByPlaceId(e:any){
+  getPickLatLngByPlaceId(e: any) {
 
     let val = {
-      placeId : e.target.value
+      placeId: e.target.value
     }
-    this.webapi.getLatLngByPlaceId(val).subscribe((res:any)=>{
+    this.webapi.getLatLngByPlaceId(val).subscribe((res: any) => {
       this.bookingForm.get('pickLat')?.setValue(res.data.lat);
       this.bookingForm.get('pickLng')?.setValue(res.data.lng);
     });
 
-   }
+  }
 
-   getDropLatLngByPlaceId(e:any){
+  getDropLatLngByPlaceId(e: any) {
     let val = {
-      placeId : e.target.value
+      placeId: e.target.value
     }
-    this.webapi.getLatLngByPlaceId(val).subscribe((res:any)=>{
+    this.webapi.getLatLngByPlaceId(val).subscribe((res: any) => {
       this.bookingForm.get('dropLat')?.setValue(res.data.lat);
       this.bookingForm.get('dropLng')?.setValue(res.data.lng);
     });
-   }
+  }
 
-   onDocUpload(e: any,index:any) {
-    let obj = { "image" : e.target.files[0]};
-    this.webapi.uploadDocument(obj).subscribe((res:any)=>{
-       if(res.status == "ok"){
+
+
+  onDocUpload(e: any, index: any) {
+    let obj = { "image": e.target.files[0] };
+    this.webapi.uploadDocument(obj).subscribe((res: any) => {
+      if (res.status == "ok") {
         this.cars[index].image = res.image;
-       }
-       else{
+      }
+      else {
         this.cars[index].image = '';
-       }
+      }
     });
 
 
@@ -147,14 +151,14 @@ export class DriverBookingComponent {
     });
   }
 
-  removeRow(i:any){
+  removeRow(i: any) {
     console.log(i);
-    this.cars.splice(i,1);
+    this.cars.splice(i, 1);
 
   }
 
-  saveCardDetails(){
-  this.bookingForm.get('carsDetails')?.setValue(JSON.stringify(this.cars));
+  saveCardDetails() {
+    this.bookingForm.get('carsDetails')?.setValue(JSON.stringify(this.cars));
   }
 
 
