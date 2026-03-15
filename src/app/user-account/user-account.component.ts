@@ -71,7 +71,7 @@ export class UserAccountComponent {
         location.reload();
       }
       else{
-        this.toastr.error('Erron on Profile Update!', '');
+        this.toastr.error('Error on Profile Update!', '');
 
       }
 

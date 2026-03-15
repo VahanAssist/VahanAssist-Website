@@ -113,7 +113,7 @@ if ($id != "") {
                                             <tr>
                                                 <th>Model</th>
                                                 <th>Car type</th>
-                                                <!-- <th>Car Doc</th> -->
+                                                <th>Car Doc</th>
                                                 <th>Car quality</th>
                                                 <th>Car condition</th>
                                             </tr>
@@ -130,6 +130,13 @@ if ($id != "") {
                                                     <td>
                                                         <input type="text" name="carType[]" value="<?php echo $data['category'] ?>" class="form-control">
 
+                                                    </td>
+                                                    <td>
+                                                        <?php if(!empty($data['doc'])): ?>
+                                                            <a href="<?php echo base_url('images/booking_image/' . $data['doc']) ?>" target="_blank" class="btn btn-primary btn-sm">View Document</a>
+                                                        <?php else: ?>
+                                                            N/A
+                                                        <?php endif; ?>
                                                     </td>
                                                     <td>
                                                         <!-- <input type="text" name="carQuality[]" value="<?php echo $data['carQuality'] ?>" class="form-control"> -->
