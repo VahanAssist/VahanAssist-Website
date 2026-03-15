@@ -251,54 +251,60 @@
                               <div class="row">
                                   <div class="col-md-12">
                                       <div class="mb-3">
-                                       <label class="form-label">Booking Type<span class="text-danger">*</span></label>
+                                       <label class="form-label">Trip Type<span class="text-danger">*</span></label>
                                       </div>
                                   </div>
-                                  <div class="col-md-2">
+                                  <div class="col-md-4">
                                       <div class="mb-3">
                                            <label class="form-label">
-                                          <input name="type" id="type" type="radio" value="One Time" class="" formControlName="type">
+                                          <input name="tripType" id="typeOneTime" type="radio" value="One Time" class="" formControlName="type">
                                           One Time</label>
                                       </div>
                                   </div>
-                                  <div class="col-md-2">
+                                  <div class="col-md-4">
                                       <div class="mb-3">
                                            <label class="form-label">
-                                          <input name="type" id="type" type="radio" value="Round Trip" class="" formControlName="type">Round Trip</label>
+                                          <input name="tripType" id="typeRoundTrip" type="radio" value="Round Trip" class="" formControlName="type">Round Trip</label>
                                       </div>
                                   </div>
-                                  <div class="col-md-2">
+                                  <div class="col-md-4">
                                       <div class="mb-3">
                                            <label class="form-label">
-                                          <input name="type" id="type" type="radio" value="OutStation" class="" formControlName="type">
+                                          <input name="tripType" id="typeOutStation" type="radio" value="OutStation" class="" formControlName="type">
                                           Outstation</label>
                                       </div>
                                   </div>
-                                  <div class="col-md-2">
+
+                                  <div class="col-md-12">
+                                    <div class="mb-3">
+                                     <label class="form-label">Rental Type<span class="text-danger">*</span></label>
+                                    </div>
+                                  </div>
+                                  <div class="col-md-3">
                                       <div class="mb-3">
                                            <label class="form-label">
-                                          <input name="type" id="type" type="radio" value="Hourly"  class="" formControlName="type">
+                                          <input name="hiringType" id="serviceHourly" type="radio" value="Hourly"  class="" formControlName="service_type">
                                           Hourly</label>
                                       </div>
                                   </div>
-                                  <div class="col-md-2">
+                                  <div class="col-md-3">
                                       <div class="mb-3">
                                            <label class="form-label">
-                                          <input name="type" id="type" type="radio" value="Daily"  class="" formControlName="type">
+                                          <input name="hiringType" id="serviceDaily" type="radio" value="Daily"  class="" formControlName="service_type">
                                           Daily</label>
                                       </div>
                                   </div>
-                                  <div class="col-md-2">
+                                  <div class="col-md-3">
                                       <div class="mb-3">
                                            <label class="form-label">
-                                          <input name="type" id="type" type="radio" value="Monthly"  class="" formControlName="type">
+                                          <input name="hiringType" id="serviceMonthly" type="radio" value="Monthly"  class="" formControlName="service_type">
                                       Monthly</label>
                                       </div>
                                   </div>
-                                  <div class="col-md-2" *ngIf="userType == 'DEALER'">
+                                  <div class="col-md-3" *ngIf="userType == 'DEALER'">
                                     <div class="mb-3">
                                          <label class="form-label">
-                                        <input name="type" id="type" type="radio" value="B2B"  class="" formControlName="type">
+                                        <input name="hiringType" id="serviceB2B" type="radio" value="B2B"  class="" formControlName="service_type">
                                     B2B</label>
                                     </div>
                                 </div>

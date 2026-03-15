@@ -130,7 +130,7 @@
                               </div>
 
                                 <div class="form-floating mb-2  col-lg-6 col-12">
-                                   <select name="state" class="form-control" [(ngModel)]="formData.state">
+                                   <select name="state" class="form-control" [(ngModel)]="formData.state" (change)="getAllCityByState(formData.state)">
                                     <option *ngFor="let state of stateList" value="{{state.id}}">{{state.state}}</option>
                                    </select>
                                     <label for="">State</label>
