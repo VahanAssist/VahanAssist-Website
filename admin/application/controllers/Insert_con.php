@@ -924,7 +924,12 @@
 			$user = empty($this->input->post('userId')) ? '' : $this->input->post('userId');
 			$email = empty($this->input->post('email')) ? '' : $this->input->post('email');
 
+			// App_model::getUserByEmailApp() should return an array, but guard defensively to
+			// avoid PHP 8+ fatals if something unexpected (null/false) is returned.
 			$getUser = $this->App_model->getUserByEmailApp($email);
+			if (!is_array($getUser)) {
+				$getUser = array();
+			}
 			if (!empty($user)) {
 				$data['userId'] = $user;
 			} else if (count($getUser) > 0) {
@@ -948,7 +953,16 @@
 			}
 
 			$id = $this->input->post('id');
-			$carsArr = json_decode($this->input->post('carsDetails'), true);
+			// carsDetails is optional for some booking types and can be invalid/partial JSON.
+			// Ensure we never treat non-array as iterable to avoid runtime errors.
+			$carsArr = array();
+			$carsDetailsRaw = $this->input->post('carsDetails');
+			if (!empty($carsDetailsRaw)) {
+				$decoded = json_decode($carsDetailsRaw, true);
+				if (is_array($decoded)) {
+					$carsArr = $decoded;
+				}
+			}
 			$data['picklng'] = empty($this->input->post('pickLng')) ? '' : $this->input->post('pickLng');
 			$data['droplng'] = empty($this->input->post('dropLng')) ? '' : $this->input->post('dropLng');
 			$data['picklat'] = empty($this->input->post('pickLat')) ? '' : $this->input->post('pickLat');
@@ -965,11 +979,21 @@
 			$data['bookingType'] = empty($this->input->post('bookingType')) ? '' : $this->input->post('bookingType');
 			$data['vehicleId'] = empty($this->input->post('vehicleId')) ? '' : $this->input->post('vehicleId');
 
-			$getData = $this->getDistanceByLatLng($data['picklat'], $data['picklng'], $data['droplat'], $data['droplng']);
+			// getDistanceByLatLng can fail if the external API is down or returns unexpected data.
+			// Always fall back to safe defaults to prevent 500s.
+			$getData = array('km' => 0, 'originAddress' => 'Unknown', 'destinationAddress' => 'Unknown');
+			try {
+				$tmp = $this->getDistanceByLatLng($data['picklat'], $data['picklng'], $data['droplat'], $data['droplng']);
+				if (is_array($tmp)) {
+					$getData = array_merge($getData, $tmp);
+				}
+			} catch (Throwable $e) {
+				// Swallow error; booking insert should still proceed.
+			}
 
-			$data['kmDiff'] = $getData['km'];
-			$data['pickupLocation'] = !empty($this->input->post('pickup')) ? $this->input->post('pickup') : $getData['originAddress'];
-			$data['dropLocation'] = !empty($this->input->post('drop')) ? $this->input->post('drop') : $getData['destinationAddress'];
+			$data['kmDiff'] = isset($getData['km']) ? $getData['km'] : 0;
+			$data['pickupLocation'] = !empty($this->input->post('pickup')) ? $this->input->post('pickup') : (isset($getData['originAddress']) ? $getData['originAddress'] : 'Unknown');
+			$data['dropLocation'] = !empty($this->input->post('drop')) ? $this->input->post('drop') : (isset($getData['destinationAddress']) ? $getData['destinationAddress'] : 'Unknown');
 			
 
 
@@ -1027,15 +1051,15 @@
 
 				if ($res['msg'] == 1) {
 
-					if (isset($carsArr)) {
+					if (!empty($carsArr) && is_array($carsArr)) {
 						foreach ($carsArr as $cr) {
 							$log['bookingId'] = $res['last_id'];
-							$log['model'] = $cr['model'];
-							$log['category'] = $cr['carType'];
+							$log['model'] = isset($cr['model']) ? $cr['model'] : '';
+							$log['category'] = isset($cr['carType']) ? $cr['carType'] : '';
 							$log['brand'] = '';
-							$log['carQuality'] = $cr['carQuality'];
-							$log['carCondition'] = $cr['carCondition'];
-							$log['doc'] = $cr['image'];
+							$log['carQuality'] = isset($cr['carQuality']) ? $cr['carQuality'] : '';
+							$log['carCondition'] = isset($cr['carCondition']) ? $cr['carCondition'] : '';
+							$log['doc'] = isset($cr['image']) ? $cr['image'] : '';
 
 							$this->Manage_product->insertCarDetails($log);
 						}
