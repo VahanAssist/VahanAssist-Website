@@ -977,7 +977,13 @@
 			$data['phoneNumber'] = empty($this->input->post('phone')) ? '' : $this->input->post('phone');
 			$data['service_type'] = empty($this->input->post('service_type')) ? '' : $this->input->post('service_type');
 			$data['bookingType'] = empty($this->input->post('bookingType')) ? '' : $this->input->post('bookingType');
-			$data['vehicleId'] = empty($this->input->post('vehicleId')) ? '' : $this->input->post('vehicleId');
+			// NOTE: production `tbl_booking` does not always have a `vehicleId` column.
+			// Adding an unknown column to the insert causes a SQL error -> 500.
+			// Only include it when explicitly provided AND expected by the DB schema.
+			$vehicleId = $this->input->post('vehicleId');
+			if (!empty($vehicleId)) {
+				$data['vehicleId'] = $vehicleId;
+			}
 
 			// getDistanceByLatLng can fail if the external API is down or returns unexpected data.
 			// Always fall back to safe defaults to prevent 500s.
