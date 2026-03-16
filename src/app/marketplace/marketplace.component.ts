@@ -315,26 +315,33 @@ setBuyFrom(e:any){
   }
 
   searchWithClick(key:any,value:any){
-
-    if(this.filter[key] && JSON.parse(this.filter[key]).length > 0){
-    this.filter[key] = JSON.stringify([value,...JSON.parse(this.filter[key])]);
+    let filterVal = this.filter[key];
+    if(filterVal && filterVal !== '' && filterVal !== '[]') {
+      try {
+        let parsed = JSON.parse(filterVal);
+        if (Array.isArray(parsed)) {
+          this.filter[key] = JSON.stringify([value, ...parsed]);
+        } else {
+          this.filter[key] = JSON.stringify([value]);
+        }
+      } catch (e) {
+        this.filter[key] = JSON.stringify([value]);
+      }
+    } else {
+      this.filter[key] = JSON.stringify([value]);
+    }
+    
     this.getAllMPVehicles();
     this.searchResult = [];
-    }
-    else{
-   this.filter[key] = JSON.stringify([value]);
-    this.getAllMPVehicles();
-    this.searchResult = [];
-    }
 
-    if(this.filter.category_id && JSON.parse(this.filter.category_id).length > 0){
-      this.checkedCat = JSON.parse(this.filter.category_id);
+    if(this.filter.category_id && this.filter.category_id !== '') {
+      try { this.checkedCat = JSON.parse(this.filter.category_id); } catch(e) {}
     }
-    if(this.filter.brand_id && JSON.parse(this.filter.brand_id).length > 0){
-      this.checkedBrand = JSON.parse(this.filter.brand_id);
+    if(this.filter.brand_id && this.filter.brand_id !== '') {
+      try { this.checkedBrand = JSON.parse(this.filter.brand_id); } catch(e) {}
     }
-    if(this.filter.model_id && JSON.parse(this.filter.model_id).length > 0){
-      this.checkedModel = JSON.parse(this.filter.model_id);
+    if(this.filter.model_id && this.filter.model_id !== '') {
+      try { this.checkedModel = JSON.parse(this.filter.model_id); } catch(e) {}
     }
   }
 
@@ -378,14 +385,14 @@ setBuyFrom(e:any){
     }
     this.getAllMPVehicles();
 
-    if(this.filter.category_id && JSON.parse(this.filter.category_id).length > 0){
-      this.checkedCat = JSON.parse(this.filter.category_id);
+    if(this.filter.category_id && this.filter.category_id !== '') {
+      try { this.checkedCat = JSON.parse(this.filter.category_id); } catch(e) {}
     }
-    if(this.filter.brand_id && JSON.parse(this.filter.brand_id).length > 0){
-      this.checkedBrand = JSON.parse(this.filter.brand_id);
+    if(this.filter.brand_id && this.filter.brand_id !== '') {
+      try { this.checkedBrand = JSON.parse(this.filter.brand_id); } catch(e) {}
     }
-    if(this.filter.model_id && JSON.parse(this.filter.model_id).length > 0){
-      this.checkedModel = JSON.parse(this.filter.model_id);
+    if(this.filter.model_id && this.filter.model_id !== '') {
+      try { this.checkedModel = JSON.parse(this.filter.model_id); } catch(e) {}
     }
    }
 

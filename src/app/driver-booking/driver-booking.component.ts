@@ -17,6 +17,7 @@ export class DriverBookingComponent {
   userType: any = '';
   bookingForm = new FormGroup({
     type: new FormControl('', [Validators.required]),
+    service_type: new FormControl('', [Validators.required]),
     date: new FormControl('', [Validators.required]),
     time: new FormControl('', [Validators.required]),
     name: new FormControl('', [Validators.required]),
@@ -43,7 +44,11 @@ export class DriverBookingComponent {
 
     this.cars = [
       {
-        "model": ""
+        "model": "",
+        "carType": "",
+        "carQuality": "",
+        "carCondition": "",
+        "image": ""
       }
     ]
 
@@ -136,8 +141,14 @@ export class DriverBookingComponent {
 
   }
 
-  addRow() {
-    this.cars.push({});
+   addRow(){
+    this.cars.push({
+      "model": "",
+      "carType": "",
+      "carQuality": "",
+      "carCondition": "",
+      "image": ""
+    });
   }
 
   removeRow(i: any) {
