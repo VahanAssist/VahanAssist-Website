@@ -2610,30 +2610,36 @@
 			else{
 				echo json_encode(array('status' =>'error',"msg"=>"Error On  Deletion.."));
 			}
-		}
-
-		public function insertMPEnquiry(){
+		}		public function insertMPEnquiry(){
 			$data['user_id'] = empty($this->input->post('user_id')) ? '' : $this->input->post('user_id');
 			$data['dealer_id'] = empty($this->input->post('dealer_id')) ? '' : $this->input->post('dealer_id');
 			$data['vehicle_id'] = empty($this->input->post('vehicle_id')) ? '' : $this->input->post('vehicle_id');
 			$data['status'] = empty($this->input->post('status')) ? '' : $this->input->post('status');
 
+			// Disable CI db_debug so SQL errors return false instead of fatal HTML
+			$this->db->db_debug = FALSE;
 			$res = $this->Manage_product->insertMPEnquiry($data);
+			$dbError = $this->db->error();
+			$this->db->db_debug = TRUE;
 
-			if($res['msg'] == 1){
-				// Notification must not crash the response – wrap in try-catch
+			if(!empty($dbError['code'])){
+				log_message('error', 'insertMPEnquiry DB error: ' . $dbError['message']);
+				echo json_encode(array('status' =>'error', 'msg' => 'Database error'));
+				return;
+			}
+
+			if(is_array($res) && $res['msg'] == 1){
+				// Notification must not crash the response
 				try {
 					$getEnq = $this->Manage_product->getMPEnquiryById($res['last_id']);
 					$this->sendNotificationEnquiry($data['dealer_id'],$res['last_id'],'Simple',$getEnq);
 				} catch (Exception $e) {
-					// Notification failed – log but don't break the response
 					log_message('error', 'insertMPEnquiry notification failed: ' . $e->getMessage());
 				}
 				echo json_encode(array('status' =>'success'));
 			}
 			else{
 				echo json_encode(array('status' =>'error'));
-
 			}
 
 		}
@@ -3133,26 +3139,31 @@
 
 		public function insertPriceRequest()
 		{
-			$data['price'] = empty($this->input->post('price')) ? '' : $this->input->post('price');
 			$data['user_id'] = empty($this->input->post('user_id')) ? '' : $this->input->post('user_id');
 			$data['vehicle_id'] = empty($this->input->post('vehicle_id')) ? '' : $this->input->post('vehicle_id');
 
-			// Only include dealer_id if provided (column may not exist in production)
+			// Only include optional columns if provided
+			$price = $this->input->post('price');
+			if (!empty($price)) { $data['price'] = $price; }
 			$dealerId = $this->input->post('dealer_id');
-			if (!empty($dealerId)) {
-				$data['dealer_id'] = $dealerId;
+			if (!empty($dealerId)) { $data['dealer_id'] = $dealerId; }
+
+			// Disable CI db_debug so SQL errors return false instead of fatal HTML
+			$this->db->db_debug = FALSE;
+			$res = $this->Manage_product->insertPriceRequest($data);
+			$dbError = $this->db->error();
+			$this->db->db_debug = TRUE;
+
+			if(!empty($dbError['code'])){
+				log_message('error', 'insertPriceRequest DB error: ' . $dbError['message']);
+				echo json_encode(array('status' => 'error', 'msg' => 'Database error'));
+				return;
 			}
 
-			try {
-				$res = $this->Manage_product->insertPriceRequest($data);
-				if($res == 1){
-					echo json_encode(array('status' => 'success', 'msg' => 'Price Request Sent Successfully'));
-				} else {
-					echo json_encode(array('status' => 'error', 'msg' => 'Failed to send price request'));
-				}
-			} catch (Exception $e) {
-				log_message('error', 'insertPriceRequest failed: ' . $e->getMessage());
-				echo json_encode(array('status' => 'error', 'msg' => 'Server error'));
+			if($res == 1){
+				echo json_encode(array('status' => 'success', 'msg' => 'Price Request Sent Successfully'));
+			} else {
+				echo json_encode(array('status' => 'error', 'msg' => 'Failed to send price request'));
 			}
 		}
 
@@ -3162,29 +3173,33 @@
 		{
 			$data['user_id'] = empty($this->input->post('user_id')) ? '' : $this->input->post('user_id');
 			$data['vehicle_id'] = empty($this->input->post('vehicle_id')) ? '' : $this->input->post('vehicle_id');
-			$data['date'] = empty($this->input->post('date')) ? date('Y-m-d') : $this->input->post('date');
-			$data['time'] = empty($this->input->post('time')) ? date('H:i:s') : $this->input->post('time');
 
-			// Only include optional columns if provided (may not exist in production)
+			// Only include optional columns if provided
 			$dealerId = $this->input->post('dealer_id');
-			if (!empty($dealerId)) {
-				$data['dealer_id'] = $dealerId;
-			}
+			if (!empty($dealerId)) { $data['dealer_id'] = $dealerId; }
+			$date = $this->input->post('date');
+			if (!empty($date)) { $data['date'] = $date; }
+			$time = $this->input->post('time');
+			if (!empty($time)) { $data['time'] = $time; }
 			$desc = $this->input->post('description');
-			if (!empty($desc)) {
-				$data['description'] = $desc;
+			if (!empty($desc)) { $data['description'] = $desc; }
+
+			// Disable CI db_debug so SQL errors return false instead of fatal HTML
+			$this->db->db_debug = FALSE;
+			$res = $this->Manage_product->insertAppointment($data);
+			$dbError = $this->db->error();
+			$this->db->db_debug = TRUE;
+
+			if(!empty($dbError['code'])){
+				log_message('error', 'insertAppointment DB error: ' . $dbError['message']);
+				echo json_encode(array('status' => 'error', 'msg' => 'Database error'));
+				return;
 			}
 
-			try {
-				$res = $this->Manage_product->insertAppointment($data);
-				if($res == 1){
-					echo json_encode(array('status' => 'success', 'msg' => 'Appointment Placed Successfully'));
-				} else {
-					echo json_encode(array('status' => 'error', 'msg' => 'Failed to book appointment'));
-				}
-			} catch (Exception $e) {
-				log_message('error', 'insertAppointment failed: ' . $e->getMessage());
-				echo json_encode(array('status' => 'error', 'msg' => 'Server error'));
+			if($res == 1){
+				echo json_encode(array('status' => 'success', 'msg' => 'Appointment Placed Successfully'));
+			} else {
+				echo json_encode(array('status' => 'error', 'msg' => 'Failed to book appointment'));
 			}
 		}
 
