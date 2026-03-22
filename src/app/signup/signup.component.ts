@@ -13,7 +13,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrl: './signup.component.css'
 })
 export class SignupComponent {
-  formData: any = {};
+  formData: any = { role: 'USER' };
   stateList:any=[];
   cityList:any=[];
   constructor(private webapi: WebapiService, private toastr: ToastrService,private router: Router) {
@@ -23,11 +23,13 @@ export class SignupComponent {
   onSignupFormSubmit(data: any) {
     if (!data.firstName || !data.email || !data.password || !data.phoneNumber) {
       this.toastr.error('Fill out the required fields', 'Required');
+    } else if (data.role === 'DEALER' && !data.companyName) {
+      this.toastr.error('Please enter Business Name', 'Required');
     }
     else {
 
       if (data.check == true) {
-        data.type = 'USER';
+        data.type = data.role;
         this.webapi.insertUser(data).subscribe((res: any) => {
           if (res.status == "ok") {
             this.toastr.success(res.message, 'Success');

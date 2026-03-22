@@ -244,6 +244,9 @@
           <div class="container">
               <div class="row justify-content-center">
                   <div class="col-lg-10">
+                      <div class="alert alert-warning text-center mb-4 shadow-sm" style="font-size: 15px;">
+                          <strong>Note - </strong> Driver bookings are currently available. However, our website is undergoing upgrades to introduce live tracking features. Until the update is completed, all trip tracking and related details will be shared with you via WhatsApp.
+                      </div>
                       <div class="p-4 rounded-3 shadow">
                           <form method="POST" [formGroup]="bookingForm" (ngSubmit)="bookingForm.valid && onBookingFormSubmit()">
                               <p *ngIf="!bookingForm.valid" class="mb-0 text-danger text-center" style="font-size:30px" id="error-msg">Fill out required feild.</p>

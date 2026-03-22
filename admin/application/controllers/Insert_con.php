@@ -1149,6 +1149,18 @@
 			$data['state'] = empty($this->input->post('state')) ? '' : strtolower($this->input->post('state'));
 			$data['city'] = empty($this->input->post('city')) ? '' : strtolower($this->input->post('city'));
 			$data['type'] = empty($this->input->post('type')) ? '' : $this->input->post('type');
+
+			// Support for Dealer Business Name
+			$companyName = $this->input->post('companyName');
+			if (!empty($companyName)) {
+				if (!in_array('companyName', $this->db->list_fields('tbl_signup'))) {
+					$this->load->dbforge();
+					$fields = array('companyName' => array('type' => 'VARCHAR', 'constraint' => '255', 'null' => TRUE));
+					$this->dbforge->add_column('tbl_signup', $fields);
+				}
+				$data['companyName'] = trim($companyName);
+			}
+
 			// checkTandC removed — not a DB column, causes insert to fail
 
 			if($data['type'] == 'USER'){
