@@ -133,6 +133,42 @@
   </div>
 </div>
 
+<!-- Price Request Modal -->
+<div class="bottom-sheet-overlay" *ngIf="showPriceModal" (click)="closePriceModal()">
+  <div class="custom-modal" (click)="$event.stopPropagation()">
+    <h5 class="modal-title">Send Price Request</h5>
+    <div class="form-group mb-3 position-relative">
+      <span class="currency-symbol">₹</span>
+      <input type="number" class="form-control price-input" [(ngModel)]="priceValue" placeholder="Enter Price" min="0">
+    </div>
+    <button class="btn btn-primary w-100 mb-2 rounded-pill appt-btn" (click)="submitPriceRequest()">Yes, Send Request</button>
+    <button class="btn btn-link w-100 text-decoration-none text-muted" style="font-weight: 500;" (click)="closePriceModal()">No, Not Now</button>
+  </div>
+</div>
+
+<!-- Appointment Modal -->
+<div class="bottom-sheet-overlay" *ngIf="showAppointmentModal" (click)="closeAppointmentModal()">
+  <div class="custom-modal" (click)="$event.stopPropagation()">
+    <div class="modal-header-nav">
+      <button class="btn-close-icon" (click)="closeAppointmentModal()">×</button>
+      <h5 class="modal-title m-0 pb-0" style="margin-bottom:0 !important">Book Appointment</h5>
+    </div>
+    <div class="form-group mb-3 mt-3">
+      <label class="form-label text-muted small mb-1">Date</label>
+      <input type="date" class="form-control appt-input" [(ngModel)]="apptDate">
+    </div>
+    <div class="form-group mb-3">
+      <label class="form-label text-muted small mb-1">Time</label>
+      <input type="time" class="form-control appt-input" [(ngModel)]="apptTime">
+    </div>
+    <div class="form-group mb-3">
+      <label class="form-label text-muted small mb-1">Add Note</label>
+      <textarea class="form-control appt-textarea" [(ngModel)]="apptNote" placeholder="Type Here ..."></textarea>
+    </div>
+    <button class="btn btn-primary w-100 rounded-pill appt-btn" (click)="submitAppointment()">Done</button>
+  </div>
+</div>
+
         <!-- <hr /> -->
 
       </div>

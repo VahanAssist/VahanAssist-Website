@@ -5,11 +5,12 @@ import { WebapiService } from '../webapi.service';
 import { ToastrService } from 'ngx-toastr';
 import { CarouselModule,OwlOptions  } from 'ngx-owl-carousel-o';
 import { NgMagnizoomModule } from 'ng-magnizoom';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-vehicle-detail',
   standalone: true,
-  imports: [RouterLink, CommonModule,CarouselModule, NgMagnizoomModule],
+  imports: [RouterLink, CommonModule,CarouselModule, NgMagnizoomModule, FormsModule],
   templateUrl: './vehicle-detail.component.html',
   styleUrl: './vehicle-detail.component.css'
 })
@@ -49,6 +50,17 @@ export class VehicleDetailComponent {
   moreVehicleData: any;
   vehicleModelData:any={};
   showContactModal: boolean = false;
+
+  // Price Modal
+  showPriceModal: boolean = false;
+  priceValue: any = '';
+  selectedVid: any;
+
+  // Appointment Modal
+  showAppointmentModal: boolean = false;
+  apptDate: string = '';
+  apptTime: string = '';
+  apptNote: string = '';
 
   constructor(private webapi: WebapiService, private router: Router,private activatedRoute: ActivatedRoute,private toastr: ToastrService,){
     this.imageUrl = this.webapi.imageBaseUrl;
@@ -201,16 +213,26 @@ zoomOut(event: any) {
       this.toastr.error('Please Login First', '');
       return;
     }
+    this.selectedVid = vid;
+    this.priceValue = this.vehicleDetail?.price || '';
+    this.showPriceModal = true;
+  }
 
+  closePriceModal() {
+    this.showPriceModal = false;
+  }
+
+  submitPriceRequest() {
     let val = {
-      vehicle_id: vid,
+      vehicle_id: this.selectedVid,
       user_id: this.userId,
-      price: this.vehicleDetail?.price || ''
+      price: this.priceValue
     };
 
     this.webapi.insertPriceRequest(val).subscribe((res: any) => {
       if(res.status == "success"){
         this.toastr.success('Price Request Sent Successfully', '');
+        this.showPriceModal = false;
       }
       else{
         this.toastr.error('Failed to send price request', '');
@@ -227,15 +249,31 @@ zoomOut(event: any) {
       this.toastr.error('Please Login First', '');
       return;
     }
+    this.selectedVid = vid;
+    const today = new Date();
+    this.apptDate = today.toISOString().split('T')[0];
+    this.apptTime = today.toTimeString().substring(0,5);
+    this.apptNote = '';
+    this.showAppointmentModal = true;
+  }
 
+  closeAppointmentModal() {
+    this.showAppointmentModal = false;
+  }
+
+  submitAppointment() {
     let val = {
-      vehicle_id: vid,
-      user_id: this.userId
+      vehicle_id: this.selectedVid,
+      user_id: this.userId,
+      date: this.apptDate,
+      time: this.apptTime,
+      description: this.apptNote
     };
 
     this.webapi.insertAppointment(val).subscribe((res: any) => {
       if(res.status == "success"){
         this.toastr.success('Appointment Placed Successfully', '');
+        this.showAppointmentModal = false;
       }
       else{
         this.toastr.error('Failed to book appointment', '');
