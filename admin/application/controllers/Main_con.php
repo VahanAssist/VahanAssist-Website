@@ -336,6 +336,64 @@ public function add_society()
 
 	}
 
+	public function view_mp_price_requests()
+	{
+		$config = array();
+		$config["base_url"] = base_url()."Main_con/view_mp_price_requests";
+        $config["total_rows"] = $this->Manage_product->getAllMPPriceRequests();
+        $config["per_page"] = 10;
+
+		$config['full_tag_open'] = "<ul class='pagination justify-content-start'>";
+		$config['full_tag_close'] = "</ul";
+		$config['next_tag_open'] = " <li class='list-inline-item page-item disabled'>";
+		$config['next_tag_close'] = "</li>";
+		$config['prev_tag_open'] = " <li class='list-inline-item page-item'>";
+		$config['prev_tag_close'] = "</li>";
+		$config['num_tag_open'] = " <li class='list-inline-item page-item'>";
+		$config['num_tag_close'] = "</li>";
+		$config['cur_tag_open'] = "<li class='list-inline-item page-item'><a class='active'>";
+		$config['cur_tag_close'] = "<span class='sr-only'>(current)</span></a></li>";
+		$config['attributes'] = array('class' => '');
+
+        $this->pagination->initialize($config);
+		$page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+
+        $data["links"] = $this->pagination->create_links();
+
+        $data['requests'] = $this->Manage_product->getAllMPPriceRequestsWithLimit($config['per_page'], $page);
+
+        $this->load->view('view_mp_price_requests', $data);
+	}
+
+	public function view_mp_appointments()
+	{
+		$config = array();
+		$config["base_url"] = base_url()."Main_con/view_mp_appointments";
+        $config["total_rows"] = $this->Manage_product->getAllMPAppointments();
+        $config["per_page"] = 10;
+
+		$config['full_tag_open'] = "<ul class='pagination justify-content-start'>";
+		$config['full_tag_close'] = "</ul";
+		$config['next_tag_open'] = " <li class='list-inline-item page-item disabled'>";
+		$config['next_tag_close'] = "</li>";
+		$config['prev_tag_open'] = " <li class='list-inline-item page-item'>";
+		$config['prev_tag_close'] = "</li>";
+		$config['num_tag_open'] = " <li class='list-inline-item page-item'>";
+		$config['num_tag_close'] = "</li>";
+		$config['cur_tag_open'] = "<li class='list-inline-item page-item'><a class='active'>";
+		$config['cur_tag_close'] = "<span class='sr-only'>(current)</span></a></li>";
+		$config['attributes'] = array('class' => '');
+
+        $this->pagination->initialize($config);
+		$page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+
+        $data["links"] = $this->pagination->create_links();
+
+        $data['appointments'] = $this->Manage_product->getAllMPAppointmentsWithLimit($config['per_page'], $page);
+
+        $this->load->view('view_mp_appointments', $data);
+	}
+
 	public function view_booking()
 
 	{

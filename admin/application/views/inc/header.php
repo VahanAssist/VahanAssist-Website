@@ -191,6 +191,19 @@
                      Enquiry
                      </a>
                   </li>    
+                  <li class="app-sidebar__heading">Marketplace Requests</li>
+                  <li>
+                     <a href="<?php echo base_url(); ?>Main_con/view_mp_price_requests">
+                     <i class="metismenu-icon pe-7s-cash"></i>
+                     Price Requests
+                     </a>
+                  </li>
+                  <li>
+                     <a href="<?php echo base_url(); ?>Main_con/view_mp_appointments">
+                     <i class="metismenu-icon pe-7s-date"></i>
+                     Appointments
+                     </a>
+                  </li>
                   <li class="app-sidebar__heading">Vehicle Management</li>
                   <li>
                      <a href="<?php echo base_url(); ?>Main_con/view_category">

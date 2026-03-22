@@ -3373,6 +3373,98 @@ class Manage_product extends CI_Model
 		return $priceData;
 	}
 
+	function getAllMPAppointments()
+	{
+		$query = $this->db->get('tbl_mp_vehicle_appointment');
+		return $query->num_rows();
+	}
+
+	function getAllMPAppointmentsWithLimit($limit, $start)
+	{
+		$this->db->select('tbl_mp_vehicle_appointment.*,tbl_signup.firstName as request_by,tbl_signup.phone as contactNo,tbl_signup.email as emailId,tbl_mp_vehicle.regno,tbl_mp_vehicle.brand_id, tbl_mp_vehicle.model_id,tbl_mp_vehicle.variant,tbl_mp_vehicle.price as actual_price, tbl_mp_vehicle.added_type, tbl_mp_vehicle.dealer_name, tbl_mp_vehicle.user_name');
+		$this->db->from('tbl_mp_vehicle_appointment');
+		$this->db->join('tbl_mp_vehicle', 'tbl_mp_vehicle.id = tbl_mp_vehicle_appointment.vehicle_id', 'left');
+		$this->db->join('tbl_signup', 'tbl_signup.id = tbl_mp_vehicle_appointment.user_id', 'left');
+		$this->db->limit($limit, $start);
+		$this->db->order_by('tbl_mp_vehicle_appointment.id', 'DESC');
+
+		$query = $this->db->get();
+		$res = $query->result_array();
+
+		$appointData = array();
+
+		foreach ($res as $row) {
+			$getBrand = $this->getBrandById($row['brand_id']);
+			$getModel = $this->getModelById($row['model_id']);
+
+			$data['brand_name'] = !empty($getBrand) ? $getBrand[0]['name'] : '';
+			$data['model_name'] = !empty($getModel) ? $getModel[0]['name'] : '';
+			$data['user_id'] = $row['user_id'];
+			$data['vehicle_id'] = $row['vehicle_id'];
+			$data['date'] = $row['date'];
+			$data['request_by'] = $row['request_by'];
+            $data['contactNo'] = $row['contactNo'];
+            $data['email'] = $row['emailId'];
+			$data['regno'] = $row['regno'];
+			$data['variant'] = $row['variant'];
+			$data['time'] = $row['time'];
+			$data['description'] = $row['description'];
+			$data['created'] = $row['created'];
+			$data['actual_price'] = $row['actual_price'];
+			$data['added_type'] = $row['added_type'];
+			$data['owner_name'] = ($row['added_type'] == 'DEALER') ? $row['dealer_name'] : $row['user_name'];
+
+			$appointData[] = $data;
+		}
+
+		return $appointData;
+	}
+
+	function getAllMPPriceRequests()
+	{
+		$query = $this->db->get('tbl_mp_vehicle_price_request');
+		return $query->num_rows();
+	}
+
+	function getAllMPPriceRequestsWithLimit($limit, $start)
+	{
+		$this->db->select('tbl_mp_vehicle_price_request.*,tbl_signup.firstName as request_by,tbl_signup.phone as contactNo,tbl_signup.email as emailId,tbl_mp_vehicle.regno,tbl_mp_vehicle.brand_id, tbl_mp_vehicle.model_id,tbl_mp_vehicle.variant,tbl_mp_vehicle.price as actual_price, tbl_mp_vehicle.added_type, tbl_mp_vehicle.dealer_name, tbl_mp_vehicle.user_name');
+		$this->db->from('tbl_mp_vehicle_price_request');
+		$this->db->join('tbl_mp_vehicle', 'tbl_mp_vehicle.id = tbl_mp_vehicle_price_request.vehicle_id', 'left');
+		$this->db->join('tbl_signup', 'tbl_signup.id = tbl_mp_vehicle_price_request.user_id', 'left');
+		$this->db->limit($limit, $start);
+		$this->db->order_by('tbl_mp_vehicle_price_request.id', 'DESC');
+
+		$query = $this->db->get();
+		$res = $query->result_array();
+
+		$priceData = array();
+
+		foreach ($res as $row) {
+			$getBrand = $this->getBrandById($row['brand_id']);
+			$getModel = $this->getModelById($row['model_id']);
+
+			$data['brand_name'] = !empty($getBrand) ? $getBrand[0]['name'] : '';
+			$data['model_name'] = !empty($getModel) ? $getModel[0]['name'] : '';
+			$data['user_id'] = $row['user_id'];
+			$data['vehicle_id'] = $row['vehicle_id'];
+			$data['price'] = $row['price'];
+			$data['created'] = $row['created'];
+			$data['request_by'] = $row['request_by'];
+            $data['contactNo'] = $row['contactNo'];
+            $data['email'] = $row['emailId'];
+			$data['regno'] = $row['regno'];
+			$data['variant'] = $row['variant'];
+			$data['actual_price'] = $row['actual_price'];
+			$data['added_type'] = $row['added_type'];
+			$data['owner_name'] = ($row['added_type'] == 'DEALER') ? $row['dealer_name'] : $row['user_name'];
+
+			$priceData[] = $data;
+		}
+
+		return $priceData;
+	}
+
 
 	function getCouponByCode($code)
 	{
