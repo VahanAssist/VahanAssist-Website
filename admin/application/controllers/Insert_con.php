@@ -3136,13 +3136,23 @@
 			$data['price'] = empty($this->input->post('price')) ? '' : $this->input->post('price');
 			$data['user_id'] = empty($this->input->post('user_id')) ? '' : $this->input->post('user_id');
 			$data['vehicle_id'] = empty($this->input->post('vehicle_id')) ? '' : $this->input->post('vehicle_id');
-			$data['dealer_id'] = empty($this->input->post('dealer_id')) ? '' : $this->input->post('dealer_id');
 
-			$res = $this->Manage_product->insertPriceRequest($data);
-			if($res == 1){
-				echo json_encode(array('status' => 'success', 'msg' => 'Price Request Sent Successfully'));
-			} else {
-				echo json_encode(array('status' => 'error', 'msg' => 'Failed to send price request'));
+			// Only include dealer_id if provided (column may not exist in production)
+			$dealerId = $this->input->post('dealer_id');
+			if (!empty($dealerId)) {
+				$data['dealer_id'] = $dealerId;
+			}
+
+			try {
+				$res = $this->Manage_product->insertPriceRequest($data);
+				if($res == 1){
+					echo json_encode(array('status' => 'success', 'msg' => 'Price Request Sent Successfully'));
+				} else {
+					echo json_encode(array('status' => 'error', 'msg' => 'Failed to send price request'));
+				}
+			} catch (Exception $e) {
+				log_message('error', 'insertPriceRequest failed: ' . $e->getMessage());
+				echo json_encode(array('status' => 'error', 'msg' => 'Server error'));
 			}
 		}
 
@@ -3152,16 +3162,29 @@
 		{
 			$data['user_id'] = empty($this->input->post('user_id')) ? '' : $this->input->post('user_id');
 			$data['vehicle_id'] = empty($this->input->post('vehicle_id')) ? '' : $this->input->post('vehicle_id');
-			$data['dealer_id'] = empty($this->input->post('dealer_id')) ? '' : $this->input->post('dealer_id');
 			$data['date'] = empty($this->input->post('date')) ? date('Y-m-d') : $this->input->post('date');
 			$data['time'] = empty($this->input->post('time')) ? date('H:i:s') : $this->input->post('time');
-			$data['description'] = empty($this->input->post('description')) ? '' : $this->input->post('description');
 
-			$res = $this->Manage_product->insertAppointment($data);
-			if($res == 1){
-				echo json_encode(array('status' => 'success', 'msg' => 'Appointment Placed Successfully'));
-			} else {
-				echo json_encode(array('status' => 'error', 'msg' => 'Failed to book appointment'));
+			// Only include optional columns if provided (may not exist in production)
+			$dealerId = $this->input->post('dealer_id');
+			if (!empty($dealerId)) {
+				$data['dealer_id'] = $dealerId;
+			}
+			$desc = $this->input->post('description');
+			if (!empty($desc)) {
+				$data['description'] = $desc;
+			}
+
+			try {
+				$res = $this->Manage_product->insertAppointment($data);
+				if($res == 1){
+					echo json_encode(array('status' => 'success', 'msg' => 'Appointment Placed Successfully'));
+				} else {
+					echo json_encode(array('status' => 'error', 'msg' => 'Failed to book appointment'));
+				}
+			} catch (Exception $e) {
+				log_message('error', 'insertAppointment failed: ' . $e->getMessage());
+				echo json_encode(array('status' => 'error', 'msg' => 'Server error'));
 			}
 		}
 
