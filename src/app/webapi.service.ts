@@ -306,6 +306,22 @@ export class WebapiService {
     return this.http.post(this.baseUrl + "insertCustomMPEnquiry", form_data);
   }
 
+  insertPriceRequest(data: any) {
+    var form_data = new FormData();
+    for (var key in data) {
+      form_data.append(key, data[key]);
+    }
+    return this.http.post(this.baseUrl + "insertPriceRequest", form_data);
+  }
+
+  insertAppointment(data: any) {
+    var form_data = new FormData();
+    for (var key in data) {
+      form_data.append(key, data[key]);
+    }
+    return this.http.post(this.baseUrl + "insertAppointment", form_data);
+  }
+
   getAllStates() {
     return this.http.get(this.baseUrl + "getAllStates/");
   }

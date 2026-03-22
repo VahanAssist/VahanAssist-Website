@@ -86,17 +86,52 @@
             </div> -->
 
         </div>
-        <div class="col-12 text-center">
+        <div class="col-12 action-buttons-wrap">
+          <div class="action-btn-row">
+            <a
+              href="javascript:void(0)"
+              (click)="requestPrice(vehicleDetail?.id, vehicleDetail?.added_by)"
+              class="action-btn request-price-btn"
+              id="btn-request-price"
+              >Request Price</a>
+            <a
+              href="javascript:void(0)"
+              (click)="bookAppointment(vehicleDetail?.id, vehicleDetail?.added_by)"
+              class="action-btn book-apt-btn"
+              id="btn-book-appointment"
+              >Book Appointment</a>
+          </div>
           <a
             href="javascript:void(0)"
             (click)="contactOwner(vehicleDetail?.id, vehicleDetail?.added_by)"
-            class="contact-onr-btn btn btn-primary "
-            >Contact Owner</a>
-          <br />
+            class="contact-onr-btn btn btn-primary"
+            id="btn-contact-owner"
+            >Click to call or whatsapp</a>
           <span class="contact" *ngIf="contactFlag">{{
             vehicleDetail?.owner_contact
           }}</span>
         </div>
+
+<!-- Bottom Sheet Modal for WhatsApp / Call -->
+<div class="bottom-sheet-overlay" *ngIf="showContactModal" (click)="closeContactModal()">
+  <div class="bottom-sheet" (click)="$event.stopPropagation()">
+    <div class="bottom-sheet-handle"></div>
+    <a href="javascript:void(0)"
+       (click)="openWhatsApp(vehicleDetail?.owner_contact)"
+       class="bottom-sheet-option"
+       id="option-whatsapp">
+      <span class="option-text">Whatsapp ({{ vehicleDetail?.owner_contact }})</span>
+      <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" class="option-icon" />
+    </a>
+    <a href="javascript:void(0)"
+       (click)="callOwner(vehicleDetail?.owner_contact)"
+       class="bottom-sheet-option"
+       id="option-call">
+      <span class="option-text">Call ({{ vehicleDetail?.owner_contact }})</span>
+      <span class="option-icon call-icon">📞</span>
+    </a>
+  </div>
+</div>
 
         <!-- <hr /> -->
 
