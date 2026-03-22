@@ -20,7 +20,7 @@
 
           <li  *ngIf="!loginId" class="list-inline-item ps-1 mb-0">
               <!-- <a href="tel:8600-14-66-14" class="">8600146614</a> -->
-              <a [routerLink]="'/dealer-signup'" class="btn btn-primary">Register as Dealer</a>
+              <a [routerLink]="'/signup'" class="btn btn-primary">Register as Dealer</a>
           </li>
       </ul>
 
@@ -41,7 +41,7 @@
 
 
               <li><a href="marketplace" class="sub-menu-item">Buy/Sell VAHAN</a></li>
-              <li class="d-block d-sm-none"><a href="dealer-signup" class="sub-menu-item">Register As a Dealer</a></li>
+              <li class="d-block d-sm-none"><a href="signup" class="sub-menu-item">Register As a Dealer</a></li>
              
 
               <li *ngIf="!loginId"><a href="login" class="sub-menu-item">Login</a></li>

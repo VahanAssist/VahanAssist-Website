@@ -1149,6 +1149,18 @@
 			$data['state'] = empty($this->input->post('state')) ? '' : strtolower($this->input->post('state'));
 			$data['city'] = empty($this->input->post('city')) ? '' : strtolower($this->input->post('city'));
 			$data['type'] = empty($this->input->post('type')) ? '' : $this->input->post('type');
+
+			// Support for Dealer Business Name
+			$companyName = $this->input->post('companyName');
+			if (!empty($companyName)) {
+				if (!in_array('companyName', $this->db->list_fields('tbl_signup'))) {
+					$this->load->dbforge();
+					$fields = array('companyName' => array('type' => 'VARCHAR', 'constraint' => '255', 'null' => TRUE));
+					$this->dbforge->add_column('tbl_signup', $fields);
+				}
+				$data['companyName'] = trim($companyName);
+			}
+
 			// checkTandC removed — not a DB column, causes insert to fail
 
 			if($data['type'] == 'USER'){
@@ -2618,16 +2630,30 @@
 			$data['vehicle_id'] = empty($this->input->post('vehicle_id')) ? '' : $this->input->post('vehicle_id');
 			$data['status'] = empty($this->input->post('status')) ? '' : $this->input->post('status');
 
+			// Disable CI db_debug so SQL errors return false instead of fatal HTML
+			$this->db->db_debug = FALSE;
 			$res = $this->Manage_product->insertMPEnquiry($data);
+			$dbError = $this->db->error();
+			$this->db->db_debug = TRUE;
 
-			if($res['msg'] == 1){
-				$getEnq = $this->Manage_product->getMPEnquiryById($res['last_id']);
-				$this->sendNotificationEnquiry($data['dealer_id'],$res['last_id'],'Simple',$getEnq);
+			if(!empty($dbError['code'])){
+				log_message('error', 'insertMPEnquiry DB error: ' . $dbError['message']);
+				echo json_encode(array('status' =>'error', 'msg' => 'Database error'));
+				return;
+			}
+
+			if(is_array($res) && $res['msg'] == 1){
+				// Notification must not crash the response
+				try {
+					$getEnq = $this->Manage_product->getMPEnquiryById($res['last_id']);
+					$this->sendNotificationEnquiry($data['dealer_id'],$res['last_id'],'Simple',$getEnq);
+				} catch (Exception $e) {
+					log_message('error', 'insertMPEnquiry notification failed: ' . $e->getMessage());
+				}
 				echo json_encode(array('status' =>'success'));
 			}
 			else{
 				echo json_encode(array('status' =>'error'));
-
 			}
 
 		}
@@ -3127,56 +3153,68 @@
 
 		public function insertPriceRequest()
 		{
-
-			// $id = empty($this->input->post('id')) ? '' : $this->input->post('id');
-
-			// $data['image'] = empty($image['file_name']) ? '' : $image['file_name'];
-			// if ($data['image'] == "") {
-
-			// 	$data['image'] = empty($this->input->post('image_old')) ? '' : $this->input->post('image_old');
-			// }
-		
-			
-			$data['price'] = empty($this->input->post('price')) ? '' : $this->input->post('price');
 			$data['user_id'] = empty($this->input->post('user_id')) ? '' : $this->input->post('user_id');
 			$data['vehicle_id'] = empty($this->input->post('vehicle_id')) ? '' : $this->input->post('vehicle_id');
 
-			// if ($id == "") {
-				$this->Manage_product->insertPriceRequest($data);
-				// redirect(base_url() . "Main_con/view_packages");
-			// } else {
-				// $this->Manage_product->updatePackages($id, $data);
-				// redirect(base_url() . "Main_con/view_packages");
-			// }
+			// Only include optional columns if provided
+			$price = $this->input->post('price');
+			if (!empty($price)) { $data['price'] = $price; }
+			$dealerId = $this->input->post('dealer_id');
+			if (!empty($dealerId)) { $data['dealer_id'] = $dealerId; }
+
+			// Disable CI db_debug so SQL errors return false instead of fatal HTML
+			$this->db->db_debug = FALSE;
+			$res = $this->Manage_product->insertPriceRequest($data);
+			$dbError = $this->db->error();
+			$this->db->db_debug = TRUE;
+
+			if(!empty($dbError['code'])){
+				log_message('error', 'insertPriceRequest DB error: ' . $dbError['message']);
+				echo json_encode(array('status' => 'error', 'msg' => 'Database error'));
+				return;
+			}
+
+			if($res == 1){
+				echo json_encode(array('status' => 'success', 'msg' => 'Price Request Sent Successfully'));
+			} else {
+				echo json_encode(array('status' => 'error', 'msg' => 'Failed to send price request'));
+			}
 		}
 
 		
 
 		public function insertAppointment()
 		{
-
-			// $id = empty($this->input->post('id')) ? '' : $this->input->post('id');
-
-			// $data['image'] = empty($image['file_name']) ? '' : $image['file_name'];
-			// if ($data['image'] == "") {
-
-			// 	$data['image'] = empty($this->input->post('image_old')) ? '' : $this->input->post('image_old');
-			// }
-		
-			
 			$data['user_id'] = empty($this->input->post('user_id')) ? '' : $this->input->post('user_id');
 			$data['vehicle_id'] = empty($this->input->post('vehicle_id')) ? '' : $this->input->post('vehicle_id');
-			$data['date'] = empty($this->input->post('date')) ? '' : $this->input->post('date');
-			$data['time'] = empty($this->input->post('time')) ? '' : $this->input->post('time');
-			$data['description'] = empty($this->input->post('description')) ? '' : $this->input->post('description');
 
-			// if ($id == "") {
-				$this->Manage_product->insertAppointment($data);
-				// redirect(base_url() . "Main_con/view_packages");
-			// } else {
-				// $this->Manage_product->updatePackages($id, $data);
-				// redirect(base_url() . "Main_con/view_packages");
-			// }
+			// Only include optional columns if provided
+			$dealerId = $this->input->post('dealer_id');
+			if (!empty($dealerId)) { $data['dealer_id'] = $dealerId; }
+			$date = $this->input->post('date');
+			if (!empty($date)) { $data['date'] = $date; }
+			$time = $this->input->post('time');
+			if (!empty($time)) { $data['time'] = $time; }
+			$desc = $this->input->post('description');
+			if (!empty($desc)) { $data['description'] = $desc; }
+
+			// Disable CI db_debug so SQL errors return false instead of fatal HTML
+			$this->db->db_debug = FALSE;
+			$res = $this->Manage_product->insertAppointment($data);
+			$dbError = $this->db->error();
+			$this->db->db_debug = TRUE;
+
+			if(!empty($dbError['code'])){
+				log_message('error', 'insertAppointment DB error: ' . $dbError['message']);
+				echo json_encode(array('status' => 'error', 'msg' => 'Database error'));
+				return;
+			}
+
+			if($res == 1){
+				echo json_encode(array('status' => 'success', 'msg' => 'Appointment Placed Successfully'));
+			} else {
+				echo json_encode(array('status' => 'error', 'msg' => 'Failed to book appointment'));
+			}
 		}
 
 		public function insertServiceCategory()
@@ -3334,7 +3372,7 @@
 					'title' => 'New-Enquiry',
 					'body' => 'You have a new enquiry for vehicle',
 				],
-				'data'=> ['userId' => "$userId", 'enqId' => "$enqId",'enqType'=>$enqType,'enqData'=>$enqData]
+				'data'=> ['userId' => "$userId", 'enqId' => "$enqId",'enqType'=>$enqType,'enqData'=> is_array($enqData) ? json_encode($enqData) : "$enqData"]
 			];
 			try {
 				$accessToken = $this->getAccessToken($serviceAccountPath);

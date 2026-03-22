@@ -86,17 +86,88 @@
             </div> -->
 
         </div>
-        <div class="col-12 text-center">
+        <div class="col-12 action-buttons-wrap">
+          <div class="action-btn-row">
+            <a
+              href="javascript:void(0)"
+              (click)="requestPrice(vehicleDetail?.id, vehicleDetail?.added_by)"
+              class="action-btn request-price-btn"
+              id="btn-request-price"
+              >Request Price</a>
+            <a
+              href="javascript:void(0)"
+              (click)="bookAppointment(vehicleDetail?.id, vehicleDetail?.added_by)"
+              class="action-btn book-apt-btn"
+              id="btn-book-appointment"
+              >Book Appointment</a>
+          </div>
           <a
             href="javascript:void(0)"
             (click)="contactOwner(vehicleDetail?.id, vehicleDetail?.added_by)"
-            class="contact-onr-btn btn btn-primary "
-            >Contact Owner</a>
-          <br />
+            class="contact-onr-btn btn btn-primary"
+            id="btn-contact-owner"
+            >Click to call or whatsapp</a>
           <span class="contact" *ngIf="contactFlag">{{
             vehicleDetail?.owner_contact
           }}</span>
         </div>
+
+<!-- Bottom Sheet Modal for WhatsApp / Call -->
+<div class="bottom-sheet-overlay" *ngIf="showContactModal" (click)="closeContactModal()">
+  <div class="bottom-sheet" (click)="$event.stopPropagation()">
+    <div class="bottom-sheet-handle"></div>
+    <a href="javascript:void(0)"
+       (click)="openWhatsApp(vehicleDetail?.owner_contact)"
+       class="bottom-sheet-option"
+       id="option-whatsapp">
+      <span class="option-text">Whatsapp ({{ vehicleDetail?.owner_contact }})</span>
+      <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" class="option-icon" />
+    </a>
+    <a href="javascript:void(0)"
+       (click)="callOwner(vehicleDetail?.owner_contact)"
+       class="bottom-sheet-option"
+       id="option-call">
+      <span class="option-text">Call ({{ vehicleDetail?.owner_contact }})</span>
+      <span class="option-icon call-icon">📞</span>
+    </a>
+  </div>
+</div>
+
+<!-- Price Request Modal -->
+<div class="bottom-sheet-overlay" *ngIf="showPriceModal" (click)="closePriceModal()">
+  <div class="custom-modal" (click)="$event.stopPropagation()">
+    <h5 class="modal-title">Send Price Request</h5>
+    <div class="form-group mb-3 position-relative">
+      <span class="currency-symbol">₹</span>
+      <input type="number" class="form-control price-input" [(ngModel)]="priceValue" placeholder="Enter Price" min="0">
+    </div>
+    <button class="btn btn-primary w-100 mb-2 rounded-pill appt-btn" (click)="submitPriceRequest()">Yes, Send Request</button>
+    <button class="btn btn-link w-100 text-decoration-none text-muted" style="font-weight: 500;" (click)="closePriceModal()">No, Not Now</button>
+  </div>
+</div>
+
+<!-- Appointment Modal -->
+<div class="bottom-sheet-overlay" *ngIf="showAppointmentModal" (click)="closeAppointmentModal()">
+  <div class="custom-modal" (click)="$event.stopPropagation()">
+    <div class="modal-header-nav">
+      <button class="btn-close-icon" (click)="closeAppointmentModal()">×</button>
+      <h5 class="modal-title m-0 pb-0" style="margin-bottom:0 !important">Book Appointment</h5>
+    </div>
+    <div class="form-group mb-3 mt-3">
+      <label class="form-label text-muted small mb-1">Date</label>
+      <input type="date" class="form-control appt-input" [(ngModel)]="apptDate">
+    </div>
+    <div class="form-group mb-3">
+      <label class="form-label text-muted small mb-1">Time</label>
+      <input type="time" class="form-control appt-input" [(ngModel)]="apptTime">
+    </div>
+    <div class="form-group mb-3">
+      <label class="form-label text-muted small mb-1">Add Note</label>
+      <textarea class="form-control appt-textarea" [(ngModel)]="apptNote" placeholder="Type Here ..."></textarea>
+    </div>
+    <button class="btn btn-primary w-100 rounded-pill appt-btn" (click)="submitAppointment()">Done</button>
+  </div>
+</div>
 
         <!-- <hr /> -->
 

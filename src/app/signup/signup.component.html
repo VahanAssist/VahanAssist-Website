@@ -112,9 +112,27 @@
                         <a href=""><img src="images/logo-icon-80.png" class="mb-4 d-block mx-auto" alt=""></a>
                         <h5 class="mb-3">Register your account</h5>
 
+                        <!-- Role Selection -->
+                        <div class="d-flex mb-3 justify-content-center">
+                            <div class="form-check form-check-inline me-4">
+                                <input class="form-check-input" type="radio" name="role" id="roleUser" value="USER" [(ngModel)]="formData.role">
+                                <label class="form-check-label" for="roleUser">I am a Customer</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="role" id="roleDealer" value="DEALER" [(ngModel)]="formData.role">
+                                <label class="form-check-label" for="roleDealer">I am a Dealer</label>
+                            </div>
+                        </div>
+
+                        <!-- Business Name (Dealers Only) -->
+                        <div class="form-floating mb-2" *ngIf="formData.role === 'DEALER'">
+                            <input type="text" class="form-control" id="floatingCompany" placeholder="Business Name" name="companyName" [(ngModel)]="formData.companyName">
+                            <label for="floatingCompany">Business Name*</label>
+                        </div>
+
                         <div class="form-floating mb-2">
                             <input type="text" class="form-control" id="floatingInput" placeholder="Harry" name="firstName" [(ngModel)]="formData.firstName">
-                            <label for="floatingInput">First Name*</label>
+                            <label for="floatingInput">{{ formData.role === 'DEALER' ? 'Contact Person Name*' : 'Full Name*' }}</label>
                         </div>
 
                         <div class="form-floating mb-2">
