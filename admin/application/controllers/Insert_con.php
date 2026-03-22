@@ -2610,7 +2610,9 @@
 			else{
 				echo json_encode(array('status' =>'error',"msg"=>"Error On  Deletion.."));
 			}
-		}		public function insertMPEnquiry(){
+		}
+
+		public function insertMPEnquiry(){
 			$data['user_id'] = empty($this->input->post('user_id')) ? '' : $this->input->post('user_id');
 			$data['dealer_id'] = empty($this->input->post('dealer_id')) ? '' : $this->input->post('dealer_id');
 			$data['vehicle_id'] = empty($this->input->post('vehicle_id')) ? '' : $this->input->post('vehicle_id');
