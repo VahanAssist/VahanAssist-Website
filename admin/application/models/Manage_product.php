@@ -3381,10 +3381,11 @@ class Manage_product extends CI_Model
 
 	function getAllMPAppointmentsWithLimit($limit, $start)
 	{
-		$this->db->select('tbl_mp_vehicle_appointment.*,tbl_signup.firstName as request_by,tbl_signup.phoneNumber as contactNo,tbl_signup.email as emailId,tbl_mp_vehicle.regno,tbl_mp_vehicle.brand_id, tbl_mp_vehicle.model_id,tbl_mp_vehicle.variant,tbl_mp_vehicle.price as actual_price, tbl_mp_vehicle.added_type, tbl_mp_vehicle.dealer_name, tbl_mp_vehicle.user_name');
+		$this->db->select('tbl_mp_vehicle_appointment.*,tbl_signup.firstName as request_by,tbl_signup.phoneNumber as contactNo,tbl_signup.email as emailId,tbl_mp_vehicle.regno,tbl_mp_vehicle.brand_id, tbl_mp_vehicle.model_id,tbl_mp_vehicle.variant,tbl_mp_vehicle.price as actual_price, tbl_mp_vehicle.added_type, owner.firstName as owner_firstName, owner.lastName as owner_lastName');
 		$this->db->from('tbl_mp_vehicle_appointment');
 		$this->db->join('tbl_mp_vehicle', 'tbl_mp_vehicle.id = tbl_mp_vehicle_appointment.vehicle_id', 'left');
 		$this->db->join('tbl_signup', 'tbl_signup.id = tbl_mp_vehicle_appointment.user_id', 'left');
+		$this->db->join('tbl_signup as owner', 'owner.id = tbl_mp_vehicle.added_by', 'left');
 		$this->db->limit($limit, $start);
 		$this->db->order_by('tbl_mp_vehicle_appointment.id', 'DESC');
 
@@ -3412,7 +3413,7 @@ class Manage_product extends CI_Model
 			$data['created'] = $row['created'];
 			$data['actual_price'] = $row['actual_price'];
 			$data['added_type'] = $row['added_type'];
-			$data['owner_name'] = ($row['added_type'] == 'DEALER') ? $row['dealer_name'] : $row['user_name'];
+			$data['owner_name'] = $row['owner_firstName'] . ' ' . $row['owner_lastName'];
 
 			$appointData[] = $data;
 		}
@@ -3428,10 +3429,11 @@ class Manage_product extends CI_Model
 
 	function getAllMPPriceRequestsWithLimit($limit, $start)
 	{
-		$this->db->select('tbl_mp_vehicle_price_request.*,tbl_signup.firstName as request_by,tbl_signup.phoneNumber as contactNo,tbl_signup.email as emailId,tbl_mp_vehicle.regno,tbl_mp_vehicle.brand_id, tbl_mp_vehicle.model_id,tbl_mp_vehicle.variant,tbl_mp_vehicle.price as actual_price, tbl_mp_vehicle.added_type, tbl_mp_vehicle.dealer_name, tbl_mp_vehicle.user_name');
+		$this->db->select('tbl_mp_vehicle_price_request.*,tbl_signup.firstName as request_by,tbl_signup.phoneNumber as contactNo,tbl_signup.email as emailId,tbl_mp_vehicle.regno,tbl_mp_vehicle.brand_id, tbl_mp_vehicle.model_id,tbl_mp_vehicle.variant,tbl_mp_vehicle.price as actual_price, tbl_mp_vehicle.added_type, owner.firstName as owner_firstName, owner.lastName as owner_lastName');
 		$this->db->from('tbl_mp_vehicle_price_request');
 		$this->db->join('tbl_mp_vehicle', 'tbl_mp_vehicle.id = tbl_mp_vehicle_price_request.vehicle_id', 'left');
 		$this->db->join('tbl_signup', 'tbl_signup.id = tbl_mp_vehicle_price_request.user_id', 'left');
+		$this->db->join('tbl_signup as owner', 'owner.id = tbl_mp_vehicle.added_by', 'left');
 		$this->db->limit($limit, $start);
 		$this->db->order_by('tbl_mp_vehicle_price_request.id', 'DESC');
 
@@ -3457,7 +3459,7 @@ class Manage_product extends CI_Model
 			$data['variant'] = $row['variant'];
 			$data['actual_price'] = $row['actual_price'];
 			$data['added_type'] = $row['added_type'];
-			$data['owner_name'] = ($row['added_type'] == 'DEALER') ? $row['dealer_name'] : $row['user_name'];
+			$data['owner_name'] = $row['owner_firstName'] . ' ' . $row['owner_lastName'];
 
 			$priceData[] = $data;
 		}
