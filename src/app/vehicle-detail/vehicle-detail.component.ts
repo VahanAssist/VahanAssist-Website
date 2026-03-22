@@ -205,7 +205,6 @@ zoomOut(event: any) {
     let val = {
       vehicle_id: vid,
       user_id: this.userId,
-      dealer_id: dealerId,
       price: this.vehicleDetail?.price || ''
     };
 
@@ -231,8 +230,7 @@ zoomOut(event: any) {
 
     let val = {
       vehicle_id: vid,
-      user_id: this.userId,
-      dealer_id: dealerId
+      user_id: this.userId
     };
 
     this.webapi.insertAppointment(val).subscribe((res: any) => {
