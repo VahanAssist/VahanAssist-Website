@@ -1,347 +1,345 @@
 <ngx-loading-bar></ngx-loading-bar>
-<section class="position-relative mt-5 pt-4">
-  <div class="container-fluid px-md-4 px-2 mt-2">
-      <div class="bg-home-one d-table w-100 shadow rounded-3 overflow-hidden" id="home">
-          <div class="container">
-              <div class="row justify-content-center">
-                  <div class="col-12 col-md-6">
-                      <div class="title-heading2">
-                        <h2 class="heading fw-bold text-dark title-dark mb-3">Easy way to find the right VAHAN at your fingertips.</h2>
-                        <br>
-                       <p> Leading digital marketplace for the automotive industry that connects Vahan buyers with sellers
-                        or Hire professional drivers, and Book a Trailor.
-                       </p>
-                       <a [routerLink]="'/marketplace'" class="btn btn-primary phoneno">Explore Marketplace</a>
-                       <a href="tel:8600146614" class="btn btn-outline phoneno">Call Us +91-8600146614</a>
-                      </div>
-                  </div>
-                  <div class="col-12 col-md-6">
-                    <div class="title-heading">
-                     <img src="assets/images/newheroimage.jpg" class="img-fluid">
-                    </div>
-                </div>
-              </div>
+
+<!-- ===== HERO SECTION ===== -->
+<section class="hero-section">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-6 col-md-6">
+        <div class="hero-content">
+          <h1>Easy way to find the right VAHAN at your fingertips.</h1>
+          <p>Leading digital marketplace for the automotive industry that connects Vahan buyers with sellers, hire professional drivers, and book a Trailer.</p>
+          <div class="hero-buttons">
+            <a [routerLink]="'/marketplace'" class="btn-hero-primary">
+              <i class="mdi mdi-magnify"></i> Explore Marketplace
+            </a>
           </div>
+        </div>
       </div>
+      <div class="col-lg-6 col-md-6">
+        <div class="hero-image">
+          <img src="assets/images/newheroimage.jpg" alt="VahanAssist - Your Vehicle Companion">
+        </div>
+      </div>
+    </div>
   </div>
 </section>
-<section class="mt-100 mt-60 position-relative" id="marketplace">
-<div class="container " *ngIf="homeVehList?.length > 0">
-    <div class="row justify-content-center">
-        <div class="col">
-            <div class="section-title text-center mb-4 pb-2">
-                <h4 class="title fw-bold mb-3"  [routerLink]="'/marketplace'" >Marketplace</h4>
-                <p class="text-dark para-desc mb-0 mx-auto">A great platform to buy & sell Vahan at 0% commission.</p>
-            </div>
-        </div>
+
+<!-- ===== SERVICE TABS CARD ===== -->
+<div class="service-tabs-wrapper">
+  <div class="service-tabs-card">
+    <div class="tabs-row">
+      <a class="tab-item" [class.active]="activeTab === 'marketplace'" [routerLink]="'/marketplace'" (click)="activeTab = 'marketplace'">
+        <div class="tab-icon"><i class="mdi mdi-store"></i></div>
+        <span>Buy/Sell Vahan</span>
+      </a>
+      <a class="tab-item" [class.active]="activeTab === 'driver'" [routerLink]="'/driver-booking'" (click)="activeTab = 'driver'">
+        <div class="tab-icon"><i class="mdi mdi-account-tie"></i></div>
+        <span>Driver Booking</span>
+      </a>
+      <a class="tab-item" [class.active]="activeTab === 'trailer'" [routerLink]="'/trailor-booking'" (click)="activeTab = 'trailer'">
+        <div class="tab-icon"><i class="mdi mdi-truck-trailer"></i></div>
+        <span>Trailer Booking</span>
+      </a>
+      <a class="tab-item" [class.active]="activeTab === 'inspection'" [routerLink]="'/inspection'" (click)="activeTab = 'inspection'">
+        <div class="tab-icon"><i class="mdi mdi-clipboard-check"></i></div>
+        <span>Vehicle Inspection</span>
+      </a>
+      <a class="tab-item" [class.active]="activeTab === 'towing'" [routerLink]="'/towing'" (click)="activeTab = 'towing'">
+        <div class="tab-icon"><i class="mdi mdi-tow-truck"></i></div>
+        <span>Towing Service</span>
+      </a>
+      <a class="tab-item" [class.active]="activeTab === 'rto'" [routerLink]="'/rto'" (click)="activeTab = 'rto'">
+        <div class="tab-icon"><i class="mdi mdi-file-document-outline"></i></div>
+        <span>RTO Services</span>
+      </a>
+      <a class="tab-item" [class.active]="activeTab === 'insurance'" [routerLink]="'/insurance'" (click)="activeTab = 'insurance'">
+        <div class="tab-icon"><i class="mdi mdi-shield-check"></i></div>
+        <span>Insurance</span>
+      </a>
     </div>
 
-
-    <div class="row">
-        <div class="col-lg-3 col-md-6 col-12 p-10"  *ngFor="let hv of homeVehList">
-          <a routerLinkActive="router-link-active" class="vahan-a" href="javascript:void(0)" (click)="checkLoginUser(hv.regno,hv.added_by)" >
-            <div class="card property border-0 shadow position-relative overflow-hidden rounded-3">
-                <div class="property-image-home position-relative overflow-hidden">
-                    <img *ngIf="!hv.image" src="assets/images/car.jpg" class="img-fluid" alt="">
-                    <img *ngIf="hv.image" src="{{imageUrl}}{{hv.image}}" class="img-fluid" alt="">
-                    <!-- <ul class="list-unstyled property-icon">
-
-                        <li class="mt-1"><a href="javascript:void(0)" class="btn btn-sm btn-icon btn-pills btn-primary"><i data-feather="heart" class="icons"></i>heart</a></li>
-                    </ul> -->
-                </div>
-                <div class="card-body content p-2">
-                    <h5 class="title fs-5 text-dark fw-medium">{{hv.year}} {{hv.brand_name}} {{hv.model_name}}</h5>
-
-                    <ul class="list-unstyled border-top border-bottom d-flex align-items-center justify-content-between mb-0">
-                        <li class="d-flex align-items-top me-3 vehdetails">
-                            <i class="mdi mdi-car-info fs-5 me-2 text-primary"></i>
-                            <span class="text-muted  fs-6">{{hv.kms}} KM - {{hv.fuel_type}} - {{hv.variant}}</span>
-                        </li>
-
-                    </ul>
-                    <ul class="list-unstyled d-flex justify-content-between mb-0">
-                        <li class="list-inline-item mb-0">
-                            <!-- <span class="text-muted price">Price</span> -->
-                            <span class="fw-medium mb-0"> <i class="mdi mdi-currency-inr fs-5 text-primary"></i> {{hv.price}}</span>
-                        </li>
-
-                        <!-- <li class="list-inline-item mb-0">
-                            <i class="mdi mdi-location-enter fs-5 me-2 text-primary"></i>
-                            <span class="text-muted">{{hv.location}}</span>
-                        </li> -->
-
-
-                    </ul>
-                    <ul class="list-unstyled d-flex justify-content-between mt-2 mb-0">
-                        <li class="list-inline-item mb-0">
-                            <i class="mdi mdi-face-man-outline fs-5 me-2 text-primary"></i>
-                            <span class="text-muted fs-6" *ngIf="hv.added_type != 'DEALER'">Customer</span>
-                            <span class="text-muted fs-6" *ngIf="hv.added_type == 'DEALER'">{{hv.dealer_name}}</span>
-                        </li>
-                        <li>
-                            <span class="listingtype">{{hv.listingtype}}</span>
-                        </li>
-                        </ul>
-                </div>
-            </div>
-          </a>
-        </div>
-        <!-- one vehicle -->
-
-
+    <!-- Search Bar -->
+    <div class="search-bar-wrapper">
+      <i class="mdi mdi-magnify"></i>
+      <input type="text" placeholder="Search for your favourite vehicle" />
+      <button class="btn-search" [routerLink]="'/marketplace'">Search</button>
     </div>
-    <div class="row text-center">
-        <div class="col-12">
-            <br>
-            <a  [routerLink]="'/marketplace'" class="btn btn-primary"> Explore More Vahan at Marketplace</a>
-        </div>
-    </div>
+  </div>
 </div>
 
-<section class="section pt-5  mt-100">
-
-   <div class="container">
-      <div class="row justify-content-center">
-          <div class="col">
-              <div class="section-title text-center mb-4 pb-2">
-                  <h4 class="title fw-bold mb-3">Our Services</h4>
-                  <p class="text-dark para-desc mb-0 mx-auto">Best Services to Assist with your Vahan needs</p>
-              </div>
-          </div>
+<!-- ===== FEATURES ROW ===== -->
+<section class="features-row-section">
+  <div class="container">
+    <div class="features-row">
+      <div class="feature-badge">
+        <img src="assets/images/0-percent.png" alt="Zero Commission">
+        <span>0% Commission</span>
       </div>
-
-      <div class="row row-cols-lg-3 row-cols-md-3 row-cols-sm-2 row-cols-3 g-4 mt-0">
-          <div class="col">
-            <a class="service-box" href="" [routerLink]="'/driver-booking'">
-              <div class="categories position-relative overflow-hidden rounded-3 shadow">
-                  <img src="assets/images/driver1.jpg" class="img-fluid" alt="">
-
-                  <div class="p-3">
-                      <span class="title text-dark fs-30 fw-bold">Driver Booking</span>
-                  </div>
-              </div>
-            </a>
-          </div>
-
-          <div class="col">
-            <a class="service-box" href="" [routerLink]="'/trailor-booking'">
-              <div class="categories position-relative overflow-hidden rounded-3 shadow">
-                  <img src="assets/images/trailer2.jpg" class="img-fluid" alt="">
-
-                  <div class="p-3">
-                      <span class="title text-dark fs-30 fw-bold">Trailer Booking</span>
-                  </div>
-              </div>
-              </a>
-          </div>
-
-          <div class="col">
-            <a class="service-box" [routerLink]="'/inspection'" >
-              <div class="categories position-relative overflow-hidden rounded-3 shadow">
-                  <img src="assets/images/inspection.jpg" class="img-fluid" alt="">
-
-                  <div class="p-3">
-                      <span class="title text-dark fs-30 fw-bold">Vehicle Inspection</span>
-                  </div>
-              </div>
-            </a>
-          </div>
-          <div class="col">
-            <a class="service-box"  [routerLink]="'/towing'">
-              <div class="categories position-relative overflow-hidden rounded-3 shadow">
-                  <img src="assets/images/towing.jpg" class="img-fluid" alt="">
-
-                  <div class="p-3">
-                      <span class="title text-dark fs-30 fw-bold">Towing Service</span>
-                  </div>
-              </div>
-            </a>
-          </div>
-          <div class="col">
-            <a class="service-box" href=""  [routerLink]="'/rto'">
-              <div class="categories position-relative overflow-hidden rounded-3 shadow">
-                  <img src="assets/images/rto.jpg" class="img-fluid" alt="">
-
-                  <div class="p-3">
-                      <span class="title text-dark fs-30 fw-bold">RTO Services</span>
-                  </div>
-              </div>
-            </a>
-          </div>
-          <div class="col">
-            <a class="service-box" href=""  [routerLink]="'/insurance'" >
-              <div class="categories position-relative overflow-hidden rounded-3 shadow">
-                  <img src="assets/images/insurance.jpg" class="img-fluid" alt="">
-
-                  <div class="p-3">
-                      <span class="title text-dark fs-30 fw-bold">Insurance</span>
-                  </div>
-              </div>
-            </a>
-          </div>
-
+      <div class="feature-badge">
+        <img src="assets/images/network.png" alt="Dealer Network">
+        <span>Dealer Network</span>
       </div>
+      <div class="feature-badge">
+        <img src="assets/images/vehicles.png" alt="All Vehicles">
+        <span>All Vehicles</span>
+      </div>
+      <div class="feature-badge">
+        <img src="assets/images/idsadas.png" alt="Verified Dealers">
+        <span>Verified Dealers</span>
+      </div>
+      <div class="feature-badge">
+        <img src="assets/images/thumbs-up.png" alt="Convenient">
+        <span>Convenient</span>
+      </div>
+      <a [routerLink]="'/marketplace'" class="explore-marketplace-btn">
+        Explore Marketplace <i class="mdi mdi-arrow-right"></i>
+      </a>
+    </div>
   </div>
+</section>
 
-  
+<!-- ===== MARKETPLACE SECTION ===== -->
+<section class="marketplace-section" id="marketplace">
+  <div class="container" *ngIf="homeVehList?.length > 0">
+    <div class="section-title-modern">
+      <h4 [routerLink]="'/marketplace'">Marketplace</h4>
+      <p>A great platform to buy & sell Vahan at 0% commission.</p>
+    </div>
 
-  <div class="container mt-100 mt-60">
-      <div class="row align-items-center">
-          <div class="col-lg-6 col-md-6">
-              <div class="row g-3 align-items-center">
-                  <div class="col-lg-7 col-6">
-                      <img src="assets/images/bg/01.jpg" class="img-fluid rounded-3" alt="work-image">
-                  </div>
-
-                  <div class="col-lg-5 col-6">
-                      <div class="row g-3">
-                          <div class="col-lg-12 col-md-12">
-                              <img src="assets/images/bg/02.jpg" class="img-fluid rounded-3" alt="work-image">
-                          </div>
-
-                          <div class="col-lg-12 col-md-12">
-                              <img src="assets/images/bg/03.jpg" class="img-fluid" alt="work-image">
-                          </div>
-                      </div>
-                  </div>
+    <div class="row">
+      <div class="col-lg-3 col-md-6 col-12 vehicle-card-wrapper" *ngFor="let hv of homeVehList">
+        <a class="vahan-a" href="javascript:void(0)" (click)="checkLoginUser(hv.regno,hv.added_by)">
+          <div class="vehicle-card">
+            <div class="vehicle-card-image">
+              <img *ngIf="!hv.image" src="assets/images/car.jpg" alt="Vehicle">
+              <img *ngIf="hv.image" src="{{imageUrl}}{{hv.image}}" alt="{{hv.brand_name}} {{hv.model_name}}">
+            </div>
+            <div class="vehicle-card-body">
+              <h5>{{hv.year}} {{hv.brand_name}} {{hv.model_name}}</h5>
+              <div class="vehicle-specs">
+                <i class="mdi mdi-car-info"></i>
+                <span>{{hv.kms}} KM - {{hv.fuel_type || 'N/A'}} - {{hv.variant || 'N/A'}}</span>
               </div>
-          </div>
-
-          <div class="col-lg-6 col-md-6 mt-4 mt-sm-0 pt-2 pt-sm-0">
-              <div class="section-title ms-lg-5">
-                  <h6 class="text-primary fw-medium mb-2">About Vahan Assist</h6>
-                  <h4 class="title mb-3">Efficiency. <br> Transparency. Control.</h4>
-                  <p class="text-dark para-desc mb-0">Hire Trusted & Reliable Car Transportation Service In India.
-We assure you scratch-free, time-saving, and quick car moving services. <br><br>Our trained and experienced staff and our fleet of car carriers enable us to deliver safe and timely delivery of your car anywhere in India..</p>
-
-                  <div class="mt-4">
-                      <a href="" class="btn btn-pills btn-primary">Read More <i class="mdi mdi-arrow-right align-middle"></i></a>
-                  </div>
+              <div class="vehicle-price">
+                <i class="mdi mdi-currency-inr"></i>
+                <span>{{hv.price}}</span>
               </div>
+              <div class="vehicle-footer">
+                <div class="vehicle-seller">
+                  <i class="mdi mdi-face-man-outline"></i>
+                  <span *ngIf="hv.added_type != 'DEALER'">Customer</span>
+                  <span *ngIf="hv.added_type == 'DEALER'">{{hv.dealer_name}}</span>
+                </div>
+                <span class="vehicle-listing-badge">{{hv.listingtype}}</span>
+              </div>
+            </div>
           </div>
+        </a>
       </div>
+    </div>
+
+    <div class="row text-center mt-4">
+      <div class="col-12">
+        <a [routerLink]="'/marketplace'" class="btn-explore-more">
+          Explore More Vahan <i class="mdi mdi-arrow-right"></i>
+        </a>
+      </div>
+    </div>
   </div>
+</section>
 
+<!-- ===== SERVICES SECTION ===== -->
+<section class="services-section">
+  <div class="container">
+    <div class="section-title-modern">
+      <h4>Our Services</h4>
+      <p>Best Services to Assist with your Vahan needs</p>
+    </div>
 
-
-  <div class="container mt-100 mt-60 why-section" >
-      <div class="row justify-content-center">
-          <div class="col">
-              <div class="section-title text-center mb-4 pb-2">
-                  <h4 class="title fw-bold mb-3">Why VahanAssist ?</h4>
-                  <p class="text-dark para-desc mb-0 mx-auto">Welcome to VahanAssist - Your Ultimate Vehicle Assistance Platform!</p>
-                  <p  class="text-dark mt-3 mb-0">At <strong>VahanAssist</strong>, we revolutionize the way you buy, sell, and manage vehicles, offering unparalleled convenience and reliability. Here's why VahanAssist should be your go-to destination for all your vehicle needs</p>
-              </div>
+    <div class="row g-4">
+      <div class="col-lg-4 col-md-6 col-6">
+        <a class="service-card" [routerLink]="'/driver-booking'">
+          <div class="service-card-inner">
+            <img src="assets/images/driver1.jpg" alt="Driver Booking">
+            <span class="service-card-title">Driver Booking</span>
           </div>
+        </a>
       </div>
-
-      <div class="row g-4 mt-0">
-          <div class="col-md-4">
-              <div class="position-relative features px-md-1">
-                  <div class="feature-icon position-relative overflow-hidden d-flex justify-content-center">
-                      <img src="assets/images/0-percent.png">
-                  </div>
-
-                  <div class="mt-4">
-                      <h5 class="fw-medium title text-dark fs-5">Zero Commission Transactions</h5>
-                      <p class="text-dark text-justify mt-3 mb-0">Say goodbye to hefty commission fees! With VahanAssist, enjoy seamless, end-to-end transactions between dealers and customers, completely commission-free. Whether you're buying or selling, keep more of your money where it belongs - in your pocket.</p>
-
-                  </div>
-              </div>
+      <div class="col-lg-4 col-md-6 col-6">
+        <a class="service-card" [routerLink]="'/trailor-booking'">
+          <div class="service-card-inner">
+            <img src="assets/images/trailer2.jpg" alt="Trailer Booking">
+            <span class="service-card-title">Trailer Booking</span>
           </div>
-
-          <div class="col-md-4">
-              <div class="position-relative features px-md-1">
-                  <div class="feature-icon position-relative overflow-hidden d-flex justify-content-center">
-                      <img src="assets/images/network.png">
-                  </div>
-                  <div class="mt-4">
-                      <h5 class="fw-medium title text-dark fs-5">Vast Dealer Network</h5>
-                      <p class="text-dark text-justify mt-3 mb-0">Access an extensive network of verified dealers with just a few clicks. Our platform connects you with a wide range of dealers, ensuring you find the perfect vehicle to suit your needs and budget.</p>
-                  </div>
-              </div>
-          </div>
-
-          <div class="col-md-4">
-              <div class="position-relative features px-md-1">
-                  <div class="feature-icon position-relative overflow-hidden d-flex justify-content-center">
-                     <img src="assets/images/vehicles.png">
-                  </div>
-
-                  <div class="mt-4">
-                      <h5 class="fw-medium title text-dark fs-5">Universal Vehicle Buying</h5>
-                      <p class="text-dark text-justify mt-3 mb-0">Gone are the days of limited options. At VahanAssist, anyone can buy any vehicle hassle-free. Whether you're in the market for a car, truck, bike, or any other vehicle, we've got you covered.</p>
-                  </div>
-              </div>
-          </div>
-
-
-          <div class="col-md-4">
-            <div class="position-relative features px-md-1">
-                <div class="feature-icon position-relative overflow-hidden d-flex justify-content-center">
-                    <img src="assets/images/idsadas.png">
-                </div>
-
-                <div class="mt-4">
-                    <h5 class="fw-medium title text-dark fs-5">Pan India Dealer Verification</h5>
-                    <p class="text-dark text-justify mt-3 mb-0">Rest easy knowing that all dealers on VahanAssist are thoroughly verified, ensuring trust and reliability no matter where you are in India. Your peace of mind is our priority.</p>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="col-md-4">
-            <div class="position-relative features px-md-1">
-                <div class="feature-icon position-relative overflow-hidden d-flex justify-content-center">
-                    <img src="assets/images/thumbs-up.png">
-                </div>
-
-                <div class="mt-4">
-                    <h5 class="fw-medium title text-dark fs-5">Convenient Services</h5>
-                    <p class="text-dark text-justify mt-3 mb-0">Need a driver, trailer, or tow van in a pinch? Look no further than VahanAssist. With just a single click, hire nearby drivers and vehicles for all your transportation needs, saving you time and hassle.</p>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="col-md-4">
-            <div class="position-relative features px-md-1">
-                <div class="feature-icon position-relative overflow-hidden d-flex justify-content-center">
-                    <img src="assets/images/social-care.png">
-                </div>
-
-                <div class="mt-4">
-                    <h5 class="fw-medium title text-dark fs-5">RTO Assistance</h5>
-                    <p class="text-dark text-justify mt-3 mb-0">Skip the long queues and tedious paperwork. VahanAssist offers convenient RTO vehicle-related services and inspections anytime, anywhere, at minimum prices. Get your vehicle paperwork sorted with ease, leaving you free to focus on what matters most.</p>
-                </div>
-            </div>
-        </div>
-
+        </a>
       </div>
-      <div class="row g-4 mt-3">
-        <p class="">
-            With VahanAssist, your vehicle journey just got a whole lot smoother. Join us today and experience the future of vehicle assistance!
-        </p>
+      <div class="col-lg-4 col-md-6 col-6">
+        <a class="service-card" [routerLink]="'/inspection'">
+          <div class="service-card-inner">
+            <img src="assets/images/inspection.jpg" alt="Vehicle Inspection">
+            <span class="service-card-title">Vehicle Inspection</span>
+          </div>
+        </a>
       </div>
+      <div class="col-lg-4 col-md-6 col-6">
+        <a class="service-card" [routerLink]="'/towing'">
+          <div class="service-card-inner">
+            <img src="assets/images/towing.jpg" alt="Towing Service">
+            <span class="service-card-title">Towing Service</span>
+          </div>
+        </a>
+      </div>
+      <div class="col-lg-4 col-md-6 col-6">
+        <a class="service-card" [routerLink]="'/rto'">
+          <div class="service-card-inner">
+            <img src="assets/images/rto.jpg" alt="RTO Services">
+            <span class="service-card-title">RTO Services</span>
+          </div>
+        </a>
+      </div>
+      <div class="col-lg-4 col-md-6 col-6">
+        <a class="service-card" [routerLink]="'/insurance'">
+          <div class="service-card-inner">
+            <img src="assets/images/insurance.jpg" alt="Insurance">
+            <span class="service-card-title">Insurance</span>
+          </div>
+        </a>
+      </div>
+    </div>
   </div>
-  <div class="container mt-60">
-      <div class="row justify-content-center">
-          <div class="col-12">
-              <div class="section-title sell-vahan text-center" style="">
-                  <h4 class="title mb-3">Want to <strong>Sell your VAHAN</strong></h4>
-                  <p class="text-dark para-desc mb-0 mx-auto">We are here to help.</p>
+</section>
 
-                  <div class="mt-4 pt-2"  *ngIf="userId">
-
-                      <a href="" [routerLink]="'/add-vehicle'"  class="btn btn-pills btn-primary"><span class="h5 mb-0 me-1"><i data-feather="mail" class="fea icon-sm"></i></span> SELL MY VAHAN</a>
-                  </div>
-
-                  <div class="mt-4 pt-2"  *ngIf="!userId">
-
-                    <a href="" [routerLink]="'/signup'"  class="btn btn-pills btn-primary"><span class="h5 mb-0 me-1"><i data-feather="mail" class="fea icon-sm"></i></span> SELL MY VAHAN</a>
-                </div>
-              </div>
+<!-- ===== ABOUT SECTION ===== -->
+<section class="about-section">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-6 col-md-6">
+        <div class="row g-3 align-items-center about-images">
+          <div class="col-lg-7 col-6">
+            <img src="assets/images/bg/01.jpg" class="img-fluid" alt="About VahanAssist">
           </div>
+          <div class="col-lg-5 col-6">
+            <div class="row g-3">
+              <div class="col-lg-12 col-md-12">
+                <img src="assets/images/bg/02.jpg" class="img-fluid" alt="Our Team">
+              </div>
+              <div class="col-lg-12 col-md-12">
+                <img src="assets/images/bg/03.jpg" class="img-fluid" alt="Our Fleet">
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
+
+      <div class="col-lg-6 col-md-6 mt-4 mt-sm-0 pt-2 pt-sm-0">
+        <div class="about-content ms-lg-5">
+          <h6>About Vahan Assist</h6>
+          <h4>Efficiency. <br> Transparency. Control.</h4>
+          <p>Hire Trusted & Reliable Car Transportation Service In India.
+We assure you scratch-free, time-saving, and quick car moving services. <br><br>Our trained and experienced staff and our fleet of car carriers enable us to deliver safe and timely delivery of your car anywhere in India.</p>
+          <div class="mt-4">
+            <a href="" class="btn-read-more">Read More <i class="mdi mdi-arrow-right align-middle"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== WHY VAHANASSIST SECTION ===== -->
+<section class="why-section-wrapper">
+  <div class="container">
+    <div class="section-title-modern">
+      <h4>Why VahanAssist ?</h4>
+      <p>Welcome to VahanAssist - Your Ultimate Vehicle Assistance Platform!</p>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="why-card">
+          <div class="why-card-icon">
+            <img src="assets/images/0-percent.png" alt="Zero Commission">
+          </div>
+          <h5>Zero Commission Transactions</h5>
+          <p>Say goodbye to hefty commission fees! Enjoy seamless, end-to-end transactions between dealers and customers, completely commission-free.</p>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="why-card">
+          <div class="why-card-icon">
+            <img src="assets/images/network.png" alt="Dealer Network">
+          </div>
+          <h5>Vast Dealer Network</h5>
+          <p>Access an extensive network of verified dealers with just a few clicks. Find the perfect vehicle to suit your needs and budget.</p>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="why-card">
+          <div class="why-card-icon">
+            <img src="assets/images/vehicles.png" alt="All Vehicles">
+          </div>
+          <h5>Universal Vehicle Buying</h5>
+          <p>Gone are the days of limited options. Anyone can buy any vehicle hassle-free — car, truck, bike, or any other vehicle.</p>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="why-card">
+          <div class="why-card-icon">
+            <img src="assets/images/idsadas.png" alt="Verified Dealers">
+          </div>
+          <h5>Pan India Dealer Verification</h5>
+          <p>All dealers on VahanAssist are thoroughly verified, ensuring trust and reliability no matter where you are in India.</p>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="why-card">
+          <div class="why-card-icon">
+            <img src="assets/images/thumbs-up.png" alt="Convenient">
+          </div>
+          <h5>Convenient Services</h5>
+          <p>Need a driver, trailer, or tow van? With just a single click, hire nearby drivers and vehicles for all your transportation needs.</p>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="why-card">
+          <div class="why-card-icon">
+            <img src="assets/images/social-care.png" alt="RTO Assistance">
+          </div>
+          <h5>RTO Assistance</h5>
+          <p>Skip the long queues and tedious paperwork. Get convenient RTO vehicle-related services and inspections anytime, anywhere.</p>
+        </div>
+      </div>
+    </div>
+
+    <p class="why-section-footer mt-4">
+      With VahanAssist, your vehicle journey just got a whole lot smoother. Join us today and experience the future of vehicle assistance!
+    </p>
+  </div>
+</section>
+
+<!-- ===== SELL YOUR VAHAN SECTION ===== -->
+<section class="sell-section">
+  <div class="container">
+    <div class="sell-banner">
+      <h4>Want to <strong>Sell your VAHAN</strong></h4>
+      <p>We are here to help.</p>
+
+      <div class="mt-4" *ngIf="userId">
+        <a [routerLink]="'/add-vehicle'" class="btn-sell">
+          <i class="mdi mdi-car"></i> SELL MY VAHAN
+        </a>
+      </div>
+
+      <div class="mt-4" *ngIf="!userId">
+        <a [routerLink]="'/signup'" class="btn-sell">
+          <i class="mdi mdi-car"></i> SELL MY VAHAN
+        </a>
+      </div>
+    </div>
   </div>
 </section>

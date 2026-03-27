@@ -1,0 +1,18 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # Force www
+  RewriteCond %{HTTP_HOST} ^vahanassist\.com [NC]
+  RewriteRule ^(.*)$ https://www.vahanassist.com/$1 [L,R=301]
+
+  # STOP — let vahaan-admin go to PHP backend
+  RewriteCond %{REQUEST_URI} ^/vahaan-admin
+  RewriteRule ^ - [L]
+
+  # Angular SPA routing
+  RewriteRule ^index\.html$ - [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule . /index.html [L]
+</IfModule>

@@ -21,6 +21,7 @@ export class HomeComponent {
   imageUrl:any;
   userId:any;
   userType:any='';
+  activeTab: string = 'marketplace';
 
   constructor(private webapi:WebapiService,private toastr:ToastrService,private loading : LoadingBarService,private router:Router){
 

@@ -1,17 +1,126 @@
+/* ===== CARS24-STYLE NAVBAR ===== */
 
+/* Call Us button in navbar */
+.nav-call-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #1e293b;
+  color: #fff !important;
+  padding: 8px 18px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
 
-@media (min-width: 992px)
-{
-    #topnav .navigation-menu.nav-left {
+.nav-call-btn:hover {
+  background: #0f172a;
+  box-shadow: 0 4px 12px rgba(30, 41, 59, 0.3);
+}
+
+.nav-call-btn i {
+  font-size: 16px;
+}
+
+/* Sign In / Account link */
+.nav-signin-link {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-decoration: none;
+  cursor: pointer;
+  padding: 4px 0;
+}
+
+.nav-signin-link .signin-text {
+  font-size: 11px;
+  color: #94a3b8;
+  line-height: 1.2;
+}
+
+.nav-signin-link .account-text {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1e293b;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.nav-signin-link .account-text i {
+  font-size: 18px;
+}
+
+.nav-signin-link:hover .account-text {
+  color: #1226bb;
+}
+
+/* Account dropdown */
+.nav-account-dropdown {
+  position: relative;
+}
+
+.account-dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+  list-style: none;
+  padding: 8px 0;
+  margin: 8px 0 0 0;
+  min-width: 160px;
+  z-index: 999;
+}
+
+.account-dropdown.open {
+  display: block;
+}
+
+.account-dropdown li a {
+  display: block;
+  padding: 10px 20px;
+  color: #1e293b;
+  font-size: 14px;
+  text-decoration: none;
+  transition: background 0.2s ease;
+  cursor: pointer;
+}
+
+.account-dropdown li a:hover {
+  background: #f0f4ff;
+  color: #1226bb;
+}
+
+.logout-link {
+  color: #dc2626 !important;
+}
+
+.logout-link:hover {
+  background: #fef2f2 !important;
+}
+
+/* Desktop nav alignment */
+@media (min-width: 992px) {
+  #topnav .navigation-menu.nav-left {
     justify-content: flex-end !important;
-}
+  }
+  
+  #topnav .buy-button {
+    margin-top: 20px !important;
+  }
 }
 
+/* Mobile submenu toggle */
 @media (max-width: 991px) {
-    .submenu {
-        display: none;
-    }
-    .submenu.open {
-        display: block !important;
-    }
+  .submenu {
+    display: none;
+  }
+  .submenu.open {
+    display: block !important;
+  }
 }
