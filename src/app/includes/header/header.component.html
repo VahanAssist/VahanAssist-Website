@@ -16,11 +16,33 @@
           </div>
       </div>
 
-       <ul class="buy-button list-inline mb-0 d-none d-sm-block">
+      <!-- RIGHT SIDE: Call Us + Auth -->
+      <ul class="buy-button list-inline mb-0 d-none d-md-flex align-items-center">
+          <li class="list-inline-item mb-0">
+              <a href="tel:8600146614" class="nav-call-btn">
+                  <i class="mdi mdi-phone"></i> Call us
+              </a>
+          </li>
 
-          <li  *ngIf="!loginId" class="list-inline-item ps-1 mb-0">
-              <!-- <a href="tel:8600-14-66-14" class="">8600146614</a> -->
-              <a [routerLink]="'/signup'" class="btn btn-primary">Register as Dealer</a>
+          <!-- Not logged in -->
+          <li *ngIf="!loginId" class="list-inline-item ps-2 mb-0">
+              <a [routerLink]="'/login'" class="nav-signin-link">
+                  <span class="signin-text">Hello, Sign in</span>
+                  <span class="account-text"><i class="mdi mdi-account-circle-outline"></i> Account <i class="mdi mdi-chevron-down"></i></span>
+              </a>
+          </li>
+
+          <!-- Logged in -->
+          <li *ngIf="loginId" class="list-inline-item ps-2 mb-0 nav-account-dropdown">
+              <a href="javascript:void(0)" class="nav-signin-link" (click)="toggleAccountMenu()">
+                  <span class="signin-text">Welcome</span>
+                  <span class="account-text"><i class="mdi mdi-account-circle-outline"></i> Account <i class="mdi mdi-chevron-down"></i></span>
+              </a>
+              <ul class="account-dropdown" [class.open]="accountMenuOpen">
+                  <li><a href="user-profile">Dashboard</a></li>
+                  <li><a href="user-account">My Account</a></li>
+                  <li><a (click)="logout()" class="logout-link">Logout</a></li>
+              </ul>
           </li>
       </ul>
 
@@ -28,34 +50,33 @@
           <ul class="navigation-menu nav-left">
 
               <li><a href="" class="sub-menu-item">Home</a></li>
-              <li><a href="about" class="sub-menu-item">About Us</a></li>
               <li class="has-submenu parent-parent-menu-item">
-                  <a href="javascript:void(0)" (click)="toggleSubmenu($event)">Services</a><span class="menu-arrow"></span>
+                  <a href="javascript:void(0)" (click)="toggleSubmenu($event)">Buy/Sell VAHAN</a><span class="menu-arrow"></span>
                   <ul class="submenu" [class.open]="submenuOpen">
-                      <li><a href="driver-booking" routerLinkActive="activebutton" class="sub-menu-item">Driver Booking</a></li>
-                      <li><a href="trailor-booking" class="sub-menu-item">Trailer Booking</a></li>
-                      <li><a href="inspection" class="sub-menu-item">Inspection</a></li>
-
+                      <li><a href="marketplace" class="sub-menu-item">Marketplace</a></li>
+                      <li><a href="add-vehicle" class="sub-menu-item">Sell Your Vahan</a></li>
                   </ul>
               </li>
-
-
-              <li><a href="marketplace" class="sub-menu-item">Buy/Sell VAHAN</a></li>
-              <li class="d-block d-sm-none"><a href="signup" class="sub-menu-item">Register As a Dealer</a></li>
-             
-
-              <li *ngIf="!loginId"><a href="login" class="sub-menu-item">Login</a></li>
-              
-              <li *ngIf="loginId">
-                <a href="user-profile"  class="sub-menu-item btn-outline">Dashboard</a>
-
-                
+              <li class="has-submenu parent-parent-menu-item">
+                  <a href="javascript:void(0)" (click)="toggleServicesMenu($event)">Services</a><span class="menu-arrow"></span>
+                  <ul class="submenu" [class.open]="servicesMenuOpen">
+                      <li><a href="driver-booking" class="sub-menu-item">Driver Booking</a></li>
+                      <li><a href="trailor-booking" class="sub-menu-item">Trailer Booking</a></li>
+                      <li><a href="inspection" class="sub-menu-item">Inspection</a></li>
+                      <li><a href="towing" class="sub-menu-item">Towing</a></li>
+                      <li><a href="rto" class="sub-menu-item">RTO Services</a></li>
+                      <li><a href="insurance" class="sub-menu-item">Insurance</a></li>
+                  </ul>
               </li>
-              <li *ngIf="loginId">
-                
+              <li><a href="about" class="sub-menu-item">About Us</a></li>
+              <li><a href="contact" class="sub-menu-item">Contact</a></li>
 
-                <a (click)="logout()" class="sub-menu-item">Logout</a>
-              </li>
+              <!-- Mobile only auth items -->
+              <li class="d-block d-md-none"><a href="tel:8600146614" class="sub-menu-item"><i class="mdi mdi-phone"></i> Call Us</a></li>
+              <li *ngIf="!loginId" class="d-block d-md-none"><a href="login" class="sub-menu-item">Login</a></li>
+              <li *ngIf="!loginId" class="d-block d-md-none"><a href="signup" class="sub-menu-item">Register as Dealer</a></li>
+              <li *ngIf="loginId" class="d-block d-md-none"><a href="user-profile" class="sub-menu-item">Dashboard</a></li>
+              <li *ngIf="loginId" class="d-block d-md-none"><a (click)="logout()" class="sub-menu-item">Logout</a></li>
           </ul>
       </div>
   </div>

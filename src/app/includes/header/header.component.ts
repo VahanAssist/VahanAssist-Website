@@ -12,6 +12,9 @@ import { RouterLink, RouterLinkActive, Router, NavigationEnd } from '@angular/ro
 export class HeaderComponent {
   loginId:any;
   submenuOpen = false;
+  accountMenuOpen = false;
+  servicesMenuOpen = false;
+
   constructor(private router: Router){
   }
 
@@ -33,6 +36,21 @@ export class HeaderComponent {
   toggleSubmenu(event: Event) {
     event.preventDefault();
     this.submenuOpen = !this.submenuOpen;
+  }
+
+  toggleAccountMenu() {
+    this.accountMenuOpen = !this.accountMenuOpen;
+    if(this.accountMenuOpen) {
+      this.servicesMenuOpen = false;
+    }
+  }
+
+  toggleServicesMenu(event: Event) {
+    event.preventDefault();
+    this.servicesMenuOpen = !this.servicesMenuOpen;
+    if(this.servicesMenuOpen) {
+      this.accountMenuOpen = false;
+    }
   }
 
   logout(){
