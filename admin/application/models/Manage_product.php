@@ -3543,6 +3543,7 @@ class Manage_product extends CI_Model
 		return 0;
 	}
 
+
 	function deleteCarPickupImage($id)
 	{
 		$this->db->where('id', $id);
@@ -3552,12 +3553,10 @@ class Manage_product extends CI_Model
 		if ($result) {
 			$image_path = FCPATH . 'images/vehicle_image/' . $result->image;
 
-			// Step 2: Delete the image file from server
 			if (file_exists($image_path)) {
-				unlink($image_path); // Delete file
+				unlink($image_path);
 			}
 
-			// Step 3: Delete the database record
 			$this->db->where('id', $id);
 			if ($this->db->delete('tbl_car_pickup_images')) {
 				return 1;
@@ -3565,5 +3564,81 @@ class Manage_product extends CI_Model
 		}
 
 		return 0;
+	}
+
+
+	// ========== TRANSPORT TRACKING METHODS ==========
+
+	function insertTransitStatus($data)
+	{
+		if ($data) {
+			$this->db->insert('tbl_transit_status', $data);
+			return 1;
+		}
+		return 0;
+	}
+
+	function getTransitStatusByBooking($bookingId)
+	{
+		$this->db->where('bookingId', $bookingId);
+		$this->db->order_by('date_time', 'ASC');
+		$query = $this->db->get('tbl_transit_status');
+		return $query->result_array();
+	}
+
+	function deleteTransitStatus($id)
+	{
+		$this->db->where('id', $id);
+		if ($this->db->delete('tbl_transit_status')) {
+			return 1;
+		}
+		return 0;
+	}
+
+	function getCarImagesByBookingAndType($bookingId, $type = null)
+	{
+		$this->db->where('bookingId', $bookingId);
+		$carQuery = $this->db->get('tbl_car_detail');
+		$cars = $carQuery->result_array();
+		
+		if (empty($cars)) return [];
+		
+		$carIds = [];
+		foreach ($cars as $car) {
+			if (!empty($car['id'])) {
+				$carIds[] = $car['id'];
+			}
+		}
+		
+		if (empty($carIds)) return [];
+		
+		$this->db->where_in('carId', $carIds);
+		if ($type) {
+			$this->db->where('type', $type);
+		}
+		$query = $this->db->get('tbl_car_pickup_images');
+		return $query->result_array();
+	}
+
+	function getAllCarImagesByBooking($bookingId)
+	{
+		$this->db->where('bookingId', $bookingId);
+		$carQuery = $this->db->get('tbl_car_detail');
+		$cars = $carQuery->result_array();
+		
+		if (empty($cars)) return [];
+		
+		$carIds = [];
+		foreach ($cars as $car) {
+			if (!empty($car['id'])) {
+				$carIds[] = $car['id'];
+			}
+		}
+		
+		if (empty($carIds)) return [];
+		
+		$this->db->where_in('carId', $carIds);
+		$query = $this->db->get('tbl_car_pickup_images');
+		return $query->result_array();
 	}
 }

@@ -1,5 +1,6 @@
 <?php
 	defined('BASEPATH') or exit('No direct script access allowed');
+	use Google\Client;
 	class Insert_con extends CI_Controller
 	{
 
@@ -1546,7 +1547,7 @@
 				$getBooking = $this->Manage_product->getBookingById($getCarDetail[0]['bookingId']);
 
 				if(count($getBooking) > 0 && $getCarDetail[0]['bookingId'] != $bookingId && $getBooking[0]['status'] != 'COMPLETED'){
-					$this->session->set_flashdata('error', 'This Driver is Assigned and Booking Yet not Completed!');
+					$this->session->set_flashdata('error', 'Driver already assigned and yet not completed');
 					redirect(base_url() . "Main_con/orderdetails/$bookingId");
 				}
 				}
@@ -1554,7 +1555,7 @@
 					$getBooking = $this->Manage_product->getBookingById($getCarDetailV2[0]['bookingId']);
 
 					if(count($getBooking) > 0 &&  $getCarDetail[0]['bookingId'] != $bookingId && $getBooking[0]['status'] != 'COMPLETED'){
-					$this->session->set_flashdata('error', 'This Driver is Assigned and Booking Yet not Completed!');
+					$this->session->set_flashdata('error', 'Driver already assigned and yet not completed');
 					redirect(base_url() . "Main_con/orderdetails/$bookingId");
 					}
 				}
@@ -1591,14 +1592,14 @@
 				if(count($getCarDetail) > 0){
 					$getBooking = $this->Manage_product->getBookingById($getCarDetail[0]['bookingId']);
 					if(count($getBooking) > 0 && $getCarDetail[0]['bookingId'] != $bookingId && $getBooking[0]['status'] != 'COMPLETED'){
-						echo json_encode(['status' => 'error', 'msg' => 'This Driver is Assigned and Booking Yet not Completed!']);
+						echo json_encode(['status' => 'error', 'msg' => 'Driver already assigned and yet not completed']);
 						return;
 					}
 				}
 				else if(count($getCarDetailV2) > 0){
 					$getBooking = $this->Manage_product->getBookingById($getCarDetailV2[0]['bookingId']);
 					if(count($getBooking) > 0 &&  $getCarDetailV2[0]['bookingId'] != $bookingId && $getBooking[0]['status'] != 'COMPLETED'){
-						echo json_encode(['status' => 'error', 'msg' => 'This Driver is Assigned and Booking Yet not Completed!']);
+						echo json_encode(['status' => 'error', 'msg' => 'Driver already assigned and yet not completed']);
 						return;
 					}
 				}
@@ -1606,9 +1607,22 @@
 
 			$res = $this->Manage_product->updateCarTrailorBooking($carId, $data);
 			
+			$whatsapp_url = null;
 			if ($res == 1) {
+				if (!empty($data['assignDriverId'])) {
+					$driverDetail = $this->Manage_product->getUserById($data['assignDriverId']);
+					if (!empty($driverDetail)) {
+						$phone = $driverDetail[0]['phoneNumber'];
+						$phone = preg_replace('/[^0-9]/', '', $phone);
+						if (strlen($phone) == 10) {
+							$phone = '91' . $phone;
+						}
+						$message = "Vahan Assist: You have been assigned to a new booking (ID: " . $bookingId . "). Please check your app for details. Have a safe journey!";
+						$whatsapp_url = "https://wa.me/" . $phone . "?text=" . urlencode($message);
+					}
+				}
 				$this->Manage_product->updateBooking($bookingId,$log);
-				echo json_encode(['status' => 'success', 'msg' => 'Driver Assigned Successfully']);
+				echo json_encode(['status' => 'success', 'msg' => 'Driver Assigned Successfully', 'whatsapp_url' => $whatsapp_url]);
 			} else {
 				echo json_encode(['status' => 'error', 'msg' => 'Something Went Wrong!']);
 			}
@@ -1631,7 +1645,7 @@
 				$getBooking = $this->Manage_product->getBookingById($getCarDetail[0]['bookingId']);
 
 				if(count($getBooking) > 0 && $getCarDetail[0]['bookingId'] != $bookingId && $getBooking[0]['status'] != 'COMPLETED'){
-					$this->session->set_flashdata('errorv2', 'This Driver is Assigned and Booking Yet not Completed!');
+					$this->session->set_flashdata('errorv2', 'Driver already assigned and yet not completed');
 					redirect(base_url() . "Main_con/orderdetails/$bookingId");
 				}
 				}
@@ -1639,7 +1653,7 @@
 					$getBooking = $this->Manage_product->getBookingById($getCarDetailV2[0]['bookingId']);
 
 					if(count($getBooking) > 0 && $getCarDetailV2[0]['bookingId'] != $bookingId && $getBooking[0]['status'] != 'COMPLETED'){
-					$this->session->set_flashdata('errorv2', 'This Driver is Assigned and Booking Yet not Completed!');
+					$this->session->set_flashdata('errorv2', 'Driver already assigned and yet not completed');
 					redirect(base_url() . "Main_con/orderdetails/$bookingId");
 					}
 				}
@@ -1680,14 +1694,14 @@
 				if(count($getCarDetail) > 0){
 					$getBooking = $this->Manage_product->getBookingById($getCarDetail[0]['bookingId']);
 					if(count($getBooking) > 0 && $getCarDetail[0]['bookingId'] != $bookingId && $getBooking[0]['status'] != 'COMPLETED'){
-						echo json_encode(['status' => 'error', 'msg' => 'This Driver is Assigned and Booking Yet not Completed!']);
+						echo json_encode(['status' => 'error', 'msg' => 'Driver already assigned and yet not completed']);
 						return;
 					}
 				}
 				else if(count($getCarDetailV2) > 0){
 					$getBooking = $this->Manage_product->getBookingById($getCarDetailV2[0]['bookingId']);
 					if(count($getBooking) > 0 && $getCarDetailV2[0]['bookingId'] != $bookingId && $getBooking[0]['status'] != 'COMPLETED'){
-						echo json_encode(['status' => 'error', 'msg' => 'This Driver is Assigned and Booking Yet not Completed!']);
+						echo json_encode(['status' => 'error', 'msg' => 'Driver already assigned and yet not completed']);
 						return;
 					}
 				}
@@ -1695,9 +1709,22 @@
 
 			$res = $this->Manage_product->updateCarTrailorBooking($carId, $data);
 			
+			$whatsapp_url = null;
 			if ($res == 1) {
+				if (!empty($data['assignSecondDriverId'])) {
+					$driverDetail = $this->Manage_product->getUserById($data['assignSecondDriverId']);
+					if (!empty($driverDetail)) {
+						$phone = $driverDetail[0]['phoneNumber'];
+						$phone = preg_replace('/[^0-9]/', '', $phone);
+						if (strlen($phone) == 10) {
+							$phone = '91' . $phone;
+						}
+						$message = "Vahan Assist: You have been assigned as the Delivery Driver to a new booking (ID: " . $bookingId . "). Please check your app for details. Have a safe journey!";
+						$whatsapp_url = "https://wa.me/" . $phone . "?text=" . urlencode($message);
+					}
+				}
 				$this->Manage_product->updateBooking($bookingId,$log);
-				echo json_encode(['status' => 'success', 'msg' => 'Second Driver Assigned Successfully']);
+				echo json_encode(['status' => 'success', 'msg' => 'Second Driver Assigned Successfully', 'whatsapp_url' => $whatsapp_url]);
 			} else {
 				echo json_encode(['status' => 'error', 'msg' => 'Something Went Wrong!']);
 			}
@@ -2694,16 +2721,18 @@
 
 			$cData['userId'] = empty($this->input->post('userId')) ? '' : $this->input->post('userId');
 			$cData['ownership'] = empty($this->input->post('ownership')) ? '' : $this->input->post('ownership');
-			$cData['city'] = $getUserById[0]['city'];
-			$cData['category_id'] = empty($this->input->post('category')) ? '' : $this->input->post('category');
-			$cData['brand_id'] = empty($this->input->post('brand')) ? '' : $this->input->post('brand');
-			$cData['model_id'] = empty($this->input->post('model')) ? '' : $this->input->post('model');
+			$cData['city'] = (!empty($getUserById) && isset($getUserById[0]['city'])) ? $getUserById[0]['city'] : '';
+			$cData['category_id'] = empty($this->input->post('category')) ? '[]' : $this->input->post('category');
+			$cData['brand_id'] = empty($this->input->post('brand')) ? '[]' : $this->input->post('brand');
+			$cData['model_id'] = empty($this->input->post('model')) ? '[]' : $this->input->post('model');
+			$cData['price'] = empty($this->input->post('price')) ? '' : $this->input->post('price');
+			$cData['Description'] = empty($this->input->post('Description')) ? '' : $this->input->post('Description');
 			$cData['status'] = "Enquired";
 
 			$res = $this->Manage_product->insertCustomMPEnquiry($cData);
 
 			if($res['msg'] == 1){
-				$this->sendNotificationCustomEnquiry($cData['city'],$res['last_id'],'Custom');
+				// $this->sendNotificationCustomEnquiry($cData['city'],$res['last_id'],'Custom', $cData['userId']);
 				echo json_encode(array('status' =>"success"));
 			}
 			else{
@@ -3385,7 +3414,7 @@
 
 	}
 
-	function sendNotificationCustomEnquiry($city,$enqId,$enqType)
+	function sendNotificationCustomEnquiry($city,$enqId,$enqType,$userId='')
 	{
 
 		$getUser = $this->Manage_product->getDealerByCity($city);
@@ -3411,8 +3440,8 @@
 					$accessToken = $this->getAccessToken($serviceAccountPath);
 					$response = $this->sendMessage($accessToken, $projectId, $message);
 					// echo 'Message sent successfully: ' . print_r($response, true);
-				} catch (Exception $e) {
-					echo 'Error: ' . $e->getMessage();
+				} catch (\Throwable $e) {
+					// echo 'Error: ' . $e->getMessage();
 				}
 			}
 
@@ -3573,50 +3602,79 @@
 
 		public function insertCarPickupDropImages()
 		{
-
 			$bookingId = empty($this->input->post('bookingId')) ? '' : $this->input->post('bookingId');
-			$type = $this->input->post('type');
 			$data['carId'] = empty($this->input->post('carId')) ? '' : $this->input->post('carId');
 			$data['driverId'] = empty($this->input->post('driverId')) ? '' : $this->input->post('driverId');
+			$data['type'] = empty($this->input->post('type')) ? 'pickup' : $this->input->post('type');
 
-			$config['upload_path'] = './images/vehicle_image/';
+			$upload_path = FCPATH . 'images/vehicle_image/';
+			if (!is_dir($upload_path)) {
+				$upload_path = FCPATH . '../images/vehicle_image/'; // Fallback for nested structure
+			}
+			if (!is_dir($upload_path)) {
+				mkdir($upload_path, 0777, true);
+			}
+
+			$config['upload_path'] = $upload_path;
 			$config['allowed_types'] = 'gif|jpg|png|jpeg|pdf';
 			$config['width']    = '150';
 			$config['height']   = '150';
 			$this->load->library('upload', $config);
-			$this->upload->initialize($config);
-			if ($this->upload->do_upload('image')) {
-				$image	= 	$this->upload->data();
-				$config['image_library'] = 'gd2';
-				$this->load->library('image_lib', $config);
-				$this->image_lib->resize();
+
+			// Handle both single string uploads (old cached form) and array uploads (new form)
+			if (isset($_FILES['image']['name']) && !is_array($_FILES['image']['name'])) {
+				$_FILES['image']['name']     = [$_FILES['image']['name']];
+				$_FILES['image']['type']     = [$_FILES['image']['type']];
+				$_FILES['image']['tmp_name'] = [$_FILES['image']['tmp_name']];
+				$_FILES['image']['error']    = [$_FILES['image']['error']];
+				$_FILES['image']['size']     = [$_FILES['image']['size']];
+			}
+
+			$imageCount = count($_FILES['image']['name']);
+			$successCount = 0;
+			$upload_errors = "";
+
+			for ($i = 0; $i < $imageCount; $i++) {
+				if (!empty($_FILES['image']['name'][$i])) {
+					$_FILES['file']['name']     = $_FILES['image']['name'][$i];
+					$_FILES['file']['type']     = $_FILES['image']['type'][$i];
+					$_FILES['file']['tmp_name'] = $_FILES['image']['tmp_name'][$i];
+					$_FILES['file']['error']    = $_FILES['image']['error'][$i];
+					$_FILES['file']['size']     = $_FILES['image']['size'][$i];
+
+					$this->upload->initialize($config);
+
+					if ($this->upload->do_upload('file')) {
+						$image = $this->upload->data();
+						
+						if (in_array(strtolower($image['file_ext']), ['.jpg', '.jpeg', '.png', '.gif'])) {
+							$config_lib['image_library'] = 'gd2';
+							$config_lib['source_image'] = $image['full_path'];
+							$config_lib['maintain_ratio'] = TRUE;
+							$config_lib['width'] = 800;
+							$config_lib['height'] = 800;
+							$this->load->library('image_lib', $config_lib);
+							$this->image_lib->resize();
+						}
+
+						$data['image'] = $image['file_name'];
+						$res = $this->App_model->insertCarPickupImage($data);
+						if ($res == 1) {
+							$successCount++;
+						}
+					} else {
+						$upload_errors .= $this->upload->display_errors('', ' ') . " | ";
+					}
+				}
+			}
+
+			if ($successCount > 0) {
+				$this->session->set_flashdata('success', "$successCount photos successfully uploaded for " . $data['type']);
 			} else {
-				$this->upload->display_errors();
+				$this->session->set_flashdata('error', "No photos were uploaded. Reason: " . trim($upload_errors, " | "));
 			}
 
-
-			$data['image'] = empty($image['file_name']) ? '' : $image['file_name'];
-
-			if(!$type){
-				echo "Select  Pickup or Drop Image to upload";
-				return;
-			}
-
-			if($type == 'pickup'){
-				$res = $this->App_model->insertCarPickupImage($data);
-				if($res == 1){
-					redirect(base_url()."Main_con/orderdetails/$bookingId");
-				}
-			}
-
-			if($type == 'drop'){
-				$res = $this->App_model->insertCarDropImage($data);
-				if($res == 1){
-					redirect(base_url()."Main_con/orderdetails/$bookingId");
-				}
-			}
-
-
+			redirect(base_url() . "Main_con/orderdetails/$bookingId");
 		}
 		public function getAllBooking()
 		{
@@ -3666,6 +3724,51 @@
 				}
 			}
 			
+			// Transport Tracking Data
+			$data['tracking'] = $this->Manage_product->getTrackingByBooking($bookingId);
+			$data['transitStatus'] = $this->Manage_product->getTransitStatusByBooking($bookingId);
+			
+			// Categorized Images
+			$data['pickupImages'] = $this->Manage_product->getCarImagesByBookingAndType($bookingId, 'pickup');
+			$data['handoverImages'] = $this->Manage_product->getCarImagesByBookingAndType($bookingId, 'handover');
+			$data['loadingImages'] = $this->Manage_product->getCarImagesByBookingAndType($bookingId, 'loading');
+			$data['dropImages'] = $this->Manage_product->getCarImagesByBookingAndType($bookingId, 'drop');
+			
 			echo json_encode(array('status' => 'success', 'data' => $data));
+		}
+
+		public function insertTransitStatus()
+		{
+			$bookingId = $this->input->post('bookingId');
+			date_default_timezone_set('Asia/Kolkata');
+			
+			$data['bookingId'] = empty($this->input->post('bookingId')) ? '' : $this->input->post('bookingId');
+			$data['status_label'] = empty($this->input->post('status_label')) ? '' : trim($this->input->post('status_label'));
+			$data['comment'] = empty($this->input->post('comment')) ? '' : trim($this->input->post('comment'));
+			$data['date_time'] = date('Y-m-d H:i:s');
+			$data['created_by'] = 'admin';
+
+			if (empty($data['status_label'])) {
+				$this->session->set_flashdata('tracking_error', 'Status label is required.');
+				redirect(base_url() . "Main_con/orderdetails/$bookingId");
+				return;
+			}
+
+			$this->Manage_product->insertTransitStatus($data);
+			$this->session->set_flashdata('tracking_success', 'Transit Status Added: ' . $data['status_label']);
+			redirect(base_url() . "Main_con/orderdetails/$bookingId");
+		}
+
+		public function deleteTransitStatus()
+		{
+			$id = $this->input->post('id');
+			$bookingId = $this->input->post('bookingId');
+			
+			$res = $this->Manage_product->deleteTransitStatus($id);
+			if ($res == 1) {
+				redirect(base_url() . "Main_con/orderdetails/$bookingId");
+			} else {
+				echo json_encode(array('status' => 'error', 'msg' => 'Error deleting transit status'));
+			}
 		}
 	}

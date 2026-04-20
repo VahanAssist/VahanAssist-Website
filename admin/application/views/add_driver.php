@@ -74,6 +74,12 @@ if ($id != "") {
                             </div>
                         </div>
                         <div class="position-relative row form-group">
+                            <label for="phoneNumber" class="col-sm-3 col-form-label"> Phone Number </label>
+                            <div class="col-sm-9">
+                                <input name="phoneNumber" id="phoneNumber" placeholder="" type="text" class="form-control" value="<?php echo isset($getUser[0]['phoneNumber']) ? $getUser[0]['phoneNumber'] : ''; ?>" required="required">
+                            </div>
+                        </div>
+                        <div class="position-relative row form-group">
                             <label for="password" class="col-sm-3 col-form-label"> Password </label>
                             <div class="col-sm-9">
                                 <input name="password" id="password" placeholder="" type="password" class="form-control" value="" required="required">
