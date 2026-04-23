@@ -1,115 +1,114 @@
-<section class="section pb-0 page-shell-soft">
+<section class="section pb-0" style="    background: rgb(238 238 238 / 32%);">
     <div class="container mt-50 mt-60">
-        <div class="dashboard-hero page-hero-card">
-            <div class="row align-items-center g-4">
-                <div class="col-lg-8">
-                    <span class="app-pill mb-3">Dealer dashboard</span>
-                    <h1 class="app-section-title mb-2">Hello, {{ userName }}</h1>
-                    <p class="app-section-subtitle mb-0">Manage vehicles, track enquiries, and handle your daily dealer activity from one place.</p>
-                </div>
-                <div class="col-lg-4">
-                    <div class="dashboard-hero-note">
-                        <strong>Need service bookings?</strong>
-                        <span>Trailer, driver, inspection, towing, RTO, and insurance options are available from the top Services menu.</span>
+        <div class="row justify-content-center">
+            <div class="col">
+                <div class="section-title text-center mb-4 pb-2">
+                    <h4 class="title mb-3">Hello! {{userName}}</h4>
+                    <p class="text-muted para-desc mb-3 mx-auto">Welcome to your dashboard</p>
+
+                    <div class="alert alert-info mt-3 mx-auto shadow-sm" style="max-width: 600px; padding: 12px 15px; font-size: 15px;">
+                        For services like <strong>Trailer</strong>, <strong>Driver</strong>, or <strong>Inspection</strong>, kindly check the <strong>Services</strong> tab at the top.
                     </div>
+
+                    <!-- if dealer -->
+
                 </div>
-            </div>
-        </div>
+            </div><!--end col-->
+        </div><!--end row-->
+
     </div>
 </section>
 
-<section class="section pt-0 page-shell-soft">
-    <div class="container mt-4 mt-md-5">
-        <div class="row g-3 g-md-4">
-            <div class="col-lg-3 col-md-4 col-6" *ngIf="userType == 'DEALER'">
-                <a [routerLink]="'/add-vehicle'" class="dashboard-link-card">
-                    <div class="card card-dashboard dashboard-action-card text-center">
+<section class="section pt-0" style="    background: rgb(238 238 238 / 32%);">
+    <div class="container mt-60">
+        <div class="row">
+            <div class="col-lg-3 col-md-3 mb-3 col-6" *ngIf="userType == 'DEALER'">
+                <a [routerLink]="'/add-vehicle'" class="a-dashboard">
+                    <div class="card card-dashboard text-center">
                         <div class="card-body">
-                            <img src="assets/images/car.png" alt="Add vehicle">
-                            <h5>Add Vehicle</h5>
-                            <p>List a fresh vehicle in a few taps.</p>
+                            <img src="assets/images/car.png"><br>
+                            Add Vehicle
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <!-- col-lg-4 -->
+
+            <div class="col-lg-3 col-md-3 mb-3 col-6" *ngIf="userType == 'DEALER'">
+                <a [routerLink]="'/view-vehicle'" class="a-dashboard">
+                    <div class="card card-dashboard text-center">
+                        <div class="card-body">
+                            <img src="assets/images/vehicles.png"><br>
+                            View Vehicle
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <!-- col-lg-4 -->
+
+            <div class="col-lg-3 col-md-3 mb-3 col-6">
+                <a [routerLink]="'/view-enquiry'" class="a-dashboard">
+                    <div class="card card-dashboard text-center">
+                        <div class="card-body">
+
+                            <img src="assets/images/view.png"><br>
+                            Enquiry for your Vahan
+
                         </div>
                     </div>
                 </a>
             </div>
 
-            <div class="col-lg-3 col-md-4 col-6" *ngIf="userType == 'DEALER'">
-                <a [routerLink]="'/view-vehicle'" class="dashboard-link-card">
-                    <div class="card card-dashboard dashboard-action-card text-center">
+
+            <div class="col-lg-3 col-md-3 mb-3 col-6" *ngIf="userType == 'DEALER'">
+                <a [routerLink]="'/view-custom-enquiry'" class="a-dashboard">
+                    <div class="card card-dashboard text-center">
                         <div class="card-body">
-                            <img src="assets/images/vehicles.png" alt="Manage vehicles">
-                            <h5>My Vehicles</h5>
-                            <p>Check stock, status, and leads.</p>
+
+                            <img src="assets/images/questionnaire.png"><br>
+                            Custom Enquiry <br><span>(for all Dealers)</span>
+
                         </div>
                     </div>
                 </a>
             </div>
-
-            <div class="col-lg-3 col-md-4 col-6">
-                <a [routerLink]="'/view-enquiry'" class="dashboard-link-card">
-                    <div class="card card-dashboard dashboard-action-card text-center">
+            <!-- col-lg-4 -->
+            <div class="col-lg-3 col-md-3 mb-3 col-6">
+                <a [routerLink]="'/view-booking'" class="a-dashboard">
+                    <div class="card card-dashboard text-center">
                         <div class="card-body">
-                            <img src="assets/images/view.png" alt="Vehicle enquiries">
-                            <h5>Enquiries</h5>
-                            <p>Follow up with buyers quickly.</p>
+                            <img src="assets/images/vehicles.png"><br>
+                            My Bookings
                         </div>
                     </div>
                 </a>
             </div>
-
-            <div class="col-lg-3 col-md-4 col-6" *ngIf="userType == 'DEALER'">
-                <a [routerLink]="'/view-custom-enquiry'" class="dashboard-link-card">
-                    <div class="card card-dashboard dashboard-action-card text-center">
+            <div class="col-lg-3 col-md-3 mb-3 col-6">
+                <a [routerLink]="'/user-account'" class="a-dashboard">
+                    <div class="card card-dashboard text-center">
                         <div class="card-body">
-                            <img src="assets/images/questionnaire.png" alt="Custom enquiry">
-                            <h5>Custom Enquiry</h5>
-                            <p>Shared dealer enquiries from the network.</p>
+
+                            <img src="assets/images/enquiry.png"><br>
+                            My Profile
+
                         </div>
                     </div>
                 </a>
             </div>
-
-            <div class="col-lg-3 col-md-4 col-6">
-                <a [routerLink]="'/view-booking'" class="dashboard-link-card">
-                    <div class="card card-dashboard dashboard-action-card text-center">
-                        <div class="card-body">
-                            <img src="assets/images/vehicles.png" alt="My bookings">
-                            <h5>My Bookings</h5>
-                            <p>Track active and past service bookings.</p>
-                        </div>
-                    </div>
-                </a>
-            </div>
-
-            <div class="col-lg-3 col-md-4 col-6">
-                <a [routerLink]="'/user-account'" class="dashboard-link-card">
-                    <div class="card card-dashboard dashboard-action-card text-center">
-                        <div class="card-body">
-                            <img src="assets/images/enquiry.png" alt="My profile">
-                            <h5>My Profile</h5>
-                            <p>Update your dealer profile and details.</p>
-                        </div>
-                    </div>
-                </a>
-            </div>
-
             <div class="col-lg-6" *ngIf="userType == 'DEALER'">
-                <a [routerLink]="'/subscription'" class="dashboard-link-card">
-                    <div class="card card-dashboard dashboard-plan-card">
-                        <div class="card-body">
-                            <div class="dashboard-plan-copy">
-                                <span class="app-pill">Current plan</span>
-                                <h5>Your Plan - Free Trial 70 Days</h5>
-                                <p>Upgrade to unlock more reach and dealer tools for your marketplace listings.</p>
-                            </div>
-                            <div class="dashboard-plan-cta">
-                                <img src="assets/images/subscription.png" alt="Subscription">
-                                <span class="btn btn-primary">View subscription</span>
-                            </div>
-                        </div>
+                <div class="card card-dashboard text-center">
+                    <div class="card-body">
+                        <a [routerLink]="'/subscription'" class="a-dashboard">
+                            <img src="assets/images/subscription.png"><br>
+                            <h5>Your Plan - Free Trail 70 Days</h5>
+                            <h5>Get our subscription <span class="btn btn-primary">click here</span></h5>
+                        </a>
                     </div>
-                </a>
+                </div>
             </div>
+            <!-- col-lg-6 -->
+
         </div>
+
     </div>
 </section>
