@@ -4,7 +4,16 @@ export const environment = {
     apiInsertUrl: 'http://localhost/vahaan-admin/Insert_con',
     apiAppUrl: 'http://localhost/vahaan-admin/App',
     apiPaymentUrl: 'http://localhost/vahaan-admin/Payment',
-    imageBaseUrl: 'http://localhost/vahaan-admin/images/vehicle_image/',
-    imageProfileUrl: 'http://localhost/vahaan-admin/images/profile/',
+    imageBaseUrl: 'https://www.vahanassist.com/vahaan-admin/images/vehicle_image/',
+    imageProfileUrl: 'https://www.vahanassist.com/vahaan-admin/images/profile/',
     googleMapsApiKey: 'AIzaSyB39Z-mhm2udO-plmGRgG4QOyX3UjqOqqo',
+    firebaseConfig: {
+      apiKey: "AIzaSyA5dDYGYewcisANHp3ZGZ7My27WCk-UCr4",
+      authDomain: "vahanassist-56ed3.firebaseapp.com",
+      projectId: "vahanassist-56ed3",
+      storageBucket: "vahanassist-56ed3.firebasestorage.app",
+      messagingSenderId: "968718523334",
+      appId: "1:968718523334:web:724ec76e965c64a9bef0c7",
+      measurementId: "G-5DKHDJ2VPM"
+    }
 };

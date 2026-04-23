@@ -4,6 +4,9 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { WebapiService } from '../webapi.service';
 import { ToastrService } from 'ngx-toastr';
+import { environment } from '../../environments/environment';
+import { initializeApp } from "firebase/app";
+import { getMessaging, getToken } from "firebase/messaging";
 
 @Component({
   selector: 'app-login',
@@ -29,8 +32,31 @@ export class LoginComponent {
           sessionStorage.setItem('type', res.data.type);
           sessionStorage.setItem('city', res.data.city);
 
-          // this.router.navigate(['/user-profile'])
-          location.href = '/user-profile';
+          try {
+            const app = initializeApp(environment.firebaseConfig);
+            const messaging = getMessaging(app);
+            Notification.requestPermission().then((permission) => {
+              if (permission === 'granted') {
+                getToken(messaging).then((currentToken) => {
+                  if (currentToken) {
+                    this.webapi.updateDeviceToken({ userId: res.data.userId, token: currentToken }).subscribe(() => {
+                      location.href = '/user-profile';
+                    });
+                  } else {
+                    location.href = '/user-profile';
+                  }
+                }).catch((err) => {
+                  console.error('An error occurred while retrieving token. ', err);
+                  location.href = '/user-profile';
+                });
+              } else {
+                location.href = '/user-profile';
+              }
+            });
+          } catch (error) {
+            console.error('Firebase initialization error', error);
+            location.href = '/user-profile';
+          }
         }
         else {
           this.toastr.error(res.message, 'Failed');

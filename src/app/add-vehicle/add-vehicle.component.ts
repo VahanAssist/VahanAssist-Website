@@ -283,7 +283,10 @@ export class AddVehicleComponent {
         vehicle_id: vehId
       }
       this.webapi.uploadMKMultipleImages(value).subscribe((res: any) => {
-        // console.log(res, '--');
+        console.log('Image upload response:', res);
+        if (res.status === 'error') {
+          this.toastr.error('Image upload failed: ' + res.msg);
+        }
       });
     }
 

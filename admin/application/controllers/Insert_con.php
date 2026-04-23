@@ -1610,6 +1610,7 @@
 			$whatsapp_url = null;
 			if ($res == 1) {
 				if (!empty($data['assignDriverId'])) {
+					$this->sendNotificationToDealer($data['assignDriverId'], "New Trip Assignment", "You have been assigned to a new booking (ID: $bookingId). Check your admin interface for details.");
 					$driverDetail = $this->Manage_product->getUserById($data['assignDriverId']);
 					if (!empty($driverDetail)) {
 						$phone = $driverDetail[0]['phoneNumber'];
@@ -1712,6 +1713,7 @@
 			$whatsapp_url = null;
 			if ($res == 1) {
 				if (!empty($data['assignSecondDriverId'])) {
+					$this->sendNotificationToDealer($data['assignSecondDriverId'], "New Trip Assignment", "You have been assigned as the secondary driver to a new booking (ID: $bookingId).");
 					$driverDetail = $this->Manage_product->getUserById($data['assignSecondDriverId']);
 					if (!empty($driverDetail)) {
 						$phone = $driverDetail[0]['phoneNumber'];
@@ -2434,9 +2436,7 @@
 			$vehicleId = empty($this->input->post('vehicle_id')) ? '' : $this->input->post('vehicle_id');
 			try {
 				$config['upload_path'] = './images/vehicle_image/';
-				$config['allowed_types'] = 'gif|jpg|png|jpeg';
-				$config['width']    = '150';
-				$config['height']   = '150';
+				$config['allowed_types'] = 'gif|jpg|png|jpeg|webp';
 				$this->load->library('upload', $config);
 				$this->upload->initialize($config);
 				if ($this->upload->do_upload('image')) {
@@ -2444,15 +2444,13 @@
 					$log_image['image'] = empty($image['file_name']) ? '' : $image['file_name'];
 					$log_image['vehicle_id'] = $vehicleId;
 					$msg  = $this->Manage_product->insertMPVehicleImages($log_image);
-					$this->upload->display_errors();
+					echo json_encode(array('status' => 'success', 'msg' => 'Uploaded'));
 				} else {
-
-					$this->upload->display_errors();
+					$error = $this->upload->display_errors('', '');
+					echo json_encode(array('status' => 'error', 'msg' => $error));
 				}
-
-				echo json_encode(array('msg' => "Uploaded"));
 			} catch (Exception $e) {
-				echo json_encode(array('msg' => "$e->message"));
+				echo json_encode(array('status' => 'error', 'msg' => $e->getMessage()));
 			}
 		}
 
@@ -2732,7 +2730,21 @@
 			$res = $this->Manage_product->insertCustomMPEnquiry($cData);
 
 			if($res['msg'] == 1){
-				// $this->sendNotificationCustomEnquiry($cData['city'],$res['last_id'],'Custom', $cData['userId']);
+
+				// Also insert into main tbl_enquiry so it shows up in the Admin Enquiry section
+				$enqData['name'] = (!empty($getUserById) && isset($getUserById[0]['firstName'])) ? $getUserById[0]['firstName'] . ' ' . $getUserById[0]['lastName'] : 'Marketplace User';
+				$enqData['email'] = (!empty($getUserById) && isset($getUserById[0]['email'])) ? $getUserById[0]['email'] : '';
+				$enqData['phoneNumber'] = (!empty($getUserById) && isset($getUserById[0]['phoneNumber'])) ? $getUserById[0]['phoneNumber'] : '';
+				
+				$catName = !empty($this->input->post('category')) ? $this->input->post('category') : '';
+				$brandName = !empty($this->input->post('brand')) ? $this->input->post('brand') : '';
+				$modelName = !empty($this->input->post('model')) ? $this->input->post('model') : '';
+				
+				$enqData['message'] = "Custom MP Enquiry: Brand: $brandName, Model: $modelName. Desc: " . $cData['Description'];
+				$enqData['type'] = "Marketplace";
+				$this->Manage_product->insertEnquiry($enqData);
+
+				$this->sendNotificationToAllDealers("General Marketplace Enquiry", "A user is looking for a vehicle matching your specifications. Check your messages.");
 				echo json_encode(array('status' =>"success"));
 			}
 			else{
@@ -3204,6 +3216,10 @@
 			}
 
 			if($res == 1){
+				if (!empty($dealerId)) {
+					$priceMsg = !empty($price) ? " ₹ " . $price : "";
+					$this->sendNotificationToDealer($dealerId, "New Price Request", "A user requested a specific price$priceMsg for your vehicle.");
+				}
 				echo json_encode(array('status' => 'success', 'msg' => 'Price Request Sent Successfully'));
 			} else {
 				echo json_encode(array('status' => 'error', 'msg' => 'Failed to send price request'));
@@ -3240,10 +3256,32 @@
 			}
 
 			if($res == 1){
+				if (!empty($dealerId)) {
+					$dateStr = !empty($date) ? " on $date" : "";
+					$timeStr = !empty($time) ? " at $time" : "";
+					$this->sendNotificationToDealer($dealerId, "New Appointment Booking", "A user requested an appointment$dateStr$timeStr for your vehicle.");
+				}
 				echo json_encode(array('status' => 'success', 'msg' => 'Appointment Placed Successfully'));
 			} else {
 				echo json_encode(array('status' => 'error', 'msg' => 'Failed to book appointment'));
 			}
+		}
+
+		public function getPriceRequestsByVehicle()
+		{
+			$vehicleId = $this->input->post('vehicleId');
+			$start = $this->input->post('start') ? $this->input->post('start') : 1;
+			$limit = $this->input->post('limit') ? $this->input->post('limit') : 10;
+
+			if (empty($vehicleId)) {
+				echo json_encode(array('status' => 'error', 'data' => [], 'total' => 0));
+				return;
+			}
+
+			$total = $this->Manage_product->getAllPriceRequestByVehicleId($vehicleId);
+			$data = $this->Manage_product->getAllPriceRequestByVehicleIdWithLimit($vehicleId, $limit, ($start - 1) * $limit);
+
+			echo json_encode(array('status' => 'success', 'data' => $data, 'total' => $total));
 		}
 
 		public function insertServiceCategory()
@@ -3769,6 +3807,114 @@
 				redirect(base_url() . "Main_con/orderdetails/$bookingId");
 			} else {
 				echo json_encode(array('status' => 'error', 'msg' => 'Error deleting transit status'));
+			}
+		}
+
+		function sendNotificationToDealer($dealerId, $title, $body)
+		{
+			$notifData = [
+				'user_id' => $dealerId,
+				'title' => $title,
+				'message' => $body,
+				'is_read' => 0,
+				'created_at' => date('Y-m-d H:i:s')
+			];
+			$this->Manage_product->insertNotification($notifData);
+
+			$user = $this->Manage_product->getUserById($dealerId);
+			if(!empty($user) && !empty($user[0]['device_token'])){
+				$serviceAccountPath = APPPATH . 'libraries/vahan-81416-55634a9d101c.json';
+				$projectId = 'vahan-81416';
+				$message = [
+					'token' => $user[0]['device_token'],
+					'notification' => [
+						'title' => $title,
+						'body' => $body,
+					],
+					'data'=> ['dealerId' => "$dealerId"]
+				];
+				try {
+					$accessToken = $this->getAccessToken($serviceAccountPath);
+					$this->sendMessage($accessToken, $projectId, $message);
+				} catch (\Throwable $e) {}
+			}
+		}
+
+		function sendNotificationToAllDealers($title, $body)
+		{
+			$dealers = $this->Manage_product->getAllDealers();
+			if(!empty($dealers)) {
+				$serviceAccountPath = APPPATH . 'libraries/vahan-81416-55634a9d101c.json';
+				$projectId = 'vahan-81416';
+				
+				$accessToken = null;
+				try {
+					$accessToken = $this->getAccessToken($serviceAccountPath);
+				} catch (\Throwable $e) {}
+
+				foreach($dealers as $dealer) {
+					$notifData = [
+						'user_id' => $dealer['id'],
+						'title' => $title,
+						'message' => $body,
+						'is_read' => 0,
+						'created_at' => date('Y-m-d H:i:s')
+					];
+					$this->Manage_product->insertNotification($notifData);
+
+					if(!empty($dealer['device_token']) && $accessToken) {
+						$message = [
+							'token' => $dealer['device_token'],
+							'notification' => [
+								'title' => $title,
+								'body' => $body,
+							]
+						];
+						try {
+							$this->sendMessage($accessToken, $projectId, $message);
+						} catch (\Throwable $e) {}
+					}
+				}
+			}
+		}
+
+		public function updateDeviceToken()
+		{
+			$id = $this->input->post('userId');
+			$token = $this->input->post('token');
+			
+			if (!empty($id) && !empty($token)) {
+				$data['device_token'] = $token;
+				$res = $this->Manage_product->updateDeviceToken($id, $data);
+				if ($res == 1) {
+					echo json_encode(array('status' => 'success'));
+				} else {
+					echo json_encode(array('status' => 'error'));
+				}
+			} else {
+				echo json_encode(array('status' => 'invalid_params'));
+			}
+		}
+
+		public function getNotifications()
+		{
+			$userId = $this->input->post('userId');
+			if (!empty($userId)) {
+				$notifications = $this->Manage_product->getUserNotifications($userId);
+				echo json_encode(array('status' => 'success', 'data' => $notifications));
+			} else {
+				echo json_encode(array('status' => 'error'));
+			}
+		}
+
+		public function markNotificationsRead()
+		{
+			$userId = $this->input->post('userId');
+			if (!empty($userId)) {
+				$this->Manage_product->markNotificationsRead($userId);
+				echo json_encode(array('status' => 'success'));
+			} else {
+				echo json_encode(array('status' => 'error'));
 			}
 		}
 	}

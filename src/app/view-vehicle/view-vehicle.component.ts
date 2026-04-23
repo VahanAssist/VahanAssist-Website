@@ -28,6 +28,10 @@ export class ViewVehicleComponent {
     limit: 10
   };
   imageUrl: any = '';
+
+  // For image modal
+  selectedVehicleImages: any[] = [];
+
   constructor(private webapi: WebapiService, private toastr: ToastrService, private router: Router) {
     this.imageUrl = this.webapi.imageBaseUrl;
     this.loginType = sessionStorage.getItem('type');
@@ -47,6 +51,10 @@ export class ViewVehicleComponent {
       this.sold = res.sold;
       this.offline = res.offline;
     });
+  }
+
+  openImageModal(images: any[]) {
+    this.selectedVehicleImages = images || [];
   }
 
   updateMPVehicleStatus(e: any, id: any) {

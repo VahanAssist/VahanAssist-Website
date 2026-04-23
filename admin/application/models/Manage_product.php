@@ -3641,4 +3641,38 @@ class Manage_product extends CI_Model
 		$query = $this->db->get('tbl_car_pickup_images');
 		return $query->result_array();
 	}
+	function updateDeviceToken($id, $data)
+	{
+		$this->db->where('id', $id);
+		if ($this->db->update('tbl_signup', $data)) {
+			return 1;
+		} else {
+			return 0;
+		}
+	}
+	function insertNotification($data)
+	{
+		$this->db->insert('tbl_notifications', $data);
+		return $this->db->insert_id();
+	}
+
+	function getUserNotifications($userId)
+	{
+		$this->db->select('*');
+		$this->db->from('tbl_notifications');
+		$this->db->where('user_id', $userId);
+		$this->db->order_by('created_at', 'DESC');
+		$this->db->limit(30);
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+
+	function markNotificationsRead($userId)
+	{
+		$this->db->where('user_id', $userId);
+		$this->db->where('is_read', 0);
+		$data = array('is_read' => 1);
+		$this->db->update('tbl_notifications', $data);
+		return $this->db->affected_rows();
+	}
 }

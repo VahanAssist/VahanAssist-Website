@@ -24,6 +24,38 @@ export class WebapiService {
 
   }
 
+  updateDeviceToken(data: any) {
+    var form_data = new FormData();
+    for (var key in data) {
+      form_data.append(key, data[key]);
+    }
+    return this.http.post(this.baseUrl + "updateDeviceToken", form_data);
+  }
+
+  getNotifications(data: any) {
+    var form_data = new FormData();
+    for (var key in data) {
+      form_data.append(key, data[key]);
+    }
+    return this.http.post(this.baseUrl + "getNotifications", form_data);
+  }
+
+  markNotificationsRead(data: any) {
+    var form_data = new FormData();
+    for (var key in data) {
+      form_data.append(key, data[key]);
+    }
+    return this.http.post(this.baseUrl + "markNotificationsRead", form_data);
+  }
+
+  getPriceRequestsByVehicle(data: any) {
+    var form_data = new FormData();
+    for (var key in data) {
+      form_data.append(key, data[key]);
+    }
+    return this.http.post(this.baseUrl + "getPriceRequestsByVehicle", form_data);
+  }
+
   insertEnquiry(data: any) {
     var form_data = new FormData();
     for (var key in data) {
