@@ -3246,6 +3246,23 @@
 			}
 		}
 
+		public function getPriceRequestsByVehicle()
+		{
+			$vehicleId = $this->input->post('vehicleId');
+			$start = $this->input->post('start') ? $this->input->post('start') : 1;
+			$limit = $this->input->post('limit') ? $this->input->post('limit') : 10;
+
+			if (empty($vehicleId)) {
+				echo json_encode(array('status' => 'error', 'data' => [], 'total' => 0));
+				return;
+			}
+
+			$total = $this->Manage_product->getAllPriceRequestByVehicleId($vehicleId);
+			$data = $this->Manage_product->getAllPriceRequestByVehicleIdWithLimit($vehicleId, $limit, ($start - 1) * $limit);
+
+			echo json_encode(array('status' => 'success', 'data' => $data, 'total' => $total));
+		}
+
 		public function insertServiceCategory()
 		{
 
@@ -3769,6 +3786,114 @@
 				redirect(base_url() . "Main_con/orderdetails/$bookingId");
 			} else {
 				echo json_encode(array('status' => 'error', 'msg' => 'Error deleting transit status'));
+			}
+		}
+
+		function sendNotificationToDealer($dealerId, $title, $body)
+		{
+			$notifData = [
+				'user_id' => $dealerId,
+				'title' => $title,
+				'message' => $body,
+				'is_read' => 0,
+				'created_at' => date('Y-m-d H:i:s')
+			];
+			$this->Manage_product->insertNotification($notifData);
+
+			$user = $this->Manage_product->getUserById($dealerId);
+			if(!empty($user) && !empty($user[0]['device_token'])){
+				$serviceAccountPath = APPPATH . 'libraries/vahan-81416-55634a9d101c.json';
+				$projectId = 'vahan-81416';
+				$message = [
+					'token' => $user[0]['device_token'],
+					'notification' => [
+						'title' => $title,
+						'body' => $body,
+					],
+					'data'=> ['dealerId' => "$dealerId"]
+				];
+				try {
+					$accessToken = $this->getAccessToken($serviceAccountPath);
+					$this->sendMessage($accessToken, $projectId, $message);
+				} catch (\Throwable $e) {}
+			}
+		}
+
+		function sendNotificationToAllDealers($title, $body)
+		{
+			$dealers = $this->Manage_product->getAllDealers();
+			if(!empty($dealers)) {
+				$serviceAccountPath = APPPATH . 'libraries/vahan-81416-55634a9d101c.json';
+				$projectId = 'vahan-81416';
+
+				$accessToken = null;
+				try {
+					$accessToken = $this->getAccessToken($serviceAccountPath);
+				} catch (\Throwable $e) {}
+
+				foreach($dealers as $dealer) {
+					$notifData = [
+						'user_id' => $dealer['id'],
+						'title' => $title,
+						'message' => $body,
+						'is_read' => 0,
+						'created_at' => date('Y-m-d H:i:s')
+					];
+					$this->Manage_product->insertNotification($notifData);
+
+					if(!empty($dealer['device_token']) && $accessToken) {
+						$message = [
+							'token' => $dealer['device_token'],
+							'notification' => [
+								'title' => $title,
+								'body' => $body,
+							]
+						];
+						try {
+							$this->sendMessage($accessToken, $projectId, $message);
+						} catch (\Throwable $e) {}
+					}
+				}
+			}
+		}
+
+		public function updateDeviceToken()
+		{
+			$id = $this->input->post('userId');
+			$token = $this->input->post('token');
+
+			if (!empty($id) && !empty($token)) {
+				$data['device_token'] = $token;
+				$res = $this->Manage_product->updateDeviceToken($id, $data);
+				if ($res == 1) {
+					echo json_encode(array('status' => 'success'));
+				} else {
+					echo json_encode(array('status' => 'error'));
+				}
+			} else {
+				echo json_encode(array('status' => 'invalid_params'));
+			}
+		}
+
+		public function getNotifications()
+		{
+			$userId = $this->input->post('userId');
+			if (!empty($userId)) {
+				$notifications = $this->Manage_product->getUserNotifications($userId);
+				echo json_encode(array('status' => 'success', 'data' => $notifications));
+			} else {
+				echo json_encode(array('status' => 'error'));
+			}
+		}
+
+		public function markNotificationsRead()
+		{
+			$userId = $this->input->post('userId');
+			if (!empty($userId)) {
+				$this->Manage_product->markNotificationsRead($userId);
+				echo json_encode(array('status' => 'success'));
+			} else {
+				echo json_encode(array('status' => 'error'));
 			}
 		}
 	}
