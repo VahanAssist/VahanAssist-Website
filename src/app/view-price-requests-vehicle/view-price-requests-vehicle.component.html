@@ -3,63 +3,50 @@
           <div class="row justify-content-center">
               <div class="col">
                   <div class="section-title text-center pb-2">
-                      <h4 class="title mb-3">Vehicle Price Requests </h4>
-
-                      <!-- if dealer -->
-
+                      <h4 class="title mb-3">Vehicle Price Requests</h4>
                   </div>
               </div><!--end col-->
           </div><!--end row-->
+    </div>
+</section>
 
-            </div>
-            </section>
-
-            <section class="section pb-0">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-12 col-md-12">
-                            <div class="card text-center">
-                                <div class="card-body table-responsive">
-                                    <table class="table table-striped">
-                                        <thead>
-                                            <tr><th>Car Make Model</th><th>Model</th><th>Cover Image</th></tr>
-                                            <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                            </tr>
-                                        </thead>
-                                    </table>
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th>S.no</th>
-                                                <th>Customer Name</th>
-                                                <th>Email</th>
-                                                <th>Phone No</th>
-                                                <th>Request Price </th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr  *ngFor="let enq of enquiryList | paginate: { itemsPerPage: 10, currentPage: p,totalItems: total };let i=index;">
-                                                <td>{{i+1}}</td>
-                                                <td>{{enq.cust_name}}</td>
-                                                <td>{{enq.cust_email}}</td>
-                                                <td>{{enq.cust_phone}}</td>
-                                             
-                                                <td>{{enq.date}}</td>
-                                               
-                                            </tr>
-
-                                        </tbody>
-                                        <pagination-controls (pageChange)="onTableDataChange($event)"></pagination-controls>
-                                    </table>
-
-                                </div>
-                            </div>
-                        </div>
-                        <!-- col-lg-12 -->
-                  </div>
+<section class="section pb-0">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                <div class="card text-center">
+                    <div class="card-body table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>S.no</th>
+                                    <th>Requested By</th>
+                                    <th>Vehicle</th>
+                                    <th>Reg No</th>
+                                    <th>Requested Price</th>
+                                    <th>Actual Price</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let req of priceRequestList | paginate: { itemsPerPage: 10, currentPage: p, totalItems: total }; let i = index;">
+                                    <td>{{ i + 1 }}</td>
+                                    <td>{{ req.request_by }}</td>
+                                    <td>{{ req.brand_name }} - {{ req.model_name }} {{ req.variant }}</td>
+                                    <td>{{ req.regno }}</td>
+                                    <td>₹ {{ req.price }}</td>
+                                    <td>₹ {{ req.actual_price }}</td>
+                                    <td>{{ req.created }}</td>
+                                </tr>
+                                <tr *ngIf="priceRequestList?.length === 0">
+                                    <td colspan="7" class="text-muted py-4">No price requests found for this vehicle.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <pagination-controls (pageChange)="onTableDataChange($event)"></pagination-controls>
+                    </div>
                 </div>
-            </section>
+            </div>
+        </div>
+    </div>
+</section>
