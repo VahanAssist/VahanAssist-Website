@@ -1,7 +1,7 @@
-<header id="topnav" class="defaultscroll sticky app-header-shell">
-  <div class="container header-shell">
-      <a class="logo" [routerLink]="'/'" aria-label="Vahan Assist home">
-          <img src="assets/images/logo.png" class="logo-light-mode app-header-logo" alt="Vahan Assist logo">
+<header id="topnav" class="defaultscroll sticky">
+  <div class="container">
+      <a class="logo" href="">
+          <img src="assets/images/logo.png" class="logo-light-mode" alt="" style="width: 220px;">
       </a>
 
       <div class="menu-extras">
@@ -16,6 +16,7 @@
           </div>
       </div>
 
+      <!-- RIGHT SIDE: Call Us + Auth -->
       <ul class="buy-button list-inline mb-0 d-none d-md-flex align-items-center">
           <li class="list-inline-item mb-0">
               <a href="tel:8600146614" class="nav-call-btn">
@@ -23,36 +24,32 @@
               </a>
           </li>
 
+          <!-- Notifications -->
           <li *ngIf="loginId" class="list-inline-item ps-2 mb-0 nav-notification-wrapper">
-              <a href="javascript:void(0)" class="nav-notif-btn" (click)="toggleNotifications()">
+              <a href="javascript:void(0)" class="nav-notif-btn" (click)="toggleNotifications()" style="font-size: 20px; padding: 5px 10px; position: relative;">
                   <i class="mdi mdi-bell-outline"></i>
-                  <span *ngIf="unreadCount > 0" class="notif-badge">{{ unreadCount > 9 ? '9+' : unreadCount }}</span>
+                  <span *ngIf="unreadCount > 0" class="notif-badge" style="position: absolute; top: -5px; right: 0; background: red; color: white; border-radius: 50%; font-size: 10px; padding: 2px 6px;">{{ unreadCount > 9 ? '9+' : unreadCount }}</span>
               </a>
 
               <div class="notif-dropdown" [class.open]="notificationOpen">
-                  <div class="notif-dropdown-header">
+                  <div class="notif-dropdown-header" style="padding: 10px; border-bottom: 1px solid #eee; font-weight: bold;">
                       <span class="notif-dropdown-title">Notifications</span>
-                      <span *ngIf="notifications.length > 0" class="notif-count-label">{{ notifications.length }}</span>
                   </div>
-                  <div class="notif-dropdown-body" *ngIf="notifications.length > 0">
-                      <div *ngFor="let notif of notifications" class="notif-item" [class.unread]="notif.is_read === '0' || notif.is_read === 0">
-                          <div class="notif-icon-wrap">
-                              <i class="mdi mdi-bell-ring-outline"></i>
-                          </div>
-                          <div class="notif-content">
-                              <p class="notif-title">{{ notif.title }}</p>
-                              <p class="notif-message">{{ notif.message }}</p>
-                              <span class="notif-time">{{ getTimeAgo(notif.created_at) }}</span>
-                          </div>
+                  <div class="notif-dropdown-body" *ngIf="notifications.length > 0" style="max-height: 300px; overflow-y: auto;">
+                      <div *ngFor="let notif of notifications" class="notif-item" [class.unread]="notif.is_read === '0' || notif.is_read === 0" style="padding: 10px; border-bottom: 1px solid #f9f9f9; cursor: pointer;">
+                          <p class="notif-title" style="margin: 0; font-weight: 600; font-size: 14px;">{{ notif.title }}</p>
+                          <p class="notif-message" style="margin: 0; font-size: 12px; color: #666;">{{ notif.message }}</p>
+                          <span class="notif-time" style="font-size: 10px; color: #999;">{{ getTimeAgo(notif.created_at) }}</span>
                       </div>
                   </div>
-                  <div class="notif-dropdown-empty" *ngIf="notifications.length === 0">
-                      <i class="mdi mdi-bell-off-outline"></i>
-                      <p>No notifications yet</p>
+                  <div class="notif-dropdown-empty" *ngIf="notifications.length === 0" style="padding: 20px; text-align: center; color: #999;">
+                      <i class="mdi mdi-bell-off-outline" style="font-size: 24px;"></i>
+                      <p style="margin: 0;">No notifications yet</p>
                   </div>
               </div>
           </li>
 
+          <!-- Not logged in -->
           <li *ngIf="!loginId" class="list-inline-item ps-2 mb-0">
               <a [routerLink]="'/login'" class="nav-signin-link">
                   <span class="signin-text">Hello, Sign in</span>
@@ -60,6 +57,7 @@
               </a>
           </li>
 
+          <!-- Logged in -->
           <li *ngIf="loginId" class="list-inline-item ps-2 mb-0 nav-account-dropdown">
               <a href="javascript:void(0)" class="nav-signin-link" (click)="toggleAccountMenu()">
                   <span class="signin-text">Welcome</span>
@@ -68,7 +66,7 @@
               <ul class="account-dropdown" [class.open]="accountMenuOpen">
                   <li><a [routerLink]="'/user-profile'">Dashboard</a></li>
                   <li><a [routerLink]="'/user-account'">My Account</a></li>
-                  <li><a (click)="logout()" class="logout-link">Logout</a></li>
+                  <li><a (click)="logout()" class="logout-link" style="cursor: pointer;">Logout</a></li>
               </ul>
           </li>
       </ul>
@@ -88,44 +86,42 @@
               <li class="has-submenu parent-parent-menu-item">
                   <a href="javascript:void(0)" (click)="toggleServicesMenu($event)">Services</a><span class="menu-arrow"></span>
                   <ul class="submenu" [class.open]="servicesMenuOpen">
-                      <li><a [routerLink]="'/driver-booking'" class="sub-menu-item">Driver Booking</a></li>
-                      <li><a [routerLink]="'/trailor-booking'" class="sub-menu-item">Trailer Booking</a></li>
-                      <li><a [routerLink]="'/inspection'" class="sub-menu-item">Inspection</a></li>
-                      <li><a [routerLink]="'/towing'" class="sub-menu-item">Towing</a></li>
-                      <li><a [routerLink]="'/rto'" class="sub-menu-item">RTO Services</a></li>
-                      <li><a [routerLink]="'/insurance'" class="sub-menu-item">Insurance</a></li>
+                      <li><a href="driver-booking" class="sub-menu-item">Driver Booking</a></li>
+                      <li><a href="trailor-booking" class="sub-menu-item">Trailer Booking</a></li>
+                      <li><a href="inspection" class="sub-menu-item">Inspection</a></li>
+                      <li><a href="towing" class="sub-menu-item">Towing</a></li>
+                      <li><a href="rto" class="sub-menu-item">RTO Services</a></li>
+                      <li><a href="insurance" class="sub-menu-item">Insurance</a></li>
                   </ul>
               </li>
-              <li><a [routerLink]="'/about'" class="sub-menu-item">About Us</a></li>
-              <li><a [routerLink]="'/contact'" class="sub-menu-item">Contact</a></li>
+              <li><a href="about" class="sub-menu-item">About Us</a></li>
+              <li><a href="contact" class="sub-menu-item">Contact</a></li>
 
+              <!-- Mobile only auth items -->
               <li class="d-block d-md-none"><a href="tel:8600146614" class="sub-menu-item"><i class="mdi mdi-phone"></i> Call Us</a></li>
 
-              <li *ngIf="loginId" class="d-block d-md-none nav-notification-wrapper">
+              <li *ngIf="loginId" class="d-block d-md-none nav-notification-wrapper" style="position: relative;">
                   <a href="javascript:void(0)" (click)="toggleNotifications()" class="sub-menu-item notif-mobile-link">
                       <i class="mdi mdi-bell-outline"></i> Notifications
-                      <span *ngIf="unreadCount > 0" class="notif-badge-mobile">{{ unreadCount }}</span>
+                      <span *ngIf="unreadCount > 0" class="notif-badge-mobile" style="background: red; color: white; border-radius: 10px; padding: 2px 8px; font-size: 11px; margin-left: 5px;">{{ unreadCount }}</span>
                   </a>
-                  <div class="notif-dropdown notif-dropdown-mobile" [class.open]="notificationOpen">
+                  <div class="notif-dropdown notif-dropdown-mobile" [class.open]="notificationOpen" style="background: #f9f9f9; padding: 10px; margin-bottom: 10px;">
                       <div class="notif-dropdown-body" *ngIf="notifications.length > 0">
-                          <div *ngFor="let notif of notifications" class="notif-item" [class.unread]="notif.is_read === '0' || notif.is_read === 0">
-                              <div class="notif-content">
-                                  <p class="notif-title">{{ notif.title }}</p>
-                                  <p class="notif-message">{{ notif.message }}</p>
-                                  <span class="notif-time">{{ getTimeAgo(notif.created_at) }}</span>
-                              </div>
+                          <div *ngFor="let notif of notifications" class="notif-item" [class.unread]="notif.is_read === '0' || notif.is_read === 0" style="padding: 5px; border-bottom: 1px solid #ddd;">
+                              <p class="notif-title" style="margin: 0; font-weight: bold;">{{ notif.title }}</p>
+                              <p class="notif-message" style="margin: 0; font-size: 12px;">{{ notif.message }}</p>
+                              <span class="notif-time" style="font-size: 10px; color: #999;">{{ getTimeAgo(notif.created_at) }}</span>
                           </div>
                       </div>
                       <div class="notif-dropdown-empty" *ngIf="notifications.length === 0">
-                          <i class="mdi mdi-bell-off-outline"></i>
-                          <p>No notifications yet</p>
+                          <p style="margin: 0;">No notifications yet</p>
                       </div>
                   </div>
               </li>
 
-              <li *ngIf="!loginId" class="d-block d-md-none"><a [routerLink]="'/login'" class="sub-menu-item">Login</a></li>
-              <li *ngIf="!loginId" class="d-block d-md-none"><a [routerLink]="'/signup'" class="sub-menu-item">Register as Dealer</a></li>
-              <li *ngIf="loginId" class="d-block d-md-none"><a [routerLink]="'/user-profile'" class="sub-menu-item">Dashboard</a></li>
+              <li *ngIf="!loginId" class="d-block d-md-none"><a href="login" class="sub-menu-item">Login</a></li>
+              <li *ngIf="!loginId" class="d-block d-md-none"><a href="signup" class="sub-menu-item">Register as Dealer</a></li>
+              <li *ngIf="loginId" class="d-block d-md-none"><a href="user-profile" class="sub-menu-item">Dashboard</a></li>
               <li *ngIf="loginId" class="d-block d-md-none"><a (click)="logout()" class="sub-menu-item">Logout</a></li>
           </ul>
       </div>
