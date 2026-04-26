@@ -3370,6 +3370,12 @@
 
 		function getAccessToken($serviceAccountPath)
 		{
+			if (!class_exists('Google\Client')) {
+				throw new \Exception("Google API Client class not found.");
+			}
+			if (!file_exists($serviceAccountPath)) {
+				throw new \Exception("Firebase credentials file missing.");
+			}
 			$client = new Client();
 			$client->setAuthConfig($serviceAccountPath);
 			$client->addScope('https://www.googleapis.com/auth/firebase.messaging');
@@ -3897,5 +3903,7 @@
 			}
 		}
 	}
+
+
 
 
