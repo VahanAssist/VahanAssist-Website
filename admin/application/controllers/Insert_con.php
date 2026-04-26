@@ -2651,38 +2651,37 @@
 			}
 		}
 
-		public function insertMPEnquiry(){
-			$data['user_id'] = empty($this->input->post('user_id')) ? '' : $this->input->post('user_id');
-			$data['dealer_id'] = empty($this->input->post('dealer_id')) ? '' : $this->input->post('dealer_id');
-			$data['vehicle_id'] = empty($this->input->post('vehicle_id')) ? '' : $this->input->post('vehicle_id');
-			$data['status'] = empty($this->input->post('status')) ? '' : $this->input->post('status');
+				public function insertMPEnquiry(){
+			try {
+				$data['user_id'] = empty($this->input->post('user_id')) ? '' : $this->input->post('user_id');
+				$data['dealer_id'] = empty($this->input->post('dealer_id')) ? '' : $this->input->post('dealer_id');
+				$data['vehicle_id'] = empty($this->input->post('vehicle_id')) ? '' : $this->input->post('vehicle_id');
+				$data['status'] = empty($this->input->post('status')) ? '' : $this->input->post('status');
 
-			// Disable CI db_debug so SQL errors return false instead of fatal HTML
-			$this->db->db_debug = FALSE;
-			$res = $this->Manage_product->insertMPEnquiry($data);
-			$dbError = $this->db->error();
-			$this->db->db_debug = TRUE;
+				$this->db->db_debug = FALSE;
+				$res = $this->Manage_product->insertMPEnquiry($data);
+				$dbError = $this->db->error();
+				$this->db->db_debug = TRUE;
 
-			if(!empty($dbError['code'])){
-				log_message('error', 'insertMPEnquiry DB error: ' . $dbError['message']);
-				echo json_encode(array('status' =>'error', 'msg' => 'Database error'));
-				return;
-			}
-
-			if(is_array($res) && $res['msg'] == 1){
-				// Notification must not crash the response
-				try {
-					$getEnq = $this->Manage_product->getMPEnquiryById($res['last_id']);
-					$this->sendNotificationEnquiry($data['dealer_id'],$res['last_id'],'Simple',$getEnq);
-				} catch (Exception $e) {
-					log_message('error', 'insertMPEnquiry notification failed: ' . $e->getMessage());
+				if(!empty($dbError['code'])){
+					echo json_encode(array('status' =>'error', 'msg' => 'Database error: ' . $dbError['message']));
+					return;
 				}
-				echo json_encode(array('status' =>'success'));
-			}
-			else{
-				echo json_encode(array('status' =>'error'));
-			}
 
+				if(is_array($res) && $res['msg'] == 1){
+					try {
+						$getEnq = $this->Manage_product->getMPEnquiryById($res['last_id']);
+						$this->sendNotificationEnquiry($data['dealer_id'],$res['last_id'],'Simple',$getEnq);
+					} catch (\Throwable $e) {}
+					echo json_encode(array('status' =>'success'));
+				}
+				else{
+					echo json_encode(array('status' =>'error'));
+				}
+
+			} catch (\Throwable $t) {
+				echo json_encode(array('status' => 'error', 'msg' => 'Fatal: ' . $t->getMessage() . ' at line ' . $t->getLine() . ' in ' . $t->getFile()));
+			}
 		}
 
 		public function getAllStates()
@@ -3903,6 +3902,7 @@
 			}
 		}
 	}
+
 
 
 
