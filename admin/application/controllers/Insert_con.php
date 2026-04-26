@@ -3425,7 +3425,7 @@
 				$response = $this->sendMessage($accessToken, $projectId, $message);
 				// echo 'Message sent successfully: ' . print_r($response, true);
 			} catch (Exception $e) {
-				echo 'Error: ' . $e->getMessage();
+				log_message('error', 'Notification Error: ' . $e->getMessage());
 			}
 		}
 
@@ -3499,9 +3499,9 @@
 				try {
 					$accessToken = $this->getAccessToken($serviceAccountPath);
 					$response = $this->sendMessage($accessToken, $projectId, $message);
-					echo 'Message sent successfully: ' . print_r($response, true);
+					log_message('debug', 'Message sent successfully: ' . print_r($response, true));
 				} catch (Exception $e) {
-					echo 'Error: ' . $e->getMessage();
+					log_message('error', 'Notification Error: ' . $e->getMessage());
 				}
 			}
 	
@@ -3897,3 +3897,5 @@
 			}
 		}
 	}
+
+
