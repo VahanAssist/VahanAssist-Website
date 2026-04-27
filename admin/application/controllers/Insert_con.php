@@ -2351,7 +2351,14 @@
 
 			$lastID = $this->Manage_product->getVehicleLastId();
 
-			$config['upload_path'] = './images/vehicle_image/';
+			$upload_path = FCPATH . 'images/vehicle_image/';
+			if (!is_dir($upload_path)) {
+				$upload_path = FCPATH . '../images/vehicle_image/';
+			}
+			if (!is_dir($upload_path)) {
+				mkdir($upload_path, 0777, true);
+			}
+			$config['upload_path'] = $upload_path;
 				$config['allowed_types'] = 'gif|jpg|png|jpeg';
 				$config['width']    = '150';
 				$config['height']   = '150';
@@ -2433,7 +2440,14 @@
 		{
 			$vehicleId = empty($this->input->post('vehicle_id')) ? '' : $this->input->post('vehicle_id');
 			try {
-				$config['upload_path'] = './images/vehicle_image/';
+				$upload_path = FCPATH . 'images/vehicle_image/';
+				if (!is_dir($upload_path)) {
+					$upload_path = FCPATH . '../images/vehicle_image/';
+				}
+				if (!is_dir($upload_path)) {
+					mkdir($upload_path, 0777, true);
+				}
+				$config['upload_path'] = $upload_path;
 				$config['allowed_types'] = 'gif|jpg|png|jpeg';
 				$config['width']    = '150';
 				$config['height']   = '150';
@@ -3902,6 +3916,7 @@
 			}
 		}
 	}
+
 
 
 
