@@ -1,0 +1,295 @@
+insertMKVehicle called at 2026-02-19 18:25:10
+POST Data: Array
+(
+    [listingtype] => stc
+    [category_id] => 2
+    [brand_id] => 6
+    [model_id] => 4
+    [transmission] => Manual
+    [fuel_type] => Petrol + CNG
+    [displacement] => 
+    [emission_norm] => 
+    [fuel_tank_capacity] => null
+    [height] => null
+    [length] => null
+    [width] => null
+    [body_type] => null
+    [kerb_weight] => null
+    [gears] => null
+    [ground_clearance] => null
+    [front_brakes] => null
+    [rear_brakes] => null
+    [power_windows] => null
+    [power_seats] => null
+    [power] => null
+    [torque] => null
+    [odometer] => null
+    [speedometer] => null
+    [seating_capacity] => null
+    [seats_material] => null
+    [central_locking] => null
+    [child_safety_locks] => null
+    [abs] => null
+    [ventilation_system] => null
+    [regno] => 1111
+    [variant] => Honda
+    [insurance] => No
+    [insurancedate] => 2026-02-02
+    [year] => 2001
+    [ownership] => 2
+    [kms] => 1111
+    [rto] => 1111
+    [vcondition] => Used
+    [description] => 1111 nnnn mmmm
+    [price] => 285000
+    [discount_percent] => 11
+    [discount_price] => 253650
+    [state] => 5
+    [city] => 67
+    [features] => Fomo
+    [added_by] => 21
+    [added_type] => DEALER
+)
+
+FILES Data: Array
+(
+    [image] => Array
+        (
+            [name] => download.jpeg
+            [full_path] => download.jpeg
+            [type] => image/jpeg
+            [tmp_name] => C:\xampp\tmp\php5DE4.tmp
+            [error] => 0
+            [size] => 5445
+        )
+
+)
+
+Insert Result: Array
+(
+    [last_id] => 132
+    [msg] => 1
+)
+
+insertMKVehicle called at 2026-02-19 18:45:00
+POST Data: Array
+(
+    [listingtype] => stc
+    [category_id] => 2
+    [brand_id] => 7
+    [model_id] => 16
+    [transmission] => Manual
+    [fuel_type] => Diesel
+    [displacement] => 
+    [emission_norm] => 
+    [fuel_tank_capacity] => 
+    [height] => 
+    [length] => 
+    [width] => 
+    [body_type] => 
+    [kerb_weight] => 
+    [gears] => 
+    [ground_clearance] => 
+    [front_brakes] => 
+    [rear_brakes] => 
+    [power_windows] => 
+    [power_seats] => 
+    [power] => 
+    [torque] => 
+    [odometer] => 
+    [speedometer] => 
+    [seating_capacity] => 
+    [seats_material] => 
+    [central_locking] => 
+    [child_safety_locks] => 
+    [abs] => 
+    [ventilation_system] => 
+    [regno] => 1111
+    [variant] => Honda
+    [insurance] => Yes
+    [insurancedate] => 2026-02-15
+    [year] => 2001
+    [ownership] => 2
+    [kms] => 9999
+    [rto] => 999
+    [vcondition] => New
+    [description] => 9898ghvtyfgh
+    [price] => 285000
+    [discount_percent] => 9
+    [discount_price] => 259350
+    [state] => 17
+    [city] => 237
+    [features] => Fomo
+    [added_by] => 21
+    [added_type] => DEALER
+)
+
+FILES Data: Array
+(
+    [image] => Array
+        (
+            [name] => download.jpeg
+            [full_path] => download.jpeg
+            [type] => image/jpeg
+            [tmp_name] => C:\xampp\tmp\php858C.tmp
+            [error] => 0
+            [size] => 5445
+        )
+
+)
+
+insertMKVehicle called at 2026-02-19 18:45:10
+POST Data: Array
+(
+    [listingtype] => stc
+    [category_id] => 2
+    [brand_id] => 7
+    [model_id] => 16
+    [transmission] => Manual
+    [fuel_type] => Diesel
+    [displacement] => 
+    [emission_norm] => 
+    [fuel_tank_capacity] => 
+    [height] => 
+    [length] => 
+    [width] => 
+    [body_type] => 
+    [kerb_weight] => 
+    [gears] => 
+    [ground_clearance] => 
+    [front_brakes] => 
+    [rear_brakes] => 
+    [power_windows] => 
+    [power_seats] => 
+    [power] => 
+    [torque] => 
+    [odometer] => 
+    [speedometer] => 
+    [seating_capacity] => 
+    [seats_material] => 
+    [central_locking] => 
+    [child_safety_locks] => 
+    [abs] => 
+    [ventilation_system] => 
+    [regno] => 11119
+    [variant] => Honda
+    [insurance] => Yes
+    [insurancedate] => 2026-02-15
+    [year] => 2001
+    [ownership] => 2
+    [kms] => 9999
+    [rto] => 999
+    [vcondition] => New
+    [description] => 9898ghvtyfgh
+    [price] => 285000
+    [discount_percent] => 9
+    [discount_price] => 259350
+    [state] => 17
+    [city] => 237
+    [features] => Fomo
+    [added_by] => 21
+    [added_type] => DEALER
+)
+
+FILES Data: Array
+(
+    [image] => Array
+        (
+            [name] => download.jpeg
+            [full_path] => download.jpeg
+            [type] => image/jpeg
+            [tmp_name] => C:\xampp\tmp\phpAA6B.tmp
+            [error] => 0
+            [size] => 5445
+        )
+
+)
+
+Insert Result: Array
+(
+    [last_id] => 133
+    [msg] => 1
+)
+
+insertMKVehicle called at 2026-02-19 18:46:20
+POST Data: Array
+(
+    [id] => 133
+    [vehicle_id] => VA2602190001
+    [category_id] => 2
+    [brand_id] => 7
+    [model_id] => 16
+    [listingtype] => stc
+    [regno] => 111199
+    [transmission] => Manual
+    [insurance] => Yes
+    [insurancedate] => 2026-02-15
+    [ownership] => 2
+    [vcondition] => New
+    [variant] => Honda
+    [state] => 17
+    [rto] => 999
+    [year] => 2001
+    [kms] => 9999
+    [location] => 
+    [city] => 237
+    [price] => 285000
+    [discount_percent] => 9
+    [discount_price] => 259350
+    [rc_availability] => 
+    [image] => 
+    [description] => 9898ghvtyfgh
+    [features] => Fomo
+    [fuel_type] => Diesel
+    [is_active] => 1
+    [status] => Pending
+    [added_by] => 21
+    [added_type] => DEALER
+    [hide] => 0
+)
+
+FILES Data: Array
+(
+)
+
+insertMKVehicle called at 2026-02-19 18:47:38
+POST Data: Array
+(
+    [id] => 133
+    [vehicle_id] => VA2602190001
+    [category_id] => 2
+    [brand_id] => 7
+    [model_id] => 16
+    [listingtype] => stc
+    [regno] => 1111998
+    [transmission] => Manual
+    [insurance] => Yes
+    [insurancedate] => 2026-02-15
+    [ownership] => 2
+    [vcondition] => New
+    [variant] => Honda
+    [state] => 17
+    [rto] => 999
+    [year] => 2001
+    [kms] => 9999
+    [location] => 
+    [city] => 237
+    [price] => 285000
+    [discount_percent] => 9
+    [discount_price] => 259350
+    [rc_availability] => 
+    [image] => 
+    [description] => 9898ghvtyfgh
+    [features] => Fomo
+    [fuel_type] => Diesel
+    [is_active] => 1
+    [status] => Pending
+    [added_by] => 21
+    [added_type] => DEALER
+    [hide] => 0
+)
+
+FILES Data: Array
+(
+)
+

@@ -1,0 +1,422 @@
+insertMKVehicle called at 2026-03-23 09:08:29
+POST Data: Array
+(
+    [listingtype] => std
+    [category_id] => 2
+    [brand_id] => 19
+    [model_id] => 179
+    [transmission] => Manual
+    [fuel_type] => Petrol
+    [displacement] => 
+    [emission_norm] => 
+    [fuel_tank_capacity] => 
+    [height] => 
+    [length] => 
+    [width] => 
+    [body_type] => 
+    [kerb_weight] => 
+    [gears] => 
+    [ground_clearance] => 
+    [front_brakes] => 
+    [rear_brakes] => 
+    [power_windows] => 
+    [power_seats] => 
+    [power] => 
+    [torque] => 
+    [odometer] => 
+    [speedometer] => 
+    [seating_capacity] => 
+    [seats_material] => 
+    [central_locking] => 
+    [child_safety_locks] => 
+    [abs] => 
+    [ventilation_system] => 
+    [regno] => 62515981265165
+    [variant] => base model
+    [insurance] => Yes
+    [year] => 2025
+    [ownership] => 1
+    [kms] => 767676
+    [rto] => qeagqe
+    [vcondition] => New
+    [description] => adfgqehqeaht
+    [price] => 1650000
+    [discount_percent] => 10
+    [discount_price] => 1485000
+    [state] => 1
+    [city] => 1
+    [features] => Freezersafe
+    [insurancedate] => 2026-03-23
+    [added_by] => 35
+    [added_type] => DEALER
+)
+
+FILES Data: Array
+(
+    [image] => Array
+        (
+            [name] => car2.avif
+            [full_path] => car2.avif
+            [type] => image/avif
+            [tmp_name] => /tmp/phpOdqukP
+            [error] => 0
+            [size] => 13156
+        )
+
+)
+
+Insert Result: Array
+(
+    [last_id] => 136
+    [msg] => 1
+)
+
+insertMKVehicle called at 2026-03-23 09:15:24
+POST Data: Array
+(
+    [id] => 136
+    [vehicle_id] => VA2603230001
+    [category_id] => 2
+    [brand_id] => 19
+    [model_id] => 179
+    [listingtype] => std
+    [regno] => 68465313468
+    [transmission] => Manual
+    [insurance] => Yes
+    [insurancedate] => 2026-03-23
+    [ownership] => 1
+    [vcondition] => New
+    [variant] => base model
+    [state] => 1
+    [rto] => qeagqe
+    [year] => 2025
+    [kms] => 767676
+    [location] => 
+    [city] => 1
+    [price] => 1650000
+    [discount_percent] => 10
+    [discount_price] => 1485000
+    [rc_availability] => 
+    [image] => 
+    [description] => adfgqehqeaht
+    [features] => Freezersafe
+    [fuel_type] => Petrol
+    [is_active] => 1
+    [status] => Pending
+    [added_by] => 35
+    [added_type] => DEALER
+    [hide] => 0
+)
+
+FILES Data: Array
+(
+)
+
+insertMKVehicle called at 2026-04-21 14:52:49
+POST Data: Array
+(
+    [listingtype] => stc
+    [category_id] => 2
+    [brand_id] => 7
+    [model_id] => 16
+    [transmission] => Manual
+    [fuel_type] => Diesel
+    [displacement] => 
+    [emission_norm] => 
+    [fuel_tank_capacity] => 
+    [height] => 
+    [length] => 
+    [width] => 
+    [body_type] => 
+    [kerb_weight] => 
+    [gears] => 
+    [ground_clearance] => 
+    [front_brakes] => 
+    [rear_brakes] => 
+    [power_windows] => 
+    [power_seats] => 
+    [power] => 
+    [torque] => 
+    [odometer] => 
+    [speedometer] => 
+    [seating_capacity] => 
+    [seats_material] => 
+    [central_locking] => 
+    [child_safety_locks] => 
+    [abs] => 
+    [ventilation_system] => 
+    [regno] => 123
+    [variant] => 1
+    [insurance] => No
+    [insurancedate] => 2026-04-22
+    [year] => 2026
+    [ownership] => 3
+    [kms] => 1500
+    [rto] => 2
+    [state] => 34
+    [description] => trials demo
+    [vcondition] => Used
+    [price] => 1200
+    [city] => 560
+    [features] => 565
+    [added_by] => 39
+    [added_type] => DEALER
+)
+
+FILES Data: Array
+(
+    [image] => Array
+        (
+            [name] => car.png
+            [full_path] => car.png
+            [type] => image/png
+            [tmp_name] => /tmp/phptDYmxU
+            [error] => 0
+            [size] => 102304
+        )
+
+)
+
+Insert Result: Array
+(
+    [last_id] => 137
+    [msg] => 1
+)
+
+insertMKVehicle called at 2026-04-22 02:21:18
+POST Data: Array
+(
+    [listingtype] => stc
+    [category_id] => 2
+    [brand_id] => 17
+    [model_id] => 1074
+    [transmission] => Automatic
+    [fuel_type] => Petrol
+    [displacement] => 1999 cc
+    [emission_norm] => BS 6
+    [fuel_tank_capacity] => 85 litres
+    [height] => 1838 mm
+    [length] => 4882 mm
+    [width] => 1877 mm
+    [body_type] => SUV
+    [kerb_weight] => 
+    [gears] => 8
+    [ground_clearance] => 215 mm
+    [front_brakes] => Ventilated Disc
+    [rear_brakes] => Ventilated Disc
+    [power_windows] => All Windows
+    [power_seats] => Power seats
+    [power] => 268PS@6350rpm
+    [torque] => 400Nm@4300rpm
+    [odometer] => Digital
+    [speedometer] => Analog
+    [seating_capacity] => 5
+    [seats_material] => Leather
+    [central_locking] => Yes
+    [child_safety_locks] => 
+    [abs] => Yes
+    [ventilation_system] => Fully automatic climate control
+    [regno] => 6689886789999
+    [variant] => xx
+    [insurance] => Yes
+    [insurancedate] => 2026-04-22
+    [year] => 2022
+    [ownership] => 1
+    [kms] => 2000
+    [rto] => jhnasi
+    [vcondition] => New
+    [description] => jjh
+    [price] => 200000000
+    [discount_percent] => 20
+    [discount_price] => 160000000
+    [state] => 20
+    [city] => 329
+    [features] => jhandi
+    [added_by] => 35
+    [added_type] => DEALER
+)
+
+FILES Data: Array
+(
+    [image] => Array
+        (
+            [name] => IMG-20260412-WA0015.jpg
+            [full_path] => IMG-20260412-WA0015.jpg
+            [type] => image/jpeg
+            [tmp_name] => /tmp/phpQaLpQE
+            [error] => 0
+            [size] => 157420
+        )
+
+)
+
+Insert Result: Array
+(
+    [last_id] => 138
+    [msg] => 1
+)
+
+insertMKVehicle called at 2026-04-22 17:41:49
+POST Data: Array
+(
+    [id] => 137
+    [vehicle_id] => VA2604210001
+    [category_id] => 2
+    [brand_id] => 7
+    [model_id] => 16
+    [listingtype] => stc
+    [regno] => 123
+    [transmission] => Manual
+    [insurance] => No
+    [insurancedate] => 2026-04-22
+    [ownership] => 3
+    [vcondition] => Used
+    [variant] => 1
+    [state] => 34
+    [rto] => 2
+    [year] => 2026
+    [kms] => 1500
+    [location] => 
+    [city] => 560
+    [price] => 12002
+    [discount_percent] => 0
+    [discount_price] => 12002
+    [rc_availability] => 
+    [image] => car3.png
+    [description] => trials demo
+    [features] => 565
+    [fuel_type] => Diesel
+    [is_active] => 1
+    [status] => Pending
+    [added_by] => 39
+    [added_type] => DEALER
+    [hide] => 0
+)
+
+FILES Data: Array
+(
+)
+
+insertMKVehicle called at 2026-04-22 17:46:36
+POST Data: Array
+(
+    [id] => 137
+    [vehicle_id] => VA2604220001
+    [category_id] => 2
+    [brand_id] => 7
+    [model_id] => 16
+    [listingtype] => stc
+    [regno] => 123
+    [transmission] => Manual
+    [insurance] => No
+    [insurancedate] => 2026-04-22
+    [ownership] => 3
+    [vcondition] => Used
+    [variant] => 1
+    [state] => 34
+    [rto] => 2
+    [year] => 2026
+    [kms] => 1500
+    [location] => 
+    [city] => 560
+    [price] => 12002
+    [discount_percent] => 0
+    [discount_price] => 12002
+    [rc_availability] => 
+    [image] => car3.png
+    [description] => trials demo
+    [features] => 565
+    [fuel_type] => Diesel
+    [is_active] => 1
+    [status] => Pending
+    [added_by] => 39
+    [added_type] => DEALER
+    [hide] => 0
+)
+
+FILES Data: Array
+(
+)
+
+insertMKVehicle called at 2026-04-22 18:07:28
+POST Data: Array
+(
+    [id] => 137
+    [vehicle_id] => VA2604220001
+    [category_id] => 2
+    [brand_id] => 7
+    [model_id] => 16
+    [listingtype] => stc
+    [regno] => 123
+    [transmission] => Manual
+    [insurance] => No
+    [insurancedate] => 2026-04-22
+    [ownership] => 3
+    [vcondition] => Used
+    [variant] => 1
+    [state] => 34
+    [rto] => 2
+    [year] => 2026
+    [kms] => 1500
+    [location] => 
+    [city] => 560
+    [price] => 12002
+    [discount_percent] => 0
+    [discount_price] => 12002
+    [rc_availability] => 
+    [image] => car3.png
+    [description] => trials demo
+    [features] => 565
+    [fuel_type] => Diesel
+    [is_active] => 1
+    [status] => Pending
+    [added_by] => 39
+    [added_type] => DEALER
+    [hide] => 0
+)
+
+FILES Data: Array
+(
+)
+
+insertMKVehicle called at 2026-04-22 18:22:51
+POST Data: Array
+(
+    [id] => 137
+    [vehicle_id] => VA2604220001
+    [category_id] => 2
+    [brand_id] => 7
+    [model_id] => 16
+    [listingtype] => stc
+    [regno] => 123
+    [transmission] => Manual
+    [insurance] => No
+    [insurancedate] => 2026-04-22
+    [ownership] => 3
+    [vcondition] => Used
+    [variant] => 1
+    [state] => 34
+    [rto] => 2
+    [year] => 2026
+    [kms] => 1500
+    [location] => 
+    [city] => 560
+    [price] => 12002
+    [discount_percent] => 0
+    [discount_price] => 12002
+    [rc_availability] => 
+    [image] => car3.png
+    [description] => trials demo
+    [features] => 565
+    [fuel_type] => Diesel
+    [is_active] => 1
+    [status] => Pending
+    [added_by] => 39
+    [added_type] => DEALER
+    [hide] => 0
+)
+
+FILES Data: Array
+(
+)
+
