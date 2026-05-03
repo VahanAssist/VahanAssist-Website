@@ -416,14 +416,24 @@ Filter Modal End
 
       <div class="col-12 col-md-9 col-lg-9 ">
         <div class="col-12 col-lg-12">
-          <input class="form-control search-marketplace" placeholder="Search by Brand or Model & click suggestions"
-            type="text" (keyup)="searchCars($event)">
+          <input class="form-control search-marketplace" placeholder="Search by Brand, Model or Category & press Enter or click suggestions"
+            type="text" (keyup)="searchCars($event)" (keydown)="searchOnEnter($event)">
           <div class="search-drop">
             <ul class="search-suggestion" *ngIf="searchResult && searchResult.length > 0">
               <li *ngFor="let result of searchResult" (click)="searchWithClick(result.search_key,result.search_id)">
-                {{result.name}}</li>
+                <i class="mdi mdi-magnify me-2"></i>{{result.name}}</li>
             </ul>
+            <div class="search-suggestion" *ngIf="searchResult !== null && searchResult.length === 0" style="height:auto; padding:10px 20px; color:#888;">
+              No results found. Try a different keyword.
+            </div>
 
+          </div>
+          <!-- Active filter pills -->
+          <div class="d-flex flex-wrap gap-2 mt-2 mb-2" *ngIf="checkedCat.length > 0 || checkedBrand.length > 0 || checkedModel.length > 0">
+            <span class="badge bg-primary" *ngIf="checkedCat.length > 0">Category filter active</span>
+            <span class="badge bg-info" *ngIf="checkedBrand.length > 0">Brand filter active</span>
+            <span class="badge bg-success" *ngIf="checkedModel.length > 0">Model filter active</span>
+            <a href="javascript:void(0)" class="badge bg-danger text-white" (click)="clearFilter()">✕ Clear All Filters</a>
           </div>
         </div>
 

@@ -31,7 +31,12 @@
                         </li>
                         <li class="list-group-item p-3 border-bottom">
                             <small class="text-muted d-block fw-bold mb-1">Booking Status</small>
-                            <div class="text-secondary text-uppercase">{{ bookingDetails.status }}</div>
+                            <div class="status-badge" [ngClass]="{
+                                'status-completed': bookingDetails.status === 'COMPLETED',
+                                'status-assigned': bookingDetails.status === 'ASSIGNED',
+                                'status-pending': bookingDetails.status === 'PENDING',
+                                'status-cancelled': bookingDetails.status === 'CANCELLED'
+                            }">{{ bookingDetails.status }}</div>
                         </li>
                         <li class="list-group-item p-3 border-bottom">
                             <small class="text-muted d-block fw-bold mb-1">Booking Date</small>
@@ -48,49 +53,141 @@
                         </li>
 
                         <li class="list-group-item p-3 border-bottom" *ngIf="driver1">
-                            <small class="text-muted d-block fw-bold mb-1">First Driver</small>
-                            <div class="text-dark">{{ driver1.firstName }} {{ driver1.lastName }}
-                                ({{driver1.phoneNumber}})</div>
+                            <small class="text-muted d-block fw-bold mb-1">Pickup Driver</small>
+                            <div class="text-dark"><i class="mdi mdi-account me-1"></i>{{ driver1.firstName }} {{ driver1.lastName }}
+                                <span class="text-muted">({{driver1.phoneNumber}})</span></div>
                         </li>
 
                         <li class="list-group-item p-3" *ngIf="driver2">
-                            <small class="text-muted d-block fw-bold mb-1">Second Driver</small>
-                            <div class="text-dark">{{ driver2.firstName }} {{ driver2.lastName }}
-                                ({{driver2.phoneNumber}})</div>
+                            <small class="text-muted d-block fw-bold mb-1">Delivery Driver</small>
+                            <div class="text-dark"><i class="mdi mdi-account-switch me-1"></i>{{ driver2.firstName }} {{ driver2.lastName }}
+                                <span class="text-muted">({{driver2.phoneNumber}})</span></div>
                         </li>
                     </ul>
                 </div>
             </div>
 
-            <!-- Booking Tracking -->
-            <div class="card shadow-sm border-0 mb-4 rounded-3 p-3">
-                <h6 class="fw-bold mb-3">Booking Tracking</h6>
-                <!-- Placeholder for tracking timeline if they have one -->
-                <hr class="mt-0 mb-3 text-muted">
+            <!-- ========== TRANSPORT TIMELINE ========== -->
+            <div class="card shadow-sm border-0 mb-4 rounded-3 p-4" id="transport-timeline">
+                <h6 class="fw-bold mb-4 section-title">
+                    <i class="mdi mdi-truck-delivery-outline me-2"></i>Transport Timeline
+                </h6>
+                
+                <div class="timeline-container" *ngIf="timeline.length > 0">
+                    <div class="timeline-item" *ngFor="let item of timeline; let i = index; let last = last"
+                         [ngClass]="{'timeline-transit': item.type === 'transit', 'timeline-tracking': item.type === 'tracking'}">
+                        <div class="timeline-marker">
+                            <div class="marker-dot" [ngClass]="{'dot-transit': item.type === 'transit', 'dot-tracking': item.type === 'tracking'}">
+                                <i class="mdi" [ngClass]="item.icon"></i>
+                            </div>
+                            <div class="timeline-line" *ngIf="!last"></div>
+                        </div>
+                        <div class="timeline-content">
+                            <div class="timeline-label fw-bold">{{ item.label }}</div>
+                            <div class="timeline-comment text-muted small" *ngIf="item.comment">{{ item.comment }}</div>
+                            <div class="timeline-date text-muted small mt-1">
+                                <i class="mdi mdi-clock-outline me-1"></i>{{ item.date | date:'d MMM yyyy, h:mm a' }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div *ngIf="timeline.length === 0" class="text-center text-muted py-3">
+                    <i class="mdi mdi-truck-outline" style="font-size: 2rem; opacity: 0.3;"></i>
+                    <p class="mb-0 mt-2">No tracking updates available yet.</p>
+                </div>
+            </div>
 
+            <!-- ========== VEHICLE INSPECTION IMAGES ========== -->
+            
+            <!-- Pickup Inspection Images -->
+            <div class="card shadow-sm border-0 mb-4 rounded-3 p-4" *ngIf="pickupImages.length > 0">
+                <h6 class="fw-bold mb-3 section-title">
+                    <i class="mdi mdi-camera me-2"></i>Pickup Inspection
+                </h6>
+                <div class="image-gallery">
+                    <div class="gallery-item" *ngFor="let img of pickupImages" (click)="openLightbox(img.image)">
+                        <img [src]="imageBaseUrl + img.image" alt="Pickup Image" loading="lazy">
+                        <div class="gallery-overlay">
+                            <i class="mdi mdi-magnify-plus-outline"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Handover & Loading Images -->
+            <div class="card shadow-sm border-0 mb-4 rounded-3 p-4" *ngIf="handoverImages.length > 0 || loadingImages.length > 0">
+                <h6 class="fw-bold mb-3 section-title">
+                    <i class="mdi mdi-truck-cargo-container me-2"></i>Handover & Loading
+                </h6>
+                
+                <div *ngIf="handoverImages.length > 0" class="mb-3">
+                    <small class="text-muted fw-bold d-block mb-2">Trailer Handover</small>
+                    <div class="image-gallery">
+                        <div class="gallery-item" *ngFor="let img of handoverImages" (click)="openLightbox(img.image)">
+                            <img [src]="imageBaseUrl + img.image" alt="Handover Image" loading="lazy">
+                            <div class="gallery-overlay">
+                                <i class="mdi mdi-magnify-plus-outline"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div *ngIf="loadingImages.length > 0">
+                    <small class="text-muted fw-bold d-block mb-2">Car Loading</small>
+                    <div class="image-gallery">
+                        <div class="gallery-item" *ngFor="let img of loadingImages" (click)="openLightbox(img.image)">
+                            <img [src]="imageBaseUrl + img.image" alt="Loading Image" loading="lazy">
+                            <div class="gallery-overlay">
+                                <i class="mdi mdi-magnify-plus-outline"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Delivery Images -->
+            <div class="card shadow-sm border-0 mb-4 rounded-3 p-4" *ngIf="dropImages.length > 0">
+                <h6 class="fw-bold mb-3 section-title">
+                    <i class="mdi mdi-check-circle-outline me-2"></i>Delivery Confirmation
+                </h6>
+                <div class="image-gallery">
+                    <div class="gallery-item" *ngFor="let img of dropImages" (click)="openLightbox(img.image)">
+                        <img [src]="imageBaseUrl + img.image" alt="Delivery Image" loading="lazy">
+                        <div class="gallery-overlay">
+                            <i class="mdi mdi-magnify-plus-outline"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- No Images Fallback -->
+            <div class="card shadow-sm border-0 mb-4 rounded-3 p-4" 
+                 *ngIf="pickupImages.length === 0 && handoverImages.length === 0 && loadingImages.length === 0 && dropImages.length === 0">
+                <h6 class="fw-bold mb-3 section-title">
+                    <i class="mdi mdi-camera-off me-2"></i>Vehicle Images
+                </h6>
+                <div class="text-center text-muted py-3">
+                    <i class="mdi mdi-image-off-outline" style="font-size: 2rem; opacity: 0.3;"></i>
+                    <p class="mb-0 mt-2">No vehicle images uploaded yet.</p>
+                </div>
+            </div>
+
+            <!-- Payment Summary -->
+            <div class="card shadow-sm border-0 mb-4 rounded-3 p-3">
                 <div class="d-flex justify-content-between align-items-center bg-light p-3 rounded mb-3">
-                    <span class="fw-bold">Quote:</span>
-                    <span class="text-info fw-bold">₹ {{ bookingDetails.total_quote ? bookingDetails.total_quote : "0.0"
-                        }}</span>
+                    <span class="fw-bold">Quote Amount:</span>
+                    <span class="text-info fw-bold fs-5">₹ {{ bookingDetails.total_quote ? bookingDetails.total_quote : "0.0" }}</span>
                 </div>
 
-
-                <div
-                    class="d-flex flex-column flex-md-row justify-content-between align-items-center bg-light p-3 rounded mb-3 quoteBtns">
-
-                    <button *ngIf="bookingDetails.total_quote && bookingDetails.total_quote > 0"
-                        class="btn btn-info text-white fw-bold w-100 py-3 rounded text-uppercase hover-red mb-2 mb-md-0">
-                        SKIP FOR NOW
-                    </button>
-
-                    <button *ngIf="bookingDetails.total_quote && bookingDetails.total_quote > 0" (click)="payQuote()"
-                        class="btn btn-info text-white fw-bold w-100 py-3 rounded text-uppercase ms-md-2 hover-green">
+                <div class="d-grid gap-2" *ngIf="bookingDetails.total_quote && bookingDetails.total_quote > 0">
+                    <button (click)="payQuote()" class="btn btn-primary fw-bold py-3 rounded text-uppercase letter-spacing-1 shadow-sm">
                         PAY FULL AMOUNT(₹ {{ bookingDetails.total_quote }})
                     </button>
-
+                    <button class="btn btn-outline-secondary py-2 border-0 small">
+                        SKIP FOR NOW
+                    </button>
                 </div>
-
-
             </div>
 
         </div>
@@ -102,3 +199,13 @@
 
     </div>
 </section>
+
+<!-- Lightbox Modal -->
+<div class="lightbox-overlay" *ngIf="showLightbox" (click)="closeLightbox()">
+    <div class="lightbox-content" (click)="$event.stopPropagation()">
+        <button class="lightbox-close" (click)="closeLightbox()">
+            <i class="mdi mdi-close"></i>
+        </button>
+        <img [src]="lightboxImage" alt="Full Size Image">
+    </div>
+</div>

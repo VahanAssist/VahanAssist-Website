@@ -26,18 +26,17 @@
     if (!empty($getCarDeatail) && isset($getCarDeatail[0])) {
         if (!empty($getCarDeatail[0]['assignDriverId'])) {
             $getFirstDriver = $this->Manage_product->getUserById($getCarDeatail[0]['assignDriverId']);
-            $getFirstPickup = $this->Manage_product->getCarPickupImages($getCarDeatail[0]['assignDriverId']);
-            $getFirstDrop = $this->Manage_product->getCarDropImages($getCarDeatail[0]['assignDriverId']);
         }
-
         if (!empty($getCarDeatail[0]['assignSecondDriverId'])) {
             $getSecondDriver = $this->Manage_product->getUserById($getCarDeatail[0]['assignSecondDriverId']);
-            $getSecondPickup = $this->Manage_product->getCarPickupImages($getCarDeatail[0]['assignSecondDriverId']);
-            $getSecondDrop = $this->Manage_product->getCarDropImages($getCarDeatail[0]['assignSecondDriverId']);
         }
     }
-
     
+    // Fetch categorized images directly by booking ID instead of relying on legacy separate tables
+    $pickupImages = $this->Manage_product->getCarImagesByBookingAndType($order_id, 'pickup');
+    $handoverImages = $this->Manage_product->getCarImagesByBookingAndType($order_id, 'handover');
+    $loadingImages = $this->Manage_product->getCarImagesByBookingAndType($order_id, 'loading');
+    $dropImages = $this->Manage_product->getCarImagesByBookingAndType($order_id, 'drop');
 
     //    print_r($getPaymentByBookingId);
 
@@ -428,124 +427,132 @@
                                                         N/A
                                                     <?php endif; ?>
 
-                                                    <!-- Modal -->
-                                                  <!--   <div class="modal fade" id="carimages" tabindex="-1" role="dialog" aria-labelledby="carmodel<?php echo $car['model'] ?>" aria-hidden="true">
+                                                    <!-- Upload / View Images Button -->
+                                                    <button type="button" class="btn btn-info btn-sm mt-1" data-toggle="modal" data-target="#carImagesModal<?php echo $car['id'] ?>">
+                                                        <i class="pe-7s-photo"></i> View / Upload Images
+                                                    </button>
+
+                                                    <!-- Car Images Modal -->
+                                                    <div class="modal fade" id="carImagesModal<?php echo $car['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="carModelLabel" aria-hidden="true">
                                                         <div class="modal-dialog modal-lg" role="document">
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
-                                                                    <h5 class="modal-title" id="carmodel<?php echo $car['model'] ?>"><?php echo $car['model'] ?></h5>
+                                                                    <h5 class="modal-title" id="carModelLabel">Car Images - <?php echo $car['model'] ?></h5>
                                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                                         <span aria-hidden="true">&times;</span>
                                                                     </button>
                                                                 </div>
                                                                 <div class="modal-body">
-                                                                    <form class="col-sm-12 pull-left" action="<?php echo base_url() ?>Insert_con/insertCarPickupDropImages" method="post" enctype="multipart/form-data">
-                                                                        <input type="hidden" name="carId" value="<?php echo $getCarDeatail[0]['id'] ?>">
+                                                                    <!-- Upload Form with Type -->
+                                                                    <form action="<?php echo base_url() ?>Insert_con/insertCarPickupDropImages" method="post" enctype="multipart/form-data">
+                                                                        <input type="hidden" name="carId" value="<?php echo $car['id'] ?>">
                                                                         <input type="hidden" name="bookingId" value="<?php echo $order_id ?>">
-                                                                         <div class="col-sm-4 pull-left">
-                                                                            <select class="form-control" name="type">
-                                                                               <option value="">Select</option>
-                                                                               <option value="pickup">Pickup image</option>
-                                                                               <option value="drop">Drop Image</option>
-                                                                            </select>
-                                                                        </div>
-                                                                        <div class="col-sm-4 pull-left">
-                                                                            <select class="form-control" name="driverId">
-                                                                                <?php 
-                                                                                if(count($getFirstDriver) > 0){
-                                                                                ?>
-                                                                                <option value="<?php echo $getFirstDriver[0]['id'] ?>"><?php echo $getFirstDriver[0]['firstName'] ?></option>
-                                                                                <?php } ?>
-                                                                                <?php 
-                                                                                if(count($getSecondDriver) > 0){
-                                                                                ?>
-                                                                                <option value="<?php echo $getSecondDriver[0]['id'] ?>"><?php echo $getSecondDriver[0]['firstName'] ?></option>
-                                                                                <?php }  ?>
-                                                                            </select>
-                                                                        </div>
-                                                                        <div class="col-sm-4 pull-left">
-                                                                            <input type="file" class="form-control" name="image">
-                                                                        </div>
-                                                                        <div class="col-sm-4  pull-left">
-                                                                            <input type="submit" name="" class="btn btn-primary btn-small">
+                                                                        <input type="hidden" name="driverId" value="<?php echo !empty($car['assignDriverId']) ? $car['assignDriverId'] : '' ?>">
+                                                                        <div class="row">
+                                                                            <div class="col-md-4">
+                                                                                <div class="form-group">
+                                                                                    <label class="fw-bold">Image Type</label>
+                                                                                    <select name="type" class="form-control">
+                                                                                        <option value="pickup">Pickup Inspection</option>
+                                                                                        <option value="handover">Trailer Handover</option>
+                                                                                        <option value="loading">Car Loading</option>
+                                                                                        <option value="drop">Delivery</option>
+                                                                                    </select>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-5">
+                                                                                <div class="form-group">
+                                                                                    <label class="fw-bold">Select Images</label>
+                                                                                    <input type="file" name="image[]" class="form-control" multiple="multiple" accept="image/*" required>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-3 d-flex align-items-end">
+                                                                                <button type="submit" class="btn btn-primary btn-block mb-3">Upload</button>
+                                                                            </div>
                                                                         </div>
                                                                     </form>
-                                                                    <hr class="col-sm-12 pull-left">
+                                                                    <hr>
+                                                                    <!-- Removed legacy image viewer from inside modal -->
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
 
-                                                                    <div class="container-fluid">
-                                                                         
+                                                                        <!-- Unified Image Gallery (Categorized) -->
+                                                                        
+                                                                        <!-- Pickup Inspection -->
                                                                         <div class="row mb-4">
-                                                                            <div class="col-12">
-                                                                                <h5>Driver 1 - Pickup Images</h5>
-                                                                            </div>
-                                                                            <?php foreach ($getFirstPickup as $fp) { ?>
+                                                                            <div class="col-12"><h5 class="text-primary border-bottom pb-2"><i class="pe-7s-camera"></i> Pickup Inspection Images</h5></div>
+                                                                            <?php if(count($pickupImages) > 0) { foreach ($pickupImages as $img) { ?>
                                                                                 <div class="col-sm-6 col-md-4 col-lg-3 text-center mb-3">
-                                                                                    <a href="<?php echo base_url('images/vehicle_image/' . $fp['image']) ?>" target="_blank">
-                                                                                        <img src="<?php echo base_url('images/vehicle_image/' . $fp['image']) ?>" class="img-fluid img-thumbnail" alt="Pickup Image">
+                                                                                    <a href="<?php echo base_url('images/vehicle_image/' . $img['image']) ?>" target="_blank">
+                                                                                        <img src="<?php echo base_url('images/vehicle_image/' . $img['image']) ?>" class="img-fluid img-thumbnail" style="max-height:150px;">
                                                                                     </a>
-                                                                                     <form class="mt-2" action="<?php echo base_url() ?>Insert_con/deleteCarPickupImage" method="post" onsubmit="return confirm('Are you sure you want to delete this image?');">
-                                                                                        <input type="hidden" name="id" value="<?php echo $fp['id'] ?>">
+                                                                                    <form class="mt-2" action="<?php echo base_url() ?>Insert_con/deleteCarPickupImage" method="post" onsubmit="return confirm('Delete this image?');">
+                                                                                        <input type="hidden" name="id" value="<?php echo $img['id'] ?>">
                                                                                         <input type="hidden" name="bookingId" value="<?php echo $order_id ?>">
-                                                                                        <button class="btn btn-danger" type="submit">Delete</button>
+                                                                                        <button class="btn btn-danger btn-sm" type="submit">Delete</button>
                                                                                     </form>
                                                                                 </div>
+                                                                            <?php } } else { ?>
+                                                                                <div class="col-12 text-muted"><em>No pickup images uploaded.</em></div>
                                                                             <?php } ?>
                                                                         </div>
 
-                                                                      
+                                                                        <!-- Trailer Handover -->
                                                                         <div class="row mb-4">
-                                                                            <div class="col-12">
-                                                                                <h5>Driver 1 - Drop Images</h5>
-                                                                            </div>
-                                                                            <?php foreach ($getFirstDrop as $fd) { ?>
+                                                                            <div class="col-12"><h5 class="text-info border-bottom pb-2"><i class="pe-7s-shuffle"></i> Trailer Handover Images</h5></div>
+                                                                            <?php if(count($handoverImages) > 0) { foreach ($handoverImages as $img) { ?>
                                                                                 <div class="col-sm-6 col-md-4 col-lg-3 text-center mb-3">
-                                                                                    <a href="<?php echo base_url('images/vehicle_image/' . $fd['image']) ?>" target="_blank">
-                                                                                        <img src="<?php echo base_url('images/vehicle_image/' . $fd['image']) ?>" class="img-fluid img-thumbnail" alt="Drop Image">
+                                                                                    <a href="<?php echo base_url('images/vehicle_image/' . $img['image']) ?>" target="_blank">
+                                                                                        <img src="<?php echo base_url('images/vehicle_image/' . $img['image']) ?>" class="img-fluid img-thumbnail" style="max-height:150px;">
                                                                                     </a>
-                                                                                        <form class="mt-2" action="<?php echo base_url() ?>Insert_con/deleteCarDropImage" method="post" onsubmit="return confirm('Are you sure you want to delete this image?');">
-                                                                                        <input type="hidden" name="id" value="<?php echo $fd['id'] ?>">
+                                                                                    <form class="mt-2" action="<?php echo base_url() ?>Insert_con/deleteCarPickupImage" method="post" onsubmit="return confirm('Delete this image?');">
+                                                                                        <input type="hidden" name="id" value="<?php echo $img['id'] ?>">
                                                                                         <input type="hidden" name="bookingId" value="<?php echo $order_id ?>">
-                                                                                        <button class="btn btn-danger" type="submit">Delete</button>
+                                                                                        <button class="btn btn-danger btn-sm" type="submit">Delete</button>
                                                                                     </form>
                                                                                 </div>
+                                                                            <?php } } else { ?>
+                                                                                <div class="col-12 text-muted"><em>No trailer handover images uploaded.</em></div>
                                                                             <?php } ?>
                                                                         </div>
 
-                                                                       
+                                                                        <!-- Car Loading -->
                                                                         <div class="row mb-4">
-                                                                            <div class="col-12">
-                                                                                <h5>Driver 2 - Pickup Images</h5>
-                                                                            </div>
-                                                                            <?php foreach ($getSecondPickup as $sp) { ?>
+                                                                            <div class="col-12"><h5 class="text-warning border-bottom pb-2"><i class="pe-7s-angle-up-circle"></i> Car Loading Images</h5></div>
+                                                                            <?php if(count($loadingImages) > 0) { foreach ($loadingImages as $img) { ?>
                                                                                 <div class="col-sm-6 col-md-4 col-lg-3 text-center mb-3">
-                                                                                    <a href="<?php echo base_url('images/vehicle_image/' . $sp['image']) ?>" target="_blank">
-                                                                                        <img src="<?php echo base_url('images/vehicle_image/' . $sp['image']) ?>" class="img-fluid img-thumbnail" alt="Pickup Image">
+                                                                                    <a href="<?php echo base_url('images/vehicle_image/' . $img['image']) ?>" target="_blank">
+                                                                                        <img src="<?php echo base_url('images/vehicle_image/' . $img['image']) ?>" class="img-fluid img-thumbnail" style="max-height:150px;">
                                                                                     </a>
-                                                                                       <form class="mt-2" action="<?php echo base_url() ?>Insert_con/deleteCarPickupImage" method="post" onsubmit="return confirm('Are you sure you want to delete this image?');">
-                                                                                        <input type="hidden" name="id" value="<?php echo $sp['id'] ?>">
+                                                                                    <form class="mt-2" action="<?php echo base_url() ?>Insert_con/deleteCarPickupImage" method="post" onsubmit="return confirm('Delete this image?');">
+                                                                                        <input type="hidden" name="id" value="<?php echo $img['id'] ?>">
                                                                                         <input type="hidden" name="bookingId" value="<?php echo $order_id ?>">
-                                                                                        <button class="btn btn-danger" type="submit">Delete</button>
+                                                                                        <button class="btn btn-danger btn-sm" type="submit">Delete</button>
                                                                                     </form>
                                                                                 </div>
+                                                                            <?php } } else { ?>
+                                                                                <div class="col-12 text-muted"><em>No car loading images uploaded.</em></div>
                                                                             <?php } ?>
                                                                         </div>
 
-                                                                     
+                                                                        <!-- Delivery -->
                                                                         <div class="row mb-4">
-                                                                            <div class="col-12">
-                                                                                <h5>Driver 2 - Drop Images</h5>
-                                                                            </div>
-                                                                            <?php foreach ($getSecondDrop as $sd) { ?>
+                                                                            <div class="col-12"><h5 class="text-success border-bottom pb-2"><i class="pe-7s-check"></i> Delivery Images</h5></div>
+                                                                            <?php if(count($dropImages) > 0) { foreach ($dropImages as $img) { ?>
                                                                                 <div class="col-sm-6 col-md-4 col-lg-3 text-center mb-3">
-                                                                                    <a href="<?php echo base_url('images/vehicle_image/' . $sd['image']) ?>" target="_blank">
-                                                                                        <img src="<?php echo base_url('images/vehicle_image/' . $sd['image']) ?>" class="img-fluid img-thumbnail" alt="Drop Image">
+                                                                                    <a href="<?php echo base_url('images/vehicle_image/' . $img['image']) ?>" target="_blank">
+                                                                                        <img src="<?php echo base_url('images/vehicle_image/' . $img['image']) ?>" class="img-fluid img-thumbnail" style="max-height:150px;">
                                                                                     </a>
-                                                                                    <form class="mt-2" action="<?php echo base_url() ?>Insert_con/deleteCarDropImage" method="post" onsubmit="return confirm('Are you sure you want to delete this image?');">
-                                                                                        <input type="hidden" name="id" value="<?php echo $sd['id'] ?>">
+                                                                                    <form class="mt-2" action="<?php echo base_url() ?>Insert_con/deleteCarPickupImage" method="post" onsubmit="return confirm('Delete this image?');">
+                                                                                        <input type="hidden" name="id" value="<?php echo $img['id'] ?>">
                                                                                         <input type="hidden" name="bookingId" value="<?php echo $order_id ?>">
-                                                                                        <button class="btn btn-danger" type="submit">Delete</button>
+                                                                                        <button class="btn btn-danger btn-sm" type="submit">Delete</button>
                                                                                     </form>
                                                                                 </div>
+                                                                            <?php } } else { ?>
+                                                                                <div class="col-12 text-muted"><em>No delivery images uploaded.</em></div>
                                                                             <?php } ?>
                                                                         </div>
                                                                     </div>
@@ -553,11 +560,10 @@
                                                                 </div>
                                                                 <div class="modal-footer">
                                                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div> -->
+                                                    </div>
                                                 </td>
                                                 <td><?php echo $car['carQuality'] ?></td>
                                                 <td><?php echo $car['carCondition'] ?></td>
@@ -660,42 +666,115 @@
                                     </script>';
                                 }
                                 ?>
-                                <legend class="col-form-label col-sm-12">Tracking Information</legend>
-                                <div id="jsTrackingError" style="display:none;" class="alert alert-danger"></div>
-
-
-
+                                <legend class="col-form-label col-sm-12 fw-bold text-primary border-bottom pb-2 mb-3"><i class="pe-7s-map-marker"></i> Transport Tracking</legend>
+                                
                                 <form class="trackform form" id="trackingForm" method="post" action="<?php echo base_url(); ?>Insert_con/insertBookingTracking">
                                     <input type="hidden" name="bookingId" value="<?php echo $order_id ?>">
-                                    <div class="form-group col-lg-8 pull-left">
-                                        <label>Tracking Comment</label>
-                                        <!-- <input class="form-control" placeholder=""> -->
-                                        <textarea class="form-control" id="trackingComment" name="comment" rows="5"></textarea>
-                                        <small id="wordCountDisplay" class="form-text text-muted">0 / 200 words</small>
-                                    </div>
-                                    <div class="form-group col-lg-12 pull-left">
-                                        <button type="submit" class="btn btn-sm btn-primary">Add</button>
+                                    <div class="form-group row">
+                                        <div class="col-sm-10">
+                                            <textarea class="form-control" id="trackingComment" name="comment" rows="3" placeholder="Enter tracking Details..."></textarea>
+                                            <small id="wordCountDisplay" class="form-text text-muted">0 / 200 words</small>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <button type="submit" class="btn btn-primary btn-block">Add Tracking</button>
+                                        </div>
                                     </div>
                                 </form>
-                                <br>
-                                <br>
-                                <table class="table">
-                                    <tr>
-                                        <th>Tracking Comment</th>
-                                        <th>Date & Time</th>
-                                    </tr>
-                                    <?php
-                                    foreach ($getTracking as $track) {
-                                    ?>
-                                        <tr>
-                                            <td><?php echo !empty(trim($track['comment'])) ? $track['comment'] : 'No Comment'; ?></td>
-                                            <td><?php echo $track['date_time'] ?></td>
-                                        </tr>
-                                    <?php } ?>
-                                </table>
+
+                                <hr>
+
+                                <!-- Transit Status Quick Buttons -->
+                                <h5 class="mb-3"><i class="pe-7s-car"></i> Transit Status</h5>
+                                <div class="mb-3">
+                                    <div class="d-flex flex-wrap gap-2 mb-3">
+                                        <form method="post" action="<?php echo base_url(); ?>Insert_con/insertTransitStatus" style="display:inline;">
+                                            <input type="hidden" name="bookingId" value="<?php echo $order_id ?>">
+                                            <input type="hidden" name="status_label" value="Loaded at Origin">
+                                            <button type="submit" class="btn btn-sm btn-outline-success"><i class="pe-7s-upload"></i> Loaded at Origin</button>
+                                        </form>
+                                        <form method="post" action="<?php echo base_url(); ?>Insert_con/insertTransitStatus" style="display:inline;">
+                                            <input type="hidden" name="bookingId" value="<?php echo $order_id ?>">
+                                            <input type="hidden" name="status_label" value="Unloaded at Destination">
+                                            <button type="submit" class="btn btn-sm btn-outline-warning"><i class="pe-7s-download"></i> Unloaded at Destination</button>
+                                        </form>
+                                    </div>
+                                    <form method="post" action="<?php echo base_url(); ?>Insert_con/insertTransitStatus" class="form-inline">
+                                        <input type="hidden" name="bookingId" value="<?php echo $order_id ?>">
+                                        <div class="row">
+                                            <div class="col-sm-5">
+                                                <input type="text" name="status_label" class="form-control mb-2" placeholder="e.g. Agra Crossed, Indore, Car Unloaded" required>
+                                            </div>
+                                            <div class="col-sm-5">
+                                                <input type="text" name="comment" class="form-control mb-2" placeholder="Optional comment...">
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <button type="submit" class="btn btn-info btn-block mb-2">Add Status</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <?php
+                                $getTransitStatus = $this->Manage_product->getTransitStatusByBooking($order_id);
+                                ?>
+                                <?php if (count($getTransitStatus) > 0) { ?>
+                                <div class="table-responsive mb-3">
+                                    <table class="table table-sm table-bordered">
+                                        <thead class="bg-light">
+                                            <tr>
+                                                <th>Date & Time</th>
+                                                <th>Status</th>
+                                                <th>Comment</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php foreach ($getTransitStatus as $ts) { ?>
+                                                <tr>
+                                                    <td><?php echo date('d M Y, h:i A', strtotime($ts['date_time'])); ?></td>
+                                                    <td><span class="badge badge-info"><?php echo $ts['status_label']; ?></span></td>
+                                                    <td><?php echo $ts['comment']; ?></td>
+                                                    <td>
+                                                        <form method="post" action="<?php echo base_url(); ?>Insert_con/deleteTransitStatus" onsubmit="return confirm('Delete this status?');" style="display:inline;">
+                                                            <input type="hidden" name="id" value="<?php echo $ts['id']; ?>">
+                                                            <input type="hidden" name="bookingId" value="<?php echo $order_id; ?>">
+                                                            <button class="btn btn-danger btn-sm" type="submit"><i class="pe-7s-trash"></i></button>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                            <?php } ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <?php } ?>
+
+                                <hr>
+
+                                <h5 class="mb-3">Tracking History</h5>
+                                <div class="table-responsive">
+                                    <table class="table table-hover table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Date Time</th>
+                                                <th>Comment</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php if (count($getTracking) > 0) {
+                                                foreach ($getTracking as $track) { ?>
+                                                    <tr>
+                                                        <td><?php echo date('d M Y, h:i A', strtotime($track['date_time'])); ?></td>
+                                                        <td><?php echo $track['comment']; ?></td>
+                                                    </tr>
+                                            <?php }
+                                            } else {
+                                                echo '<tr><td colspan="2" class="text-center">No tracking history found</td></tr>';
+                                            } ?>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
-
                     </div>
 
 
@@ -716,6 +795,9 @@ function submitAssignDriverForm(form, ajaxFunc) {
     const originalText = btn.text();
     btn.text('Assigning...').prop('disabled', true);
 
+    // Open entirely blank window synchronously right now to bypass browser popup blockers
+    const whatsappWindow = window.open('about:blank', '_blank');
+
     $.ajax({
         url: '<?php echo base_url(); ?>Insert_con/' + ajaxFunc,
         type: 'POST',
@@ -726,15 +808,25 @@ function submitAssignDriverForm(form, ajaxFunc) {
             if(response.status === 'success') {
                 btn.removeClass('btn-primary').addClass('btn-success').text('Assigned!');
                 setTimeout(() => { btn.removeClass('btn-success').addClass('btn-primary').text('Assign'); }, 2000);
+                
+                // Now navigate the un-blocked window to WhatsApp!
+                if (response.whatsapp_url) {
+                    whatsappWindow.location.href = response.whatsapp_url;
+                } else {
+                    whatsappWindow.close();
+                }
             } else {
+                whatsappWindow.close();
                 alert("Failed: " + response.msg);
             }
         },
         error: function() {
             btn.text(originalText).prop('disabled', false);
+            whatsappWindow.close();
             alert("Network error updating driver.");
         }
     });
+}
 </script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {

@@ -123,4 +123,20 @@
   .submenu.open {
     display: block !important;
   }
+}.notif-dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 300px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 1000;
+}
+.notif-dropdown.open {
+    display: block;
+}
+.notif-item.unread {
+    background-color: #f0f8ff;
 }

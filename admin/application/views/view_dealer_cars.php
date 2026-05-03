@@ -98,7 +98,7 @@ $SoldtotalCarsByDealer = $this->Manage_product->getSoldtotalCarsByDealer($dealer
                            <?php 
                            foreach($getAllImages as $img){
                            ?>
-                           <img src="<?php echo base_url() ?>vehicle_image/<?php echo $img['image'] ?>" class="" width="100">
+                           <img src="<?php echo base_url() ?>images/vehicle_image/<?php echo $img['image'] ?>" class="" width="80" style="height:60px;object-fit:cover;border-radius:4px;margin:2px;">
                            <?php 
                            }
                            ?>

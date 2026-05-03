@@ -2533,6 +2533,9 @@ class Manage_product extends CI_Model
 			$getAllImages = $this->getAllMPImages($r['id']);
 
 			$res[$i]['images'] = $getAllImages;
+			$res[$i]['price_request_count'] = $this->getAllPriceRequestByVehicleId($r['id']);
+			$res[$i]['enquiry_count'] = $this->getEnquiriesByVehicleId($r['id']);
+			$res[$i]['appointment_count'] = $this->getAppointmentsByVehicleId($r['id']);
 			$i++;
 		}
 
@@ -3373,6 +3376,97 @@ class Manage_product extends CI_Model
 		return $priceData;
 	}
 
+	function getEnquiriesByVehicleId($id)
+	{
+		$this->db->where('vehicle_id', $id);
+		$query = $this->db->get('tbl_mp_vehicle_enquiry');
+		return $query->num_rows();
+	}
+
+	function getEnquiriesByVehicleIdWithLimit($id, $limit, $start)
+	{
+		$this->db->select('tbl_mp_vehicle_enquiry.*, tbl_mp_vehicle.regno, tbl_mp_vehicle.brand_id, tbl_mp_vehicle.model_id, tbl_mp_vehicle.variant, tbl_mp_vehicle.price as actual_price');
+		$this->db->from('tbl_mp_vehicle_enquiry');
+		$this->db->join('tbl_mp_vehicle', 'tbl_mp_vehicle.id = tbl_mp_vehicle_enquiry.vehicle_id', 'left');
+		$this->db->where('tbl_mp_vehicle_enquiry.vehicle_id', $id);
+		$this->db->limit($limit, $start);
+		$this->db->order_by('tbl_mp_vehicle_enquiry.id', 'DESC');
+
+		$query = $this->db->get();
+		$res = $query->result_array();
+
+		$enqData = array();
+
+		foreach ($res as $row) {
+			$getBrand = $this->getBrandById($row['brand_id']);
+			$getModel = $this->getModelById($row['model_id']);
+
+			$data['brand_name'] = !empty($getBrand) ? $getBrand[0]['name'] : '';
+			$data['model_name'] = !empty($getModel) ? $getModel[0]['name'] : '';
+			$data['user_id'] = $row['user_id'];
+			$data['vehicle_id'] = $row['vehicle_id'];
+			$data['date'] = isset($row['date']) ? $row['date'] : '';
+			$data['cust_name'] = isset($row['cust_name']) ? $row['cust_name'] : '';
+			$data['cust_phone'] = isset($row['cust_phone']) ? $row['cust_phone'] : '';
+			$data['cust_email'] = isset($row['cust_email']) ? $row['cust_email'] : '';
+			$data['regno'] = $row['regno'];
+			$data['variant'] = $row['variant'];
+			$data['created'] = isset($row['created']) ? $row['created'] : '';
+			$data['actual_price'] = $row['actual_price'];
+
+			$enqData[] = $data;
+		}
+
+		return $enqData;
+	}
+
+	function getAppointmentsByVehicleId($id)
+	{
+		$this->db->where('vehicle_id', $id);
+		$query = $this->db->get('tbl_mp_vehicle_appointment');
+		return $query->num_rows();
+	}
+
+	function getAppointmentsByVehicleIdWithLimit($id, $limit, $start)
+	{
+		$this->db->select('tbl_mp_vehicle_appointment.*,tbl_signup.firstName as request_by,tbl_signup.phoneNumber as contactNo,tbl_signup.email as emailId,tbl_mp_vehicle.regno,tbl_mp_vehicle.brand_id, tbl_mp_vehicle.model_id,tbl_mp_vehicle.variant,tbl_mp_vehicle.price as actual_price');
+		$this->db->from('tbl_mp_vehicle_appointment');
+		$this->db->join('tbl_mp_vehicle', 'tbl_mp_vehicle.id = tbl_mp_vehicle_appointment.vehicle_id', 'left');
+		$this->db->join('tbl_signup', 'tbl_signup.id = tbl_mp_vehicle_appointment.user_id', 'left');
+		$this->db->where('tbl_mp_vehicle_appointment.vehicle_id', $id);
+		$this->db->limit($limit, $start);
+		$this->db->order_by('tbl_mp_vehicle_appointment.id', 'DESC');
+
+		$query = $this->db->get();
+		$res = $query->result_array();
+
+		$appointData = array();
+
+		foreach ($res as $row) {
+			$getBrand = $this->getBrandById($row['brand_id']);
+			$getModel = $this->getModelById($row['model_id']);
+
+			$data['brand_name'] = !empty($getBrand) ? $getBrand[0]['name'] : '';
+			$data['model_name'] = !empty($getModel) ? $getModel[0]['name'] : '';
+			$data['user_id'] = $row['user_id'];
+			$data['vehicle_id'] = $row['vehicle_id'];
+			$data['date'] = $row['date'];
+			$data['request_by'] = $row['request_by'];
+			$data['contactNo'] = $row['contactNo'];
+			$data['email'] = $row['emailId'];
+			$data['regno'] = $row['regno'];
+			$data['variant'] = $row['variant'];
+			$data['time'] = $row['time'];
+			$data['description'] = $row['description'];
+			$data['created'] = $row['created'];
+			$data['actual_price'] = $row['actual_price'];
+
+			$appointData[] = $data;
+		}
+
+		return $appointData;
+	}
+
 	function getAllMPAppointments()
 	{
 		$query = $this->db->get('tbl_mp_vehicle_appointment');
@@ -3543,6 +3637,7 @@ class Manage_product extends CI_Model
 		return 0;
 	}
 
+
 	function deleteCarPickupImage($id)
 	{
 		$this->db->where('id', $id);
@@ -3552,12 +3647,10 @@ class Manage_product extends CI_Model
 		if ($result) {
 			$image_path = FCPATH . 'images/vehicle_image/' . $result->image;
 
-			// Step 2: Delete the image file from server
 			if (file_exists($image_path)) {
-				unlink($image_path); // Delete file
+				unlink($image_path);
 			}
 
-			// Step 3: Delete the database record
 			$this->db->where('id', $id);
 			if ($this->db->delete('tbl_car_pickup_images')) {
 				return 1;
@@ -3565,5 +3658,117 @@ class Manage_product extends CI_Model
 		}
 
 		return 0;
+	}
+
+
+	// ========== TRANSPORT TRACKING METHODS ==========
+
+	function insertTransitStatus($data)
+	{
+		if ($data) {
+			$this->db->insert('tbl_transit_status', $data);
+			return 1;
+		}
+		return 0;
+	}
+
+	function getTransitStatusByBooking($bookingId)
+	{
+		$this->db->where('bookingId', $bookingId);
+		$this->db->order_by('date_time', 'ASC');
+		$query = $this->db->get('tbl_transit_status');
+		return $query->result_array();
+	}
+
+	function deleteTransitStatus($id)
+	{
+		$this->db->where('id', $id);
+		if ($this->db->delete('tbl_transit_status')) {
+			return 1;
+		}
+		return 0;
+	}
+
+	function getCarImagesByBookingAndType($bookingId, $type = null)
+	{
+		$this->db->where('bookingId', $bookingId);
+		$carQuery = $this->db->get('tbl_car_detail');
+		$cars = $carQuery->result_array();
+		
+		if (empty($cars)) return [];
+		
+		$carIds = [];
+		foreach ($cars as $car) {
+			if (!empty($car['id'])) {
+				$carIds[] = $car['id'];
+			}
+		}
+		
+		if (empty($carIds)) return [];
+		
+		$this->db->where_in('carId', $carIds);
+		if ($type) {
+			$this->db->where('type', $type);
+		}
+		$query = $this->db->get('tbl_car_pickup_images');
+		return $query->result_array();
+	}
+
+	function getAllCarImagesByBooking($bookingId)
+	{
+		$this->db->where('bookingId', $bookingId);
+		$carQuery = $this->db->get('tbl_car_detail');
+		$cars = $carQuery->result_array();
+		
+		if (empty($cars)) return [];
+		
+		$carIds = [];
+		foreach ($cars as $car) {
+			if (!empty($car['id'])) {
+				$carIds[] = $car['id'];
+			}
+		}
+		
+		if (empty($carIds)) return [];
+		
+		$this->db->where_in('carId', $carIds);
+		$query = $this->db->get('tbl_car_pickup_images');
+		return $query->result_array();
+	}
+
+	function updateDeviceToken($id, $data)
+	{
+		$this->db->where('id', $id);
+		if ($this->db->update('tbl_signup', $data)) {
+			return 1;
+		} else {
+			return 0;
+		}
+	}
+
+	function insertNotification($data)
+	{
+		$this->db->insert('tbl_notifications', $data);
+		return $this->db->insert_id();
+	}
+
+	function getUserNotifications($userId)
+	{
+		$this->db->select('*');
+		$this->db->from('tbl_notifications');
+		$this->db->where('user_id', $userId);
+		$this->db->order_by('created_at', 'DESC');
+		$this->db->limit(30);
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+
+	function markNotificationsRead($userId)
+	{
+		$this->db->where('user_id', $userId);
+		$this->db->where('is_read', 0);
+		$data = array('is_read' => 1);
+		$this->db->update('tbl_notifications', $data);
+		return $this->db->affected_rows();
 	}
 }
