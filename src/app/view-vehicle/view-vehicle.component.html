@@ -139,11 +139,11 @@
                             </td>
 
                             <td>
-                                <a class="btn btn-info btn-sm mr-2" href="view-enquiry-vehicle/{{veh.id}}" role="button"> <i class="fa fa-eye"></i>  Enquiry </a>
-                                <a class="btn btn-warning btn-sm mr-2" href="view-appointments-vehicle/{{veh.id}}" role="button"> <i class="fa fa-calender"></i>  Appointments </a>
+                                <a class="btn btn-info btn-sm mr-2 mb-1" href="view-enquiry-vehicle/{{veh.id}}" role="button"> <i class="fa fa-eye"></i> Enquiry <span class="badge bg-light text-dark ms-1">{{veh.enquiry_count || 0}}</span></a>
+                                <a class="btn btn-warning btn-sm mr-2 mb-1" href="view-appointments-vehicle/{{veh.id}}" role="button"> <i class="fa fa-calendar"></i> Appointments <span class="badge bg-light text-dark ms-1">{{veh.appointment_count || 0}}</span></a>
                                 
-                                <a class="btn btn-primary btn-sm " href="view-price-requests-vehicle/{{veh.id}}" role="button"> <i class="fa fa-price"></i> Price Request </a>
-                                
+                                <a *ngIf="veh.price_request_count > 0" class="btn btn-primary btn-sm mb-1" href="view-price-vehicle/{{veh.id}}" role="button"> <i class="fa fa-tag"></i> Price Request <span class="badge bg-light text-dark ms-1">{{veh.price_request_count}}</span></a>
+                                <span *ngIf="!veh.price_request_count || veh.price_request_count == 0" class="btn btn-secondary btn-sm mb-1 disabled" title="No price requests yet"> <i class="fa fa-tag"></i> No Price Requests</span>
                                
                             </td>
                             <td>

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { WebapiService } from '../webapi.service';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { RouterLink, ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -14,31 +14,34 @@ import { FormsModule } from '@angular/forms';
 })
 
 export class ViewEnquiryVehicleComponent {
-  enquiryList:any;
+  enquiryList:any[] = [];
   filter:any={};
   p: any = 1;
-  userId: any;
+  vehicleId: any;
   total:any=0;
 
-  constructor(private webapi: WebapiService){
+  constructor(private webapi: WebapiService, private activatedRoute: ActivatedRoute){
     this.filter = {
-      userId:'',
+      vehicleId:'',
       start:1,
       limit:10
     };
 
-    this.userId = sessionStorage.getItem('userId');
+    this.vehicleId = this.activatedRoute.snapshot.paramMap.get('id');
 
-    this.getAllEnquiry(this.userId);
+    if (this.vehicleId) {
+      this.getEnquiries();
+    }
   }
 
-  getAllEnquiry(id:any){
-    this.filter.userId = id;
-    this.webapi.getAllEnquiry(this.filter).subscribe((res: any) => {
-      console.log(res);
-      this.enquiryList = res.data;
-      this.total = res.total
-    })
+  getEnquiries(){
+    this.filter.vehicleId = this.vehicleId;
+    this.webapi.getEnquiriesByVehicle(this.filter).subscribe((res: any) => {
+      if(res.status === 'success') {
+        this.enquiryList = res.data;
+        this.total = res.total;
+      }
+    });
   }
 
   updateEnquiryStatus(event:any,id:any){
@@ -52,11 +55,11 @@ export class ViewEnquiryVehicleComponent {
       this.webapi.updateEnquiryStatus(val).subscribe((res: any) => {
         if(res.status == 'ok'){
           alert('Enquiry status updated');
-          this.getAllEnquiry(this.userId);
+          this.getEnquiries();
         }
         else{
           alert('Enquiry status update Error!!');
-          this.getAllEnquiry(this.userId);
+          this.getEnquiries();
         }
 
       });
@@ -75,11 +78,11 @@ export class ViewEnquiryVehicleComponent {
       this.webapi.updateEnquiryVisibilty(val).subscribe((res: any) => {
         if(res.status == 'ok'){
           alert('Enquiry status updated');
-          this.getAllEnquiry(this.userId);
+          this.getEnquiries();
         }
         else{
           alert('Enquiry status update Error!!');
-          this.getAllEnquiry(this.userId);
+          this.getEnquiries();
         }
 
       })
@@ -89,7 +92,7 @@ export class ViewEnquiryVehicleComponent {
 
   onTableDataChange(event: any) {
     this.filter.start = event;
-    this.getAllEnquiry(this.userId);
+    this.getEnquiries();
     this.p = event;
  }
 

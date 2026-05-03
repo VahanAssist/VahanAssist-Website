@@ -3259,6 +3259,40 @@
 			}
 		}
 
+						public function getEnquiriesByVehicle()
+		{
+			$vehicleId = $this->input->post('vehicleId');
+			$start = $this->input->post('start') ? $this->input->post('start') : 1;
+			$limit = $this->input->post('limit') ? $this->input->post('limit') : 10;
+
+			if (empty($vehicleId)) {
+				echo json_encode(array('status' => 'error', 'data' => [], 'total' => 0));
+				return;
+			}
+
+			$total = $this->Manage_product->getEnquiriesByVehicleId($vehicleId);
+			$data = $this->Manage_product->getEnquiriesByVehicleIdWithLimit($vehicleId, $limit, ($start - 1) * $limit);
+
+			echo json_encode(array('status' => 'success', 'data' => $data, 'total' => $total));
+		}
+
+		public function getAppointmentsByVehicle()
+		{
+			$vehicleId = $this->input->post('vehicleId');
+			$start = $this->input->post('start') ? $this->input->post('start') : 1;
+			$limit = $this->input->post('limit') ? $this->input->post('limit') : 10;
+
+			if (empty($vehicleId)) {
+				echo json_encode(array('status' => 'error', 'data' => [], 'total' => 0));
+				return;
+			}
+
+			$total = $this->Manage_product->getAppointmentsByVehicleId($vehicleId);
+			$data = $this->Manage_product->getAppointmentsByVehicleIdWithLimit($vehicleId, $limit, ($start - 1) * $limit);
+
+			echo json_encode(array('status' => 'success', 'data' => $data, 'total' => $total));
+		}
+
 		public function getPriceRequestsByVehicle()
 		{
 			$vehicleId = $this->input->post('vehicleId');

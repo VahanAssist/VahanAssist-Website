@@ -48,6 +48,22 @@ export class WebapiService {
     return this.http.post(this.baseUrl + "markNotificationsRead", form_data);
   }
 
+      getEnquiriesByVehicle(data: any) {
+    var form_data = new FormData();
+    for (var key in data) {
+      form_data.append(key, data[key]);
+    }
+    return this.http.post(this.baseUrl + "getEnquiriesByVehicle", form_data);
+  }
+
+  getAppointmentsByVehicle(data: any) {
+    var form_data = new FormData();
+    for (var key in data) {
+      form_data.append(key, data[key]);
+    }
+    return this.http.post(this.baseUrl + "getAppointmentsByVehicle", form_data);
+  }
+
   getPriceRequestsByVehicle(data: any) {
     var form_data = new FormData();
     for (var key in data) {

@@ -59,7 +59,7 @@ export class MarketplaceComponent {
   userType: any='';
   buyfromArr:any=[];
   catsidsArray: any =[];
-  searchResult:any;
+  searchResult:any = null;
   checkedCat:any=[];
   checkedBrand:any=[];
   checkedModel:any=[];
@@ -292,22 +292,27 @@ setBuyFrom(e:any){
   }
 
   searchCars(e:any){
-    console.log(e.target.value);
+    const query = e.target.value;
 
-    if(e.target.value){
+    if(query && query.length >= 2){
       let val = {
-        search: e.target.value
+        search: query
        }
        this.webapi.searchCars(val).subscribe((res: any) => {
-        console.log(res);
         this.searchResult = res;
       });
     }
     else{
-      this.searchResult = [];
+      this.searchResult = null;
     }
+  }
 
-
+  searchOnEnter(e:any){
+    if(e.key === 'Enter' && this.searchResult && this.searchResult.length > 0){
+      const first = this.searchResult[0];
+      this.searchWithClick(first.search_key, first.search_id);
+      e.target.value = '';
+    }
   }
 
   clearFilter(){
@@ -333,6 +338,10 @@ setBuyFrom(e:any){
     
     this.getAllMPVehicles();
     this.searchResult = [];
+
+    // Clear the search input text
+    const searchInput = document.querySelector('.search-marketplace') as HTMLInputElement;
+    if(searchInput) { searchInput.value = ''; }
 
     if(this.filter.category_id && this.filter.category_id !== '') {
       try { this.checkedCat = JSON.parse(this.filter.category_id); } catch(e) {}
